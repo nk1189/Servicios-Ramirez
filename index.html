@@ -3,98 +3,217 @@
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title> servicios Ramirez </title>
+  <title>Servicios Ramírez</title>
   <style>
-
-    body {
-      font-family: Arial, sans-serif;
-      margin: 0;
-      background-color: #fff8e1; /* Fondo crema */
-      color: #333;
-    }
-
-    header {
-      background-color: #1465b58e;
-      color: white;
-      text-align: center;
-      padding: 1em 0;
-    }
-
-    /* --- Menú hamburguesa --- */
-    nav {
-      background-color: #1abc9c;
-      position: sticky;
-      top: 0;
-      z-index: 10;
-    }
-
-    nav .menu-icon {
-      display: none;
-      font-size: 24px;
-      color: white;
-      padding: 10px;
-      cursor: pointer;
-    }
-
-    nav ul {
-      list-style: none;
+    /* ====== ESTILOS GENERALES ====== */
+    * {
       margin: 0;
       padding: 0;
-      display: flex;
-      justify-content: center;
+      box-sizing: border-box;
     }
 
-    nav ul li {
-      margin: 0 10px;
+    body {
+      font-family: "Poppins", Arial, sans-serif;
+      background-color: #0d0d0d;
+      color: #e0e0e0;
+      line-height: 1.6;
     }
 
-    nav ul li a {
-      color: white;
+    a {
       text-decoration: none;
+      color: inherit;
+    }
+
+    h1, h2, h3 {
+      color: #ffffff;
+    }
+
+    /* ====== ENCABEZADO ====== */
+    header {
+      background: linear-gradient(90deg, #000000, #1a1a1a);
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      padding: 20px 40px;
+      position: sticky;
+      top: 0;
+      z-index: 100;
+      box-shadow: 0 2px 10px rgba(0, 0, 0, 0.6);
+    }
+
+    .logo {
+      font-size: 28px;
       font-weight: bold;
     }
 
-    nav ul li a:hover {
-      text-decoration: underline;
+    .logo .nuevo {
+      color: #e0e0e0;
+      font-weight: 400;
     }
 
-    /* --- Secciones --- */
+    .logo .mejorado {
+      color: #00b4ff;
+      font-weight: 700;
+      margin-left: 6px;
+      text-shadow: 0 0 8px #00b4ff;
+    }
+
+    .contacto-header {
+      font-size: 14px;
+      text-align: right;
+      color: #aaa;
+    }
+
+    /* ====== MENÚ DE NAVEGACIÓN ====== */
+    nav {
+      background-color: #121212;
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      padding: 12px 0;
+      position: sticky;
+      top: 70px;
+      z-index: 99;
+      border-bottom: 1px solid #222;
+    }
+
+    nav ul {
+      display: flex;
+      list-style: none;
+      gap: 25px;
+    }
+
+    nav ul li a {
+      color: #ddd;
+      font-weight: 500;
+      transition: color 0.3s ease;
+    }
+
+    nav ul li a:hover {
+      color: #00b4ff;
+    }
+
+    /* ====== SECCIONES ====== */
     section {
+      padding: 60px 10%;
+    }
+
+    section h2 {
+      color: #00b4ff;
+      text-align: center;
+      margin-bottom: 25px;
+      font-size: 2em;
+      text-shadow: 0 0 6px #0077cc;
+    }
+
+    /* ====== QUIÉNES SOMOS ====== */
+    .cuadro-nosotros {
+      background: linear-gradient(90deg, #1a1a1a, #262626);
       padding: 20px;
+      border-radius: 12px;
+      cursor: pointer;
+      color: #fff;
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      max-width: 800px;
+      margin: 0 auto;
+      transition: background 0.3s;
+    }
+
+    .cuadro-nosotros:hover {
+      background: linear-gradient(90deg, #242424, #303030);
+    }
+
+    .flecha {
+      font-size: 22px;
+      transition: transform 0.3s;
+    }
+
+    .info-nosotros {
+      display: none;
+      background: #1c1c1c;
+      color: #ccc;
+      padding: 20px;
+      margin-top: 10px;
+      border-radius: 10px;
+      line-height: 1.7;
+      animation: fadeIn 0.4s ease;
+    }
+
+    .info-nosotros.show {
+      display: block;
+    }
+
+    @keyframes fadeIn {
+      from { opacity: 0; transform: translateY(-10px); }
+      to { opacity: 1; transform: translateY(0); }
+    }
+
+    /* ====== PRODUCTOS ====== */
+    .grid-productos {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+      gap: 25px;
+      justify-content: center;
+      align-items: stretch;
     }
 
     .producto {
-      background-color: white;
-      border-radius: 10px;
-      box-shadow: 0 2px 5px rgba(0,0,0,0.1);
+      background-color: #1a1a1a;
+      border-radius: 12px;
       padding: 15px;
-      margin: 10px auto;
-      max-width: 400px;
       text-align: center;
+      transition: transform 0.3s ease, box-shadow 0.3s ease;
+      box-shadow: 0 4px 10px rgba(0,0,0,0.3);
+    }
+
+    .producto:hover {
+      transform: translateY(-6px);
+      box-shadow: 0 6px 15px rgba(0,0,0,0.5);
     }
 
     .producto img {
       width: 100%;
       border-radius: 10px;
+      margin-bottom: 15px;
     }
 
-    footer {
-      background-color: #2c3e50;
+    .producto h3 {
+      color: #00b4ff;
+      margin-bottom: 8px;
+    }
+
+    .producto p {
+      color: #bfbfbf;
+      font-size: 14px;
+    }
+
+    .producto button {
+      background-color: #00b4ff;
       color: white;
-      text-align: center;
-      padding: 10px;
-      margin-top: 20px;
+      border: none;
+      border-radius: 6px;
+      padding: 8px 16px;
+      margin-top: 10px;
+      cursor: pointer;
+      transition: background 0.3s;
     }
 
-    /* --- Botón WhatsApp --- */
+    .producto button:hover {
+      background-color: #008bcc;
+    }
+
+    /* ====== AYUDA Y CONTACTO ====== */
     .whatsapp-btn {
       display: inline-block;
-      background-color: #25D366;
-      color: white;
-      padding: 10px 20px;
-      border-radius: 30px;
-      text-decoration: none;
+      background-color: #25d366;
+      color: #fff;
+      padding: 12px 25px;
+      border-radius: 25px;
+      text-align: center;
       font-weight: bold;
+      margin-top: 10px;
       transition: background 0.3s;
     }
 
@@ -102,192 +221,26 @@
       background-color: #1ebc59;
     }
 
-    /* --- Responsive (pantallas pequeñas) --- */
-    @media (max-width: 768px) {
-      nav ul {
-        display: none;
-        flex-direction: column;
-        background-color: #1abc9c;
-        width: 100%;
-      }
-
-      nav ul.show {
-        display: flex;
-      }
-
-      nav .menu-icon {
-        display: block;
-        text-align: right;
-        padding: 10px 20px;
-      }
-
-      nav ul li {
-        margin: 10px 0;
-        text-align: center;
-      }
-    }
-    /* === SECCIÓN QUIÉNES SOMOS === */
-.nosotros {
-  text-align: center;
-  margin: 60px auto;
-  width: 80%;
-  max-width: 800px;
-}
-
-.cuadro-nosotros {
-  background: linear-gradient(90deg, #1a1a1a, #3a3a3a);
-  color: white;
-  padding: 20px;
-  border-radius: 12px;
-  cursor: pointer;
-  box-shadow: 0 4px 8px rgba(0,0,0,0.3);
-  transition: transform 0.3s ease, background 0.3s ease;
-}
-
-.cuadro-nosotros:hover {
-  transform: scale(1.02);
-  background: linear-gradient(90deg, #292929, #505050);
-}
-
-.cuadro-nosotros h2 {
-  margin: 0;
-  font-size: 1.8em;
-}
-
-.cuadro-nosotros .flecha {
-  font-size: 0.9em;
-  transition: transform 0.3s ease;
-}
-
-.info-nosotros {
-  display: none;
-  background: #f7f7f7;
-  color: #222;
-  padding: 20px;
-  border-radius: 0 0 12px 12px;
-  margin-top: -5px;
-  text-align: justify;
-  line-height: 1.6;
-  animation: aparecer 0.5s ease forwards;
-}
-
-@keyframes aparecer {
-  from { opacity: 0; transform: translateY(-10px); }
-  to { opacity: 1; transform: translateY(0); }
-}
-
-.info-nosotros.show {
-  display: block;
-}
-.cuadro-nosotros {
-  background-color: #1465b58e;
-  color: white;
-  padding: 15px;
-  border-radius: 10px;
-  display: flex;
-  justify-content: space-between;
-  align-items: center;
-  cursor: pointer;
-  transition: background 0.3s;
-}
-
-.cuadro-nosotros:hover {
-  background-color: #125ea3;
-}
-
-.flecha {
-  font-size: 20px;
-  transition: transform 0.3s ease;
-}
-
-.info-nosotros {
-  display: none;
-  background-color: white;
-  color: #333;
-  border-radius: 10px;
-  padding: 15px;
-  margin-top: 10px;
-  box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1);
-  transition: all 0.3s ease;
-}
-
-.info-nosotros.show {
-  display: block;
-}
-
-  </style>
-</head>
-
-<body>
-  <header class="header">
-    <div class="logo">
-      <span class="nuevo">Servicios</span>
-      <span class="mejorado">Ramírez</span>
-    </div>
-  
-    <div class="contacto-header">
-      <p id="correo">serviciosramirezexpres@gmail.com</p>
-      <p id="telefono">+56 9 3299 1546</p>
-    </div>
-      <div class="menu-icono" onclick="d(d)"></div>
-
-  </header>
-
-  <style>
-    .header {
-      background: linear-gradient(90deg, #000, #333);
-      color: white;
-      display: flex;
-      justify-content: space-between;
-      align-items: center;
-      padding: 15px 30px;
-      font-family: "Poppins", Arial, sans-serif;
-    }
-  
-    .logo {
-      font-size: 26px;
-      font-weight: bold;
-    }
-  
-    .logo .nuevo {
-      color: #fff;
-      font-weight: 300;
-      letter-spacing: 1px;
-    }
-  
-    .logo .mejorado {
-      color: #00d1ff;
-      font-weight: 700;
-      margin-left: 8px;
-      text-shadow: 0 0 5px #00d1ff;
-    }
-  
-    .contacto-header {
+    /* ====== PIE DE PÁGINA ====== */
+    footer {
+      background-color: #0b0b0b;
       text-align: center;
-      font-size: 14px;
+      padding: 25px 10px;
+      color: #aaa;
+      border-top: 1px solid #222;
     }
-  
-    .menu-icono {
-      font-size: 28px;
-      cursor: pointer;
+
+    footer a {
+      color: #00b4ff;
+      margin: 0 8px;
+      transition: color 0.3s;
     }
-  
-    .menu-icono:hover {
-      color: #00d1ff;
-    }
-  
-    @media (max-width: 768px) {
-      .contacto-header {
-        display: none;
-      }
+
+    footer a:hover {
+      color: #66d3ff;
     }
 
   </style>
-  
-  <script>
-    function toggleMenu() {
-      alert("Aquí se abriría el menú principal 😎");
-    }
   </script>  
   
   <!-- Ventana de bienvenida -->
@@ -356,7 +309,7 @@
   }
 
   .contenido-bienvenida button:hover {
-    background-color: #159a7c;
+    background-color: #0d3e32;
   }
 
   @keyframes aparecer {
@@ -371,141 +324,141 @@
     document.getElementById('bienvenida').style.display = 'none';
   }
 </script>
+</head>
 
+<body>
   <header>
-    <h1>Servicios Ramirez Express</h1>
-    <p>Productos y servicios de calidad</p>
+    <div class="logo">
+      <span class="nuevo">Servicios</span>
+      <span class="mejorado">Ramírez</span>
+    </div>
+    <div class="contacto-header">
+      <p>📧 serviciosramirezexpres@gmail.com</p>
+      <p>📞 +56 9 3299 1546</p>
+    </div>
+    <a href="login.html">Iniciar sesión</a>
   </header>
+  
+
 
   <nav>
-    <div class="menu-icon" onclick="toggleMenu()">☰</div>
-    <ul id="menu">
+    <ul>
       <li><a href="#inicio">Inicio</a></li>
       <li><a href="#nosotros">Nosotros</a></li>
       <li><a href="#productos">Productos</a></li>
-      <li><a href="#productos-nuevos">Nuevos</a></li>
+      <li><a href="#nuevos">Nuevos</a></li>
       <li><a href="#ayuda">Ayuda</a></li>
       <li><a href="#contacto">Contacto</a></li>
     </ul>
   </nav>
 
   <section id="inicio">
-    <h2>Bienvenido a Mi Negocio</h2>
-    <p>Conoce quiénes somos y nuestro propósito antes de ver nuestros productos.</p>
+    <h2>Bienvenido a Servicios Ramírez</h2>
+    <p style="text-align:center; max-width:700px; margin:10px auto;">
+      Ofrecemos soluciones integrales en tecnología, fotografía, asistencia y más. 
+      Calidad, compromiso y atención personalizada para cada cliente.
+    </p>
   </section>
 
-    <section id="nosotros" class="nosotros">
-      <div class="cuadro-nosotros" onclick="mostrarNosotros()">
-        <h2> ¿Quienes somos? <span class="flecha">▼</span></h2>
-      </div>
-    
-      <div id="infoNosotros" class="info-nosotros">
-        <p>
-          En <strong>Servicios Ramírez</strong> somos una empresa dedicada a brindar soluciones tecnológicas, informáticas y de soporte integral para personas y empresas.  
-          Nuestro objetivo es ofrecer servicios eficientes, confiables y modernos, adaptándonos a las necesidades de cada cliente.
-        </p>
-        <p>
-          Creemos que la innovación es la clave para el crecimiento, y trabajamos día a día para mejorar la experiencia de nuestros usuarios con herramientas prácticas y seguras.
-        </p>
-      </div>
-    </section>
-    
+  <section id="nosotros">
+    <div class="cuadro-nosotros" onclick="mostrarNosotros()">
+      <h2>¿Quiénes Somos?</h2>
+      <span class="flecha">▼</span>
+    </div>
+    <div id="infoNosotros" class="info-nosotros">
+      <p>
+        En <strong>Servicios Ramírez</strong> brindamos soluciones tecnológicas y soporte integral para personas y empresas. 
+        Nos adaptamos a cada cliente con compromiso y calidad, apostando siempre por la innovación.
+      </p>
+      <p>
+        Creemos que cada cliente merece atención personalizada y resultados profesionales.
+      </p>
+    </div>
+  </section>
 
   <section id="productos">
     <h2>Nuestros Productos</h2>
+    <div class="grid-productos">
+      <div class="producto">
+        <img src="https://th.bing.com/th/id/R.64b1d3d5a92300e7f4d6551488c49350?rik=7jBBducNuJlqyg&pid=ImgRaw&r=0" alt="Evento de cumpleaños">
+        <h3>Evento de cumpleaños</h3>
+        <p>Fotografía y cobertura completa del evento.</p>
+        <p><b>$10.000</b></p>
+        <button>Agregar al carrito</button>
+      </div>
 
-    <div class="producto">
-      <img src=https://th.bing.com/th/id/R.64b1d3d5a92300e7f4d6551488c49350?rik=7jBBducNuJlqyg&pid=ImgRaw&r=0 alt="Producto 1">
-      <h3>Evento de cumpleaños</h3>
-      <p>Podemos cubrir todo el evento y hacer que el cumpleañero tenga las mejores fotos.</p>
-      <p><b>Precio:</b> $10.000</p>
-    </div>
-
-    <section id="video-promocional">
-        <h2>Mira Nuestro Último Trabajo</h2>
-        <iframe 
-            width="560" 
-            height="315" 
-            src="https://www.youtube.com/embed/kpGHWVLf9zg"
-            title="YouTube video player" 
-            frameborder="0" 
-            allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture" 
-            allowfullscreen>
-        </iframe>
-    </section>
-    <div class="producto">
+      <div class="producto">
       <img src="https://th.bing.com/th/id/R.c577fccbf9e4df0939d7716483760fb0?rik=Lo4V9vtFNZPAYA&riu=http%3a%2f%2fimg.auctiva.com%2fimgdata%2f2%2f4%2f3%2f4%2f1%2f5%2fwebimg%2f708133618_o.jpg&ehk=%2byHa2FddKHi53Lo2wkmje8m90AH%2bxAGt%2fu%2fRpeBbW88%3d&risl=&pid=ImgRaw&r=0" alt="Producto 2">
-      <h3>Camara fotografica canon t3i</h3>
-      <p>Dependiendo del lugar y la cantidad de fotos, el precio varía. Más info con nuestro encargado.</p>
-      <p><b>Precio:</b> $2.500 - $5.000</p>
+      <img src="" alt="Cámara Canon T3i">
+        <h3>Cámara Canon T3i</h3>
+        <p>Servicio fotográfico profesional con cámara Canon.</p>
+        <p><b>$2.500 - $5.000</b></p>
+        <button>Agregar al carrito</button>
+      </div>
     </div>
   </section>
 
-  <section id="productos-nuevos">
+  <section id="nuevos">
     <h2>Productos Nuevos</h2>
+    <div class="grid-productos">
+      <div class="producto">
+        <img src="https://tse4.mm.bing.net/th/id/OIP.Qa1vkUAGK6EWTid6wbg1gAHaE5?rs=1&pid=ImgDetMain" alt="Asistente escolar">
+        <h3>Asistente escolar</h3>
+        <p>Ayuda o desarrollo de tareas escolares.</p>
+        <p><b>$10.000</b></p>
+        <button>Agregar al carrito</button>
+      </div>
 
-    <div class="producto">
-      <img src="https://observandoeluniverso.es/wp-content/uploads/que-lleva-la-hamburguesa-kevin-bacon.webp" alt="Producto nuevo">
-      <h3>Hamburguesa BBQ</h3>
-      <p>Con salsa barbacoa casera y cebolla caramelizada.</p>
-      <p><b>Precio:</b> $9.000</p>
-    </div>
+      <div class="producto">
+        <img src="https://observandoeluniverso.es/wp-content/uploads/que-lleva-la-hamburguesa-kevin-bacon.webp" alt="Hamburguesa BBQ">
+        <h3>Hamburguesa BBQ</h3>
+        <p>Con salsa barbacoa y cebolla caramelizada.</p>
+        <p><b>$9.000</b></p>
+        <button>Agregar al carrito</button>
+      </div>
 
-    <div class="producto">
-      <img src=https://th.bing.com/th/id/R.a273565b774de1c1c78f13ac0d62aabb?rik=uXrDGnynhaCd2Q&riu=http%3a%2f%2fwww.bitrebels.com%2fwp-content%2fuploads%2f2012%2f07%2fHow-To-Make-Big-Mac.jpg&ehk=8uOtwegwOZmOxv14aUF4LYXzf%2f8%2fhMvRyOU%2b41UJa%2fA%3d&risl=&pid=ImgRaw&r=0 alt="Producto nuevo 2">
-      <h3>Hamburguesa big mac </h3>
-      <p>pan con sésamo, carne de res, queso fundido, salsa especial, lechuga, pepinillos y cebolla.</p>
-      <p><b>Precio:</b> $8.500</p>
+      <div class="producto">
+        <img src="https://th.bing.com/th/id/R.a273565b774de1c1c78f13ac0d62aabb?rik=uXrDGnynhaCd2Q&pid=ImgRaw&r=0" alt="Big Mac">
+        <h3>Hamburguesa Big Mac</h3>
+        <p>Pan con sésamo, carne, queso y salsa especial.</p>
+        <p><b>$8.500</b></p>
+        <button>Agregar al carrito</button>
+      </div>
     </div>
   </section>
 
   <section id="ayuda">
     <h2>Ayuda</h2>
-    <p>¿Necesitas asistencia o tienes dudas? Contáctanos directamente en WhatsApp.</p>
-    <a href="https://wa.me/56932991546" target="_blank" class="whatsapp-btn">💬 Hablar por WhatsApp</a>
+    <p style="text-align:center;">¿Tienes dudas o necesitas asistencia? Contáctanos por WhatsApp:</p>
+    <div style="text-align:center;">
+      <a href="https://wa.me/56932991546" target="_blank" class="whatsapp-btn">💬 Hablar por WhatsApp</a>
+    </div>
   </section>
 
+  <section id="contacto">
     <h2>Contacto</h2>
-    <p>📍 Dirección: Calle José Miguel Carrera, Llay Llay</p>
-    <p>📞 Teléfono: +56 9 3299 1546</p>
-    <p>📧 Correo: multiserviciosexpres@gmail.com</p>
+    <p style="text-align:center;">📍 Calle José Miguel Carrera, Llay Llay</p>
+    <p style="text-align:center;">📞 +56 9 3299 1546</p>
+    <p style="text-align:center;">📧 multiserviciosexpres@gmail.com</p>
   </section>
-  <footer class="redes">
-    <h3>Síguenos en redes sociales</h3>
-    <div class="iconos-redes">
-      <a href="https://www.facebook.com/" target="_blank">🌐 Facebook</a>
-      <a href="https://www.instagram.com/" target="_blank">📸 Instagram</a>
-      <a href="https://www.tiktok.com/" target="_blank">🎵 TikTok</a>
-    </div>
-  </footer>
-  
 
   <footer>
-    <p>© 2025 Mi Negocio - Todos los derechos reservados</p>
+    <p>© 2025 Servicios Ramírez — Todos los derechos reservados</p>
+    <p>
+      <a href="https://www.facebook.com/ramirez.nicolas.pedro.585048" target="_blank">Facebook</a> |
+      <a href="https://www.instagram.com/chuchuquinho10/" target="_blank">Instagram</a> |
+      <a href="https://www.tiktok.com/@nikito189q" target="_blank">TikTok</a>
+    </p>
   </footer>
 
   <script>
-    function toggleMenu() {
-      document.getElementById('menu').classList.toggle('show');
+    function mostrarNosotros() {
+      const info = document.getElementById('infoNosotros');
+      const flecha = document.querySelector('.flecha');
+      info.classList.toggle('show');
+      flecha.style.transform = info.classList.contains('show') ? 'rotate(180deg)' : 'rotate(0deg)';
     }
-  </script>
-<script>
-  function mostrarNosotros() {
-    const info = document.getElementById('infoNosotros');
-    const flecha = document.querySelector('.cuadro-nosotros .flecha');
-
-    info.classList.toggle('show');
-
-    // Gira la flecha si se abre
-    if (info.classList.contains('show')) {
-      flecha.style.transform = 'rotate(180deg)';
-    } else {
-      flecha.style.transform = 'rotate(0deg)';
-    }
-  }
-</script>
-
-</body>
+  </script></body>
 </html>
 
 <!DOCTYPE html>
@@ -519,7 +472,7 @@
       margin: 0;
       padding: 0;
       min-height: 100vh;
-      background-color: #f9f3e7;
+      background-color: #0b0a09;
       font-family: Arial, sans-serif;
     }
 
@@ -533,14 +486,14 @@
       border: 1px solid #333;
       padding: 20px;
       margin-bottom: 20px;
-      background-color: #fff;
+      background-color: #1a1313;
       text-align: center;
       font-size: 18px;
       border-radius: 10px;
     }
 
     form {
-      background-color: #fff;
+      background-color: #1c1c1c;
       padding: 20px;
       border-radius: 10px;
       border: 1px solid #333;
@@ -559,7 +512,7 @@
 
     form button {
       background-color: #ff8c42;
-      color: white;
+      color: rgb(8, 5, 5);
       border: none;
       cursor: pointer;
       font-size: 16px;
@@ -590,6 +543,7 @@
         <option>mejoras para la web</option>
         <option>servicios adicionales</option>
         <option>Marketing</option>
+        <option>Algun problema con algun servicio</option>
       </select>
 
       <label>Mensaje:</label>
@@ -602,4 +556,5 @@
 
 </body>
 </html>
+
 
