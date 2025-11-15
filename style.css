@@ -561,3 +561,44 @@
       gap: 20px;
     }
   }
+  
+  /* BARRA DE BÚSQUEDA */
+.search-container {
+  position: relative;
+  width: 100%;
+  max-width: 500px;
+  margin: 10px auto;
+  display: none; /* Oculto hasta que presionas 🔍 */
+}
+
+#searchInput {
+  width: 100%;
+  padding: 12px;
+  font-size: 16px;
+  border-radius: 8px;
+  border: none;
+  outline: none;
+}
+
+/* RESULTADOS */
+.search-results {
+  position: absolute;
+  top: 45px;
+  width: 100%;
+  background: white;
+  border-radius: 8px;
+  box-shadow: 0 4px 10px rgba(0,0,0,0.3);
+  display: none;
+  overflow: hidden;
+  z-index: 10;
+}
+
+.search-item {
+  padding: 12px;
+  border-bottom: 1px solid #ddd;
+  cursor: pointer;
+}
+
+.search-item:hover {
+  background: #f2f2f2;
+}

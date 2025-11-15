@@ -1,0 +1,95 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Contacto</title>
+  <style>
+    body {
+      margin: 0;
+      padding: 0;
+      min-height: 100vh;
+      background-color: #2e2c27;
+      font-family: Arial, sans-serif;
+    }
+
+    .contenedor {
+      max-width: 800px;
+      margin: 0 auto;
+      padding: 20px;
+    }
+
+    .mensaje {
+      border: 1px solid #333;
+      padding: 20px;
+      margin-bottom: 20px;
+      background-color: #fff;
+      text-align: center;
+      font-size: 18px;
+      border-radius: 10px;
+    }
+
+    form {
+      background-color: #fff;
+      padding: 20px;
+      border-radius: 10px;
+      border: 1px solid #333;
+    }
+
+    form input, form select, form textarea, form button {
+      display: block;
+      width: 100%;
+      margin-top: 5px;
+      margin-bottom: 10px;
+      padding: 8px;
+      box-sizing: border-box;
+      border-radius: 5px;
+      border: 1px solid #ccc;
+    }
+
+    form button {
+      background-color: #6d6661;
+      color: white;
+      border: none;
+      cursor: pointer;
+      font-size: 16px;
+    }
+
+    form button:hover {
+      background-color: #95532d;
+    }
+  </style>
+</head>
+<body>
+
+  <div class="contenedor">
+
+    <div class="mensaje">
+      <p>¿Necesitas ayuda? Contáctanos llenando este formulario:</p>
+    </div>
+
+    <form action="https://formspree.io/f/xgvrwwrg" method="POST">
+      <label>Nombre:</label>
+      <input type="text" name="name" placeholder="Tu nombre" required>
+
+      <label>Email:</label>
+      <input type="email" name="email" placeholder="Tu correo" required>
+
+      <label>Servicio:</label>
+      <select name="servicio">
+        <option>mejoras para la web</option>
+        <option>servicios adicionales</option>
+        <option>Marketing</option>
+        <option>Algun problema con algun servicio</option>
+      </select>
+
+      <label>Mensaje:</label>
+      <textarea name="message" rows="4" placeholder="Escribe tu mensaje" required></textarea>
+
+      <button type="submit">Enviar</button>
+    </form>
+
+  </div>
+
+</body>
+</html>
