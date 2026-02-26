@@ -1,0 +1,320 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Servicios Ramirez | Adquisiciones</title>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <style>
+        /* --- ESTILO TÉCNICO "DARK MODE" --- */
+        :root {
+            --bg-main: #0f0f0f;
+            --bg-panel: #1c1c1c;
+            --accent: #00e5ff; /* Cian neón para toque tecnológico */
+            --text-main: #ffffff;
+            --text-muted: #888;
+            --border: #333;
+        }
+
+        * { margin: 0; padding: 0; box-sizing: border-box; }
+
+        body {
+            font-family: 'Segoe UI', Roboto, Helvetica, sans-serif;
+            background-color: var(--bg-main);
+            color: var(--text-main);
+            padding-bottom: 5rem;
+        }
+
+        /* --- ENCABEZADO --- */
+        header {
+            background: linear-gradient(to right, #111, #222);
+            border-bottom: 2px solid var(--accent);
+            padding: 2rem;
+            text-align: center;
+            margin-bottom: 3rem;
+        }
+        
+        .brand-name {
+            font-size: 2.5rem;
+            text-transform: uppercase;
+            letter-spacing: 3px;
+            font-weight: 900;
+        }
+        
+        .brand-subtitle {
+            color: var(--accent);
+            font-size: 1.1rem;
+            margin-top: 0.5rem;
+        }
+
+        .back-link {
+            display: inline-block;
+            margin-top: 1.5rem;
+            color: var(--text-muted);
+            text-decoration: none;
+            font-size: 0.9rem;
+            border: 1px solid var(--border);
+            padding: 5px 15px;
+            border-radius: 4px;
+            transition: 0.3s;
+        }
+        .back-link:hover { color: var(--accent); border-color: var(--accent); }
+
+        /* --- CONTENEDOR --- */
+        .container {
+            max-width: 1100px;
+            margin: 0 auto;
+            padding: 0 20px;
+        }
+
+        h2.section-header {
+            border-left: 4px solid var(--accent);
+            padding-left: 15px;
+            margin-bottom: 2rem;
+            font-size: 1.8rem;
+        }
+
+        /* --- TARJETAS DE EQUIPO (GRID) --- */
+        .gear-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fill, minmax(320px, 1fr));
+            gap: 25px;
+        }
+
+        .gear-card {
+            background: var(--bg-panel);
+            border: 1px solid var(--border);
+            border-radius: 8px;
+            overflow: hidden;
+            transition: transform 0.3s, box-shadow 0.3s;
+            position: relative;
+        }
+
+        .gear-card:hover {
+            transform: translateY(-5px);
+            box-shadow: 0 10px 20px rgba(0, 229, 255, 0.1);
+            border-color: var(--accent);
+        }
+
+        /* Etiqueta "NUEVO" */
+        .badge-new {
+            position: absolute;
+            top: 10px;
+            right: 10px;
+            background: var(--accent);
+            color: #000;
+            font-weight: bold;
+            padding: 4px 10px;
+            font-size: 0.7rem;
+            border-radius: 3px;
+            z-index: 10;
+        }
+
+        .gear-img-box {
+            height: 200px;
+            background: #2a2a2a;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            overflow: hidden;
+        }
+        
+        .gear-img-box img {
+            width: 100%;
+            height: 100%;
+            object-fit: cover;
+            opacity: 0.9;
+            transition: 0.5s;
+        }
+        
+        .gear-card:hover .gear-img-box img { opacity: 1; transform: scale(1.05); }
+
+        .gear-details { padding: 1.5rem; }
+
+        .gear-title {
+            font-size: 1.3rem;
+            margin-bottom: 0.5rem;
+            color: white;
+        }
+
+        .gear-date {
+            font-size: 0.8rem;
+            color: var(--text-muted);
+            display: block;
+            margin-bottom: 1rem;
+            font-style: italic;
+        }
+
+        /* Lista de especificaciones mini */
+        .specs-list {
+            list-style: none;
+            margin-bottom: 1rem;
+            background: rgba(0,0,0,0.2);
+            padding: 10px;
+            border-radius: 4px;
+        }
+        
+        .specs-list li {
+            font-size: 0.85rem;
+            color: #ccc;
+            margin-bottom: 4px;
+            display: flex;
+            justify-content: space-between;
+        }
+
+        .gear-desc {
+            font-size: 0.9rem;
+            line-height: 1.5;
+            color: #aaa;
+        }
+
+        /* --- BOTÓN WHATSAPP/CONSULTA --- */
+        .btn-rent {
+            display: block;
+            width: 100%;
+            text-align: center;
+            background: transparent;
+            border: 1px solid var(--text-muted);
+            color: var(--text-muted);
+            padding: 10px;
+            margin-top: 15px;
+            border-radius: 4px;
+            text-decoration: none;
+            transition: 0.3s;
+        }
+        .btn-rent:hover {
+            background: var(--accent);
+            color: black;
+            border-color: var(--accent);
+            font-weight: bold;
+        }
+
+        @media (max-width: 600px) {
+            .brand-name { font-size: 1.8rem; }
+            .gear-grid { grid-template-columns: 1fr; }
+        }
+    </style>
+</head>
+<body>
+
+    <header>
+        <div class="brand-name">Servicios Ramirez</div>
+        <div class="brand-subtitle">Inventario & Adquisiciones Técnicas</div>
+        <a href="index.html" class="back-link">&larr; Volver al sitio principal</a>
+    </header>
+
+    <div class="container">
+        
+        <!-- SECCIÓN 1: LO MÁS NUEVO -->
+        <h2 class="section-header">Últimas Adquisiciones (2025)</h2>
+        
+        <div class="gear-grid">
+            
+            <!-- ITEM 1 -->
+            <div class="gear-card">
+                <span class="badge-new">NUEVO</span>
+                <div class="gear-img-box">
+                    <!-- Foto de ejemplo de un lente -->
+                    <img src="https://images.unsplash.com/photo-1617005082133-548c4dd27f35?auto=format&fit=crop&w=500&q=80" alt="Lente 50mm">
+                </div>
+                <div class="gear-details">
+                    <h3 class="gear-title">Nikkor 50mm f/1.8G</h3>
+                    <span class="gear-date">Adquirido: Noviembre 2025</span>
+                    <ul class="specs-list">
+                        <li><span>Apertura:</span> <span>f/1.8</span></li>
+                        <li><span>Tipo:</span> <span>Prime (Fijo)</span></li>
+                        <li><span>Enfoque:</span> <span>Auto/Manual</span></li>
+                    </ul>
+                    <p class="gear-desc">Objetivo ideal para retratos con fondo desenfocado (bokeh) y situaciones de poca luz.</p>
+                    <a href="#" class="btn-rent">Consultar Disponibilidad</a>
+                </div>
+            </div>
+
+            <!-- ITEM 2 -->
+            <div class="gear-card">
+                <span class="badge-new">RECIBIDO</span>
+                <div class="gear-img-box">
+                    <img src="https://images.unsplash.com/photo-1527011046414-4781f1f94f8c?auto=format&fit=crop&w=500&q=80" alt="Iluminación LED">
+                </div>
+                <div class="gear-details">
+                    <h3 class="gear-title">Kit Iluminación LED</h3>
+                    <span class="gear-date">Adquirido: Octubre 2025</span>
+                    <ul class="specs-list">
+                        <li><span>Potencia:</span> <span>60W Bi-Color</span></li>
+                        <li><span>CRI:</span> <span>96+</span></li>
+                        <li><span>Batería:</span> <span>Sí (Portátil)</span></li>
+                    </ul>
+                    <p class="gear-desc">Paneles LED portátiles para video escolar y entrevistas. Temperatura de color ajustable.</p>
+                    <a href="#" class="btn-rent">Consultar Disponibilidad</a>
+                </div>
+            </div>
+
+            <!-- ITEM 3 -->
+            <div class="gear-card">
+                <div class="gear-img-box">
+                    <img src="https://images.unsplash.com/photo-1590845947698-8924d7409b56?auto=format&fit=crop&w=500&q=80" alt="Micrófono">
+                </div>
+                <div class="gear-details">
+                    <h3 class="gear-title">Micrófono Shotgun</h3>
+                    <span class="gear-date">Adquirido: Septiembre 2025</span>
+                    <ul class="specs-list">
+                        <li><span>Patrón:</span> <span>Supercardioide</span></li>
+                        <li><span>Conexión:</span> <span>3.5mm TRS</span></li>
+                        <li><span>Filtro:</span> <span>Espuma anti-viento</span></li>
+                    </ul>
+                    <p class="gear-desc">Mejora drástica en el audio para grabaciones en exteriores y salones de clase.</p>
+                    <a href="#" class="btn-rent">Consultar Disponibilidad</a>
+                </div>
+            </div>
+
+        </div>
+
+        <!-- SECCIÓN 2: EQUIPO BASE -->
+        <h2 class="section-header" style="margin-top: 4rem;">Equipo Base de Estudio</h2>
+
+        <div class="gear-grid">
+            <!-- CÁMARA PRINCIPAL -->
+            <div class="gear-card">
+                <div class="gear-img-box">
+                    <img src="https://images.unsplash.com/photo-1516035069371-29a1b244cc32?auto=format&fit=crop&w=500&q=80" alt="Cámara Nikon">
+                </div>
+                <div class="gear-details">
+                    <h3 class="gear-title">Nikon D3100 (Cuerpo)</h3>
+                    <span class="gear-date">Estado: Operativo</span>
+                    <ul class="specs-list">
+                        <li><span>Sensor:</span> <span>DX CMOS</span></li>
+                        <li><span>Video:</span> <span>1080p 24fps</span></li>
+                        <li><span>Montura:</span> <span>Nikon F</span></li>
+                    </ul>
+                    <p class="gear-desc">Cámara principal confiable para fotografía estática y clips de video HD.</p>
+                    <a href="#" class="btn-rent">Ver Detalles</a>
+                </div>
+            </div>
+
+             <!-- TRÍPODE -->
+             <div class="gear-card">
+                <div class="gear-img-box">
+                    <img src="https://images.unsplash.com/photo-1534234828569-0f386cecb3d5?auto=format&fit=crop&w=500&q=80" alt="Trípode">
+                </div>
+                <div class="gear-details">
+                    <h3 class="gear-title">Trípode Fluido</h3>
+                    <span class="gear-date">Estado: Operativo</span>
+                    <ul class="specs-list">
+                        <li><span>Cabezal:</span> <span>Fluido (Video)</span></li>
+                        <li><span>Altura Máx:</span> <span>1.60m</span></li>
+                        <li><span>Material:</span> <span>Aluminio</span></li>
+                    </ul>
+                    <p class="gear-desc">Estabilidad esencial para tomas largas y paneos suaves en video.</p>
+                    <a href="#" class="btn-rent">Ver Detalles</a>
+                </div>
+            </div>
+        </div>
+
+    </div>
+
+    <footer style="text-align: center; margin-top: 5rem; color: #555; border-top: 1px solid #222; padding-top: 2rem;">
+        <p>Servicios Ramirez &copy; 2025. Inventario actualizado.</p>
+    </footer>
+
+</body>
+</html>

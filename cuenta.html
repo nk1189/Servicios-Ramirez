@@ -1,0 +1,185 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+<meta charset="UTF-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1.0" />
+<title>Crear Cuenta – Servicios Ramírez</title>
+
+<style>
+  body {
+    margin: 0;
+    font-family: "Segoe UI", Arial, sans-serif;
+    background-color: #f5f5f7;
+    color: #333;
+  }
+  .top-bar {
+    width: 100%;
+    background: #000;
+    color: white;
+    padding: 12px 25px;
+    font-size: 20px;
+    letter-spacing: 1px;
+    font-weight: 500;
+  }
+  .container {
+    max-width: 450px;
+    margin: 60px auto;
+    background: #ffffff;
+    padding: 40px;
+    border-radius: 12px;
+    border: 1px solid #dcdcdc;
+    box-shadow: 0 3px 14px rgba(0,0,0,0.08);
+  }
+  h2 {
+    text-align: left;
+    font-weight: 600;
+    margin-bottom: 25px;
+    color: #111;
+    font-size: 26px;
+  }
+  label {
+    margin-top: 20px;
+    display: block;
+    font-size: 14px;
+    font-weight: 500;
+    color: #444;
+  }
+  input {
+    width: 100%;
+    padding: 13px;
+    margin-top: 7px;
+    border-radius: 6px;
+    border: 1px solid #bfbfbf;
+    background-color: #fafafa;
+    color: #333;
+    font-size: 15px;
+    transition: 0.2s;
+  }
+  input:focus {
+    outline: none;
+    border-color: #0a84ff;
+    box-shadow: 0 0 3px rgba(10,132,255,0.4);
+  }
+  .button {
+    width: 100%;
+    margin-top: 30px;
+    padding: 14px;
+    background-color: #0a84ff;
+    border: none;
+    border-radius: 6px;
+    font-size: 16px;
+    color: white;
+    cursor: pointer;
+    transition: .2s;
+    font-weight: 500;
+  }
+  .button:hover {
+    background-color: #0066d6;
+  }
+  .footer-text {
+    margin-top: 25px;
+    text-align: center;
+    font-size: 14px;
+    color: #555;
+  }
+  .footer-text a 
+  {
+    color: #0a84ff;
+    text-decoration: none;
+    font-weight: 500;
+  }
+  .footer-text a:hover {
+    text-decoration: underline;
+  }
+  #mensaje {
+    margin-top: 10px;
+    font-size: 14px;
+    text-align: left;
+  }
+
+    /* Botón volver */
+        .boton-volver {
+            display: inline-block;
+            padding: 15px 30px;
+            background-color: black;
+            color: white;
+            text-decoration: none;
+            font-size: 18px;
+            border-radius: 5px;
+            transition: .2s;
+        }
+
+        .boton-volver:hover {
+            background-color: #333;
+        }
+</style>
+</head>
+<body>
+
+<div class="top-bar">SERVICIOS RAMÍREZ</div>
+
+<div class="container">
+  <h2>Crear cuenta</h2>
+
+  <form action="https://formspree.io/f/xgvrwwrg" method="POST" id="formularioCuenta">
+    
+    <label>Nombre completo</label>
+    <input type="text" name="nombre" id="nombre" placeholder="Ej: Juan Pérez" required />
+
+    <label>Correo electrónico</label>
+    <input type="email" name="correo" id="correo" placeholder="ejemplo@gmail.com" required />
+
+    <label>Contraseña</label>
+    <input type="password" id="pass1" placeholder="Mínimo 6 caracteres" required />
+
+    <label>Repetir contraseña</label>
+    <input type="password" id="pass2" placeholder="Repite la contraseña" required />
+
+    <p id="mensaje" style="color:#d40000;"></p>
+
+    <button type="submit" class="button">Crear cuenta</button>
+  </form>
+
+  <p class="footer-text">
+    ¿Ya tienes cuenta?  
+    <a href="login.html">Iniciar sesión</a>
+  </p>
+
+  <a href="index.html" class="boton-volver">Volver a la página principal</a>
+</div>
+
+<script>
+document.getElementById("formularioCuenta").addEventListener("submit", function(e) {
+  e.preventDefault();
+
+  const nombre = document.getElementById("nombre").value.trim();
+  const correo = document.getElementById("correo").value.trim();
+  const pass1 = document.getElementById("pass1").value;
+  const pass2 = document.getElementById("pass2").value;
+  const msg = document.getElementById("mensaje");
+
+  if (!nombre || !correo || !pass1 || !pass2) {
+    msg.style.color = "#d40000";
+    msg.textContent = "Completa todos los campos.";
+    return;
+  }
+  if (pass1.length < 6) {
+    msg.style.color = "#d40000";
+    msg.textContent = "La contraseña debe tener al menos 6 caracteres.";
+    return;
+  }
+  if (pass1 !== pass2) {
+    msg.style.color = "#d40000";
+    msg.textContent = "Las contraseñas no coinciden.";
+    return;
+  }
+
+  msg.style.color = "#009f00";
+  msg.textContent = "Cuenta creada con éxito. Enviando formulario...";
+
+  this.submit();
+});
+</script>
+
+</body>
+</html>

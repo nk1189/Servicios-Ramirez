@@ -12,6 +12,20 @@
 </head>
 
 <body>
+  <!-- Menú lateral -->
+<div id="side-menu" class="side-menu">
+  <ul>
+    <li> <span class="arrow">›</span></li>
+    <li>ultimas adquisiciones <span class="arro">›</span></li>
+    <li><a href="tiendaSVR.html">Productos</a> <span>›</span></li>
+    <li><a href="productosNVO.html">Ultimas adquisiciones</a> <span>›</span></li>
+    <li><a href="soporte.html">Soporte</a> <span>›</span></li>
+  </ul>
+</div>
+
+<!-- Capa oscura -->
+<div id="overlay" class="overlay"></div>
+
   <!-- Header -->
   <header class="header">
     <div class="header-container">
@@ -19,40 +33,66 @@
         <img src="logo-opcion4.svg" alt="servicios Ramirez" />
       </div>
       <nav class="nav-icons">
+        <a href="login.html" style="text-decoration: none; color: inherit;">
         <div class="nav-icon">
           <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
             <path d="M20 21v-2a4 4 0 0 0-4-4H8a4 4 0 0 0-4 4v2"></path>
             <circle cx="12" cy="7" r="4"></circle>
           </svg>
           <span>Mi cuenta </span>
+          <button id="btn-cuenta">Mi cuenta</button>
+
         </div>
+        </a>
         <div class="nav-icon">
           <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
             <path d="M20.84 4.61a5.5 5.5 0 0 0-7.78 0L12 5.67l-1.06-1.06a5.5 5.5 0 0 0-7.78 7.78l1.06 1.06L12 21.23l7.78-7.78 1.06-1.06a5.5 5.5 0 0 0 0-7.78z"></path>
           </svg>
         </div>
-        <div class="nav-icon">
-          <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+        <div class="nav-icon" style="display: flex; align-items: center; gap: 15px;"> 
+    
+    <!-- 1. CAJA DE BÚSQUEDA (La dejamos igual) -->
+    <div class="search-container" id="searchBox">
+        <input type="text" id="searchInput" placeholder="Buscar productos...">
+        <div class="search-results" id="searchResults"></div>
+    </div>
+
+    <!-- 2. BOTÓN DEL CARRITO (Modificado) -->
+    <!-- Le agregamos onclick, estilo de cursor y posición relativa para el contador -->
+    <div class="cart-trigger" onclick="toggleCarrito()" style="cursor: pointer; position: relative;">
+        
+        <!-- Tu ícono SVG original -->
+        <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
             <circle cx="9" cy="21" r="1"></circle>
             <circle cx="20" cy="21" r="1"></circle>
             <path d="M1 1h4l2.68 13.39a2 2 0 0 0 2 1.61h9.72a2 2 0 0 0 2-1.61L23 6H6"></path>
-          </svg>
-          <div class="search-container" id="searchBox">
-            <input type="text" id="searchInput" placeholder="Buscar productos...">
-            <div class="search-results" id="searchResults"></div>
-        </div>
-        
+        </svg>
+
+        <!-- 3. EL CONTADOR (Nuevo: La bolita con el número) -->
+        <span id="contador-carrito" style="
+            position: absolute;
+            top: -8px;
+            right: -8px;
+            background-color: #e30613; /* Rojo Sony */
+            color: white;
+            font-size: 10px;
+            font-weight: bold;
+            border-radius: 50%;
+            padding: 2px 5px;
+            min-width: 15px;
+            text-align: center;
+        ">0</span>
+    </div>
         </div>
         <div class="nav-icon">
           <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
             <circle cx="11" cy="11" r="8"></circle>
-            <path d="m21 21-4.35-4.35"></path>
-          </svg>
+         </svg>
         </div>
         <div class="nav-icon menu-icon">
           <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
             <line x1="3" y1="12" x2="21" y2="12"></line>
-            <line x1="3" y1="6" x2="21" y2="6"></line>
+              <line x1="3" y1="6" x2="21" y2="6"></line>
             <line x1="3" y1="18" x2="21" y2="18"></line>
           </svg>
         </div>
@@ -117,68 +157,87 @@
         <p class="news-subtitle">ve nuestros Productos</p>
       </div>
       <div class="products-grid">
-        <div class="product-card">
-          <div class="product-image">
-            <img src="https://tse3.mm.bing.net/th/id/OIP._iOYQIh3IEBYjXSjIlFtqgHaJU?cb=ucfimg2ucfimg=1&rs=1&pid=ImgDetMain&o=7&rm=3" alt="tripode" />
-          </div>
-          <div class="product-info">
-            <p class="product-series">Tripode profecional que se puede usar para video y para fotos excelente para cual quier activitad de blogs</p>
-            <h3 class="product-name">Tripode profecional</h3>
-            <div class="product-rating">
-              <span class="stars">★★★★★</span>
-              <span class="rating-count">(34)</span>
-            </div>
-            <p class="product-price">$59,990</p>
-            <button class="wishlist-btn">♡</button>
-          </div>
-        </div>
-        <div class="product-card">
-          <div class="product-image">
-            <img src="https://th.bing.com/th/id/R.fd52ce7a3499860a75164a7edd6bd91d?rik=v9U8cFx%2fpzDlLQ&riu=http%3a%2f%2fmmorpgbr.com.br%2fwp-content%2fuploads%2f2020%2f05%2f9-7.jpg%3fx10726&ehk=cmkm6VWuyU2J%2fUAUb61oQPR9F4U7xcM%2bH4mzrZLQUdM%3d&risl=&pid=ImgRaw&r=0" alt="ULT FIELD 5" />
-          </div>
-          <div class="product-info">
-            <p class="product-series">teclado gamer de alta calidad mecanico </p>
-            <h3 class="product-name">teclado de los ramirez </h3>
-            <div class="product-rating">
-              <span class="stars">★★★★★</span>
-              <span class="rating-count">(52)</span>
-            </div>
-            <p class="product-price">Desde $ 10,990</p>
-            <button class="wishlist-btn">♡</button>
-          </div>
-        </div>
-        <div class="product-card">
-          <div class="product-image">
-            <img src="https://ext.same-assets.com/1038164458/654958408.png" alt="ULT FIELD 3" />
-          </div>
-          <div class="product-info">
-            <p class="product-series">Serie ULT POWER SOUND | Parlante portátil inalámbrico ULT FIELD 3</p>
-            <h3 class="product-name">ULT FIELD 3</h3>
-            <div class="product-rating">
-              <span class="stars">★★★★★</span>
-              <span class="rating-count">(43)</span>
-            </div>
-            <p class="product-price">Desde $ 139.990</p>
-            <button class="wishlist-btn">♡</button>
-          </div>
-        </div>
-        <div class="product-card">
-          <div class="product-image">
-            <img src="https://ext.same-assets.com/1038164458/3472911717.png" alt="ULTMIC1" />
-          </div>
-          <div class="product-info">
-            <p class="product-series">Serie ULT POWER SOUND | Micrófono inalámbrico ULTMIC1</p>
-            <h3 class="product-name">ULTMIC1</h3>
-            <div class="product-rating">
-              <span class="stars">★★★★★</span>
-              <span class="rating-count">(12)</span>
-            </div>
-            <p class="product-price">Desde $ 19.990</p>
-            <button class="wishlist-btn">♡</button>
-          </div>
-        </div>
+  <!-- 1️⃣ TRÍPODE -->
+  <div class="product-card" onclick="irADetalle('1')" style="cursor: pointer;">
+    <div class="product-image">
+      <img src="https://tse3.mm.bing.net/th/id/OIP._iOYQIh3IEBYjXSjIlFtqgHaJU?cb=ucfimg2ucfimg=1&rs=1&pid=ImgDetMain&o=7&rm=3" alt="tripode" />
+    </div>
+    <div class="product-info">
+      <p class="product-series">Tripode profecional que se puede usar para video y para fotos excelente para cual quier activitad de blogs</p>
+      <h3 class="product-name">Tripode profecional</h3>
+      <div class="product-rating">
+        <span class="stars">★★★★★</span>
+        <span class="rating-count">(34)</span>
+      </div>
+      <p class="product-price">$59,990</p>
+      <button class="wishlist-btn">♡</button>
+      <div class="acciones-producto">
+        <button 
+          class="btn-sony-primary" 
+          onclick="event.stopPropagation(); agregarAlCarrito('Tripode profecional', '59,990', 2500)">
+          <span class="btn-icon">🛒</span> Añadir al Carrito
+        </button>
+      </div>
+      <div class="acciones-producto" style="margin-top: 40px; justify-content: center;">
+        <a href="tiendaSVR.html" class="btn-sony-secondary">
+          Ver mas Productos
+        </a>
       </div>
     </div>
+  </div>
+
+  <!-- 2️⃣ TECLADO -->
+  <div class="product-card" onclick="irADetalle('2')" style="cursor: pointer;">
+    <div class="product-image">
+      <img src="https://th.bing.com/th/id/R.fd52ce7a3499860a75164a7edd6bd91d?rik=v9U8cFx%2fpzDlLQ&riu=http%3a%2f%2fmmorpgbr.com.br%2fwp-content%2fuploads%2f2020%2f05%2f9-7.jpg%3fx10726&ehk=cmkm6VWuyU2J%2fUAUb61oQPR9F4U7xcM%2bH4mzrZLQUdM%3d&risl=&pid=ImgRaw&r=0" alt="ULT FIELD 5" />
+    </div>
+    <div class="product-info">
+      <p class="product-series">teclado gamer de alta calidad mecanico </p>
+      <h3 class="product-name">teclado de los ramirez </h3>
+      <div class="product-rating">
+        <span class="stars">★★★★★</span>
+        <span class="rating-count">(52)</span>
+      </div>
+      <p class="product-price">Desde $ 10,990</p>
+      <button class="wishlist-btn">♡</button>
+    </div>
+  </div>
+
+  <!-- 3️⃣ SONY ZV-1F -->
+  <div class="product-card" onclick="irADetalle('3')" style="cursor: pointer;">
+    <div class="product-image">
+      <img src="https://media.falabella.com/falabellaCL/16622657_1/w=650,h=650,fit=pad" alt="ULT FIELD 3" />
+    </div>
+    <div class="product-info">
+      <p class="product-series">Sony ZV-1F: Cámara de vloggin compacta y muy ligera. Tiene un lente fijo ultra gran angular de 20mm (ideal para grabarte cerca) y un micrófono direccional superior. Graba 4K/30p, con pantalla abatible y funciones fáciles como el Botón Bokeh. Es perfecta para iniciarse en la creación de contenido</p>
+      <h3 class="product-name">Sony ZV-1F</h3>
+      <div class="product-rating">
+        <span class="stars">★★★★★</span>
+        <span class="rating-count">(122)</span>
+      </div>
+      <p class="product-price">Desde $ 449.990</p>
+      <button class="wishlist-btn">♡</button>
+    </div>
+  </div>
+
+  <!-- 4️⃣ SONY A6400 -->
+  <div class="product-card" onclick="irADetalle('4')" style="cursor: pointer;">
+    <div class="product-image">
+      <img src="https://media.falabella.com/falabellaCL/143905819_01/w=650,h=650,fit=pad" alt="sony a6400" />
+    </div>
+    <div class="product-info">
+      <p class="product-series">sony Alpha a6400 Mirrorless Digital Camera Body - Negro</p>
+      <h3 class="product-name">Sony alpha a6400</h3>
+      <div class="product-rating">
+        <span class="stars">★★★★★</span>
+        <span class="rating-count">(64)</span>
+      </div>
+      <p class="product-price">Desde $ 849,990</p>
+      <button class="wishlist-btn">♡</button>
+    </div>
+  </div>
+</div>
+
   </section>
 
   <!-- Promociones Section -->
@@ -201,17 +260,17 @@
           </div>
         </div>
         <div class="promo-card">
-          <img src="https://ext.same-assets.com/1038164458/1636764427.png" alt="Paquete Alpha" />
+          <img src="https://tse4.mm.bing.net/th/id/OIP.8Umo1uIhKRPs_DV5YAWBlQHaHJ?rs=1&pid=ImgDetMain&o=7&rm=3" alt="Paquete Alpha" />
           <div class="promo-content">
-            <h3>Obtén este paquete GRATIS por la compra de tus equipos Alpha.</h3>
-            <p>1 Año Garantía extendida Red de servicio Técnico Nacional Noticias Alpha Universe Y MUCHO MÁS</p>
+            <h3>Kits para YouTubers y streamers</h3>
+            <p>Combos completos con cámaras, micrófonos, iluminación y soporte técnico para quienes quieran iniciar o mejorar su canal.</p>
           </div>
         </div>
         <div class="promo-card">
-          <img src="https://ext.same-assets.com/1038164458/3189785443.png" alt="Sound Connect" />
+    <img src="https://tse1.mm.bing.net/th/id/OIP.bY-UCCScTz9gtc-hWLQGvQHaEo?rs=1&pid=ImgDetMain&o=7&rm=3" alt="Sound Connect" />
           <div class="promo-content">
-            <h3>Disfruta tu música al máximo.</h3>
-            <p>Personaliza el sonido a tu gusto y controla tus audífonos y parlantes con la app de Sound Connect.</p>
+            <h3>Equipos y optimización para videojuegos</h3>
+            <p>Periféricos gamer, asesoría para mejorar FPS, configuración de equipos y recomendaciones de accesorios para gaming competitivo</p>
           </div>
         </div>
       </div>
@@ -230,17 +289,17 @@
       <div class="footer-section">
         <h4>Compra Online</h4>
         <ul>
-          <li><a href="#">Tienda en Línea</a></li>
-          <li><a href="#">Ayuda Ramirez  Store</a></li>
-          <li><a href="#">Calidad del Producto</a></li>
+          <li><a href="formulario.html">Servicio al cliente</a></li>
+          <li><a href="https://wa.me/56932991546">Ayuda Ramirez Store</a></li>
+          <li><a href="pagina de calidad de producto.html">Calidad del Producto</a></li>
         </ul>
       </div>
       <div class="footer-section">
         <h4>Comunidad</h4>
         <ul>
-          <li><a href="#">Comunidad Ramirez</a></li>
-          <li><a href="#">videos twich</a></li>
-          <li><a href="formulario.html">Servicio al cliente</a></li>
+          <li><a href="#">jugando con los Ramirez</a></li>
+          <li><a href="#">nuestro servidor de discord</a></li>
+          <li><a href="quienes_somos.html">Quienes somos </a></li>
         </ul>
       </div>
       <div class="footer-section">
@@ -255,14 +314,14 @@
     <div class="footer-bottom">
       <div class="footer-country">Chile</div>
       <div class="footer-links">
-        <a href="#">Productos & soluciones profesionales</a>
+        <a href="#">Nuestra segunda pagina</a>
         <a href="https://wa.me/56932991546">Contacto (WhatsApp)</a>
       </div>
       <div class="footer-social">
        <a href="https://www.facebook.com/ramirez.nicolas.pedro.585048" class="social-icon">f</a>
        <a href="https://x.com/NicolsR75165383" class="social-icon">𝕏</a>
       <a href="https://www.tiktok.com/@nikito189q"class="social-icon">🎵</a>
-        <a href="https://www.instagram.com/chuchuquinho10/" class="social-icon">📷</a>
+        <a href="https://www.instagram.com/servicio_ramirez_expres" class="social-icon">📷</a>
       </div>
     </div>
     <div class="footer-legal">
@@ -328,9 +387,153 @@
   
       resultsBox.style.display = "block";
   });
+
+
+
+
+  // 📱 BASE DE DATOS de productos
+const productosDB = {
+  '1': {
+    id: 1,
+    nombre: 'Tripode profecional',
+    precio: '59,990',
+    imagen: 'https://tse3.mm.bing.net/th/id/OIP._iOYQIh3IEBYjXSjIlFtqgHaJU?cb=ucfimg2ucfimg=1&rs=1&pid=ImgDetMain&o=7&rm=3',
+    descripcion: 'Tripode profecional que se puede usar para video y para fotos excelente para cual quier activitad de blogs',
+    caracteristicas: [
+      'Altura máxima: 1.60m',
+      'Material: Aluminio reforzado',
+      'Peso: 1.2kg',
+      'Cabezal de 3 ejes',
+      'Compatible DSLR y mirrorless'
+    ]
+  },
+  '2': {
+    id: 2,
+    nombre: 'teclado de los ramirez',
+    precio: '10,990',
+    imagen: 'https://th.bing.com/th/id/R.fd52ce7a3499860a75164a7edd6bd91d?rik=v9U8cFx%2fpzDlLQ&riu=http%3a%2f%2fmmorpgbr.com.br%2fwp-content%2fuploads%2f2020%2f05%2f9-7.jpg%3fx10726&ehk=cmkm6VWuyU2J%2fUAUb61oQPR9F4U7xcM%2bH4mzrZLQUdM%3d&risl=&pid=ImgRaw&r=0',
+    descripcion: 'teclado gamer de alta calidad mecanico',
+    caracteristicas: [
+      'Switches mecánicos RGB',
+      'Anti-ghosting completo',
+      '16.8M colores RGB',
+      'Teclas macro programables',
+      'Cable USB desmontable'
+    ]
+  },
+  '3': {
+    id: 3,
+    nombre: 'Sony ZV-1F',
+    precio: '449,990',
+    imagen: 'https://media.falabella.com/falabellaCL/16622657_1/w=650,h=650,fit=pad',
+    descripcion: 'Sony ZV-1F: Cámara de vloggin compacta y muy ligera. Tiene un lente fijo ultra gran angular de 20mm (ideal para grabarte cerca) y un micrófono direccional superior. Graba 4K/30p, con pantalla abatible y funciones fáciles como el Botón Bokeh. Es perfecta para iniciarse en la creación de contenido',
+    caracteristicas: [
+      'Sensor 1" 20.1MP',
+      'Video 4K/30p',
+      'Lente 20mm f/2.0',
+      'Pantalla abatible 180°',
+      'Micrófono direccional'
+    ]
+  },
+  '4': {
+    id: 4,
+    nombre: 'Sony alpha a6400',
+    precio: '849,990',
+    imagen: 'https://media.falabella.com/falabellaCL/143905819_01/w=650,h=650,fit=pad',
+    descripcion: 'sony Alpha a6400 Mirrorless Digital Camera Body - Negro',
+    caracteristicas: [
+      'Sensor APS-C 24.2MP',
+      'AF Real-time Tracking',
+      'Video 4K HDR',
+      '425 puntos de enfoque',
+      'Pantalla táctil abatible'
+    ]
+  }
+};
+
+// 🚀 Función para ir al detalle
+function irADetalle(id) {
+  const producto = productosDB[id];
+  if (producto) {
+    localStorage.setItem('productoSeleccionado', JSON.stringify(producto));
+    window.open('detalle-producto.html', '_blank');
+  }
+}
+
   </script>
   
-    
-</body>
+    <script>
+  const menuBtn = document.querySelector(".menu-icon");
+  const sideMenu = document.getElementById("side-menu");
+  const overlay = document.getElementById("overlay");
 
+  menuBtn.addEventListener("click", () => {
+    sideMenu.style.left = "0";
+    overlay.style.display = "block";
+  });
+
+  overlay.addEventListener("click", () => {
+    sideMenu.style.left = "-260px";
+    overlay.style.display = "none";
+  });
+
+</script>
+
+  <script>
+  const btnCuenta = document.getElementById('btn-Cuenta');
+  const usuario = localStorage.getItem('usuario'); // lee el usuario guardado
+
+  if (usuario) {
+    // Si hay sesión iniciada
+    btnCuenta.textContent = usuario;
+
+    // Al hacer clic, recarga / vuelve a la página principal
+    btnCuenta.addEventListener('click', () => {
+      window.location.href = 'index.html';  // MISMA página principal
+    });
+  } else {
+    // Si NO hay sesión, manda al login
+    btnCuenta.addEventListener('click', () => {
+      window.location.href = 'login.html';  // tu página de login
+    });
+  }
+</script>
+
+<!-- FONDO OSCURO (para que se oscurezca la web al abrir) -->
+<div id="overlay-oscuro" onclick="toggleCarrito()"></div>
+
+<!-- EL MENÚ LATERAL (Donde salen los productos) -->
+<div id="sidebar-carrito">
+    <div style="display: flex; justify-content: space-between; padding: 20px; border-bottom: 1px solid #333;">
+        <h2>Tu Carrito</h2>
+        <button onclick="toggleCarrito()" style="background:none; border:none; color:white; font-size: 20px; cursor:pointer;">✕</button>
+    </div>
+    
+    <div id="lista-items" style="padding: 20px;">
+        <!-- Aquí aparecerán las cámaras mágicamente -->
+    </div>
+
+    <div style="padding: 20px; border-top: 1px solid #333; position: absolute; bottom: 0; width: 100%; box-sizing: border-box;">
+        <h3>Total: CLP$ <span id="precio-total">0</span></h3>
+        <button id="pagar-ahora" style="width: 100%; padding: 15px; background: #E30613; color: white; border: none; font-size: 18px; font-weight: bold; cursor: pointer;">PAGAR AHORA</button>
+
+    </div>
+  
+</div>
+<script>
+document.addEventListener('DOMContentLoaded', function() {
+    const btnPagar = document.getElementById('pagar-ahora');
+    btnPagar.onclick = function() {
+        const carrito = JSON.parse(localStorage.getItem('carrito') || '[]');
+        let total = 0;
+        for(let item of carrito) {
+            total += parseFloat(item.precio || 0) * (item.cantidad || 1);
+        }
+        if(total == 0) { alert('Carrito vacío'); return; }
+        window.location.href = 'pagoPDT.html?total=' + Math.round(total);
+    };
+});
+</script>
+
+</body>
 </html>

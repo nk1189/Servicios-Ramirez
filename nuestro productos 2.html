@@ -1,0 +1,345 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Visual Pro Studio | Fotografía & Video</title>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <style>
+        /* --- VARIABLES Y RESET --- */
+        :root {
+            --bg-dark: #0a0a0a;
+            --bg-card: #1a1a1a;
+            --text-primary: #ffffff;
+            --text-secondary: #a0a0a0;
+            --accent: #e63946; /* Rojo profesional */
+            --nav-bg: rgba(10, 10, 10, 0.95);
+        }
+
+        * { margin: 0; padding: 0; box-sizing: border-box; }
+        
+        body {
+            font-family: 'Inter', -apple-system, BlinkMacSystemFont, sans-serif;
+            background-color: var(--bg-dark);
+            color: var(--text-primary);
+            line-height: 1.6;
+            overflow-x: hidden;
+        }
+
+        a { text-decoration: none; color: inherit; transition: 0.3s; }
+        ul { list-style: none; }
+
+        /* --- NAVEGACIÓN --- */
+        nav {
+            position: fixed;
+            top: 0;
+            width: 100%;
+            padding: 1.5rem 5%;
+            background: var(--nav-bg);
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            z-index: 1000;
+            backdrop-filter: blur(10px);
+            border-bottom: 1px solid rgba(255,255,255,0.05);
+        }
+
+        .logo { font-size: 1.5rem; font-weight: 700; letter-spacing: -1px; }
+        .logo span { color: var(--accent); }
+
+        .nav-links { display: flex; gap: 2rem; }
+        .nav-links a:hover { color: var(--accent); }
+        .cta-btn {
+            padding: 0.8rem 1.5rem;
+            background: var(--accent);
+            border-radius: 50px;
+            font-weight: 600;
+        }
+        .cta-btn:hover { transform: translateY(-2px); box-shadow: 0 5px 15px rgba(230, 57, 70, 0.4); }
+
+        /* --- HERO SECTION --- */
+        .hero {
+            height: 100vh;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            text-align: center;
+            background: linear-gradient(rgba(0,0,0,0.6), rgba(0,0,0,0.6)), url('https://images.unsplash.com/photo-1492691527719-9d1e07e534b4?ixlib=rb-4.0.3&auto=format&fit=crop&w=1920&q=80');
+            background-size: cover;
+            background-position: center;
+            padding: 0 1rem;
+        }
+
+        .hero h1 {
+            font-size: 4rem;
+            font-weight: 800;
+            margin-bottom: 1rem;
+            line-height: 1.1;
+        }
+
+        .hero p {
+            font-size: 1.2rem;
+            color: #ddd;
+            max-width: 600px;
+            margin: 0 auto 2rem;
+        }
+
+        /* --- SECCIONES GENERALES --- */
+        section { padding: 5rem 5%; }
+        .section-title {
+            text-align: center;
+            font-size: 2.5rem;
+            margin-bottom: 3rem;
+        }
+        .section-title span { border-bottom: 3px solid var(--accent); }
+
+        /* --- GEAR / EQUIPO (Estilo Tabla Técnica) --- */
+        .gear-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+            gap: 2rem;
+        }
+
+        .gear-card {
+            background: var(--bg-card);
+            padding: 2rem;
+            border-radius: 12px;
+            border: 1px solid rgba(255,255,255,0.05);
+            transition: 0.3s;
+        }
+        .gear-card:hover { border-color: var(--accent); }
+
+        .gear-icon { font-size: 2rem; color: var(--accent); margin-bottom: 1rem; }
+        .gear-list li {
+            display: flex;
+            justify-content: space-between;
+            padding: 0.5rem 0;
+            border-bottom: 1px solid rgba(255,255,255,0.1);
+            font-size: 0.9rem;
+        }
+        .gear-list li:last-child { border: none; }
+        .spec-label { color: var(--text-secondary); }
+
+        /* --- GALERÍA (Integrada) --- */
+        .gallery-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fill, minmax(300px, 1fr));
+            gap: 15px;
+        }
+        .gallery-item {
+            position: relative;
+            height: 300px;
+            overflow: hidden;
+            border-radius: 8px;
+            cursor: pointer;
+        }
+        .gallery-item img {
+            width: 100%;
+            height: 100%;
+            object-fit: cover;
+            transition: transform 0.5s;
+        }
+        .gallery-item:hover img { transform: scale(1.1); }
+
+        /* --- CONTACTO --- */
+        .contact-container {
+            max-width: 600px;
+            margin: 0 auto;
+            background: var(--bg-card);
+            padding: 3rem;
+            border-radius: 12px;
+        }
+        .form-group { margin-bottom: 1.5rem; }
+        .form-group label { display: block; margin-bottom: 0.5rem; color: var(--text-secondary); }
+        .form-control {
+            width: 100%;
+            padding: 1rem;
+            background: rgba(255,255,255,0.05);
+            border: 1px solid rgba(255,255,255,0.1);
+            border-radius: 6px;
+            color: white;
+            font-family: inherit;
+        }
+        .form-control:focus { outline: none; border-color: var(--accent); }
+        
+        /* --- FOOTER --- */
+        footer {
+            text-align: center;
+            padding: 2rem;
+            border-top: 1px solid rgba(255,255,255,0.05);
+            color: var(--text-secondary);
+            font-size: 0.9rem;
+        }
+
+        /* --- LIGHTBOX --- */
+        .lightbox {
+            position: fixed;
+            top: 0; left: 0; width: 100%; height: 100%;
+            background: rgba(0,0,0,0.95);
+            display: none;
+            justify-content: center; align-items: center;
+            z-index: 2000;
+        }
+        .lightbox.active { display: flex; }
+        .lightbox img { max-width: 90%; max-height: 90%; border-radius: 4px; }
+        .close-btn { position: absolute; top: 30px; right: 40px; font-size: 2rem; cursor: pointer; }
+
+        /* Responsive */
+        @media(max-width: 768px) {
+            .hero h1 { font-size: 2.5rem; }
+            .nav-links { display: none; } /* Simplificado para el ejemplo */
+        }
+    </style>
+</head>
+<body>
+
+    <!-- NAVEGACIÓN -->
+    <nav>
+        <div class="logo">VISUAL<span>PRO</span></div>
+        <ul class="nav-links">
+            <li><a href="#inicio">Inicio</a></li>
+            <li><a href="#equipo">Mi Equipo</a></li>
+            <li><a href="#galeria">Portafolio</a></li>
+            <li><a href="#contacto">Contacto</a></li>
+        </ul>
+        <a href="#contacto" class="cta-btn">Reservar Sesión</a>
+    </nav>
+
+    <!-- HERO SECTION -->
+    <header id="inicio" class="hero">
+        <div class="hero-content">
+            <h1>Capturando Momentos <br>Eternos</h1>
+            <p>Fotografía profesional y producción de video cinemático. Especializado en retratos y eventos.</p>
+            <a href="#galeria" class="cta-btn">Ver Trabajos</a>
+        </div>
+    </header>
+
+    <!-- SECCIÓN DE EQUIPO (GEAR) -->
+    <section id="equipo">
+        <h2 class="section-title"><span>Mi Equipo</span></h2>
+        <div class="gear-grid">
+            <!-- Cámara Principal -->
+            <div class="gear-card">
+                <i class="fas fa-camera gear-icon"></i>
+                <h3>Cámara Principal</h3>
+                <ul class="gear-list" style="margin-top: 1rem;">
+                    <li><span class="spec-label">Modelo</span> <span>Nikon D3100</span></li>
+                    <li><span class="spec-label">Sensor</span> <span>CMOS DX 14.2 MP</span></li>
+                    <li><span class="spec-label">Video</span> <span>Full HD 1080p</span></li>
+                    <li><span class="spec-label">ISO</span> <span>100-3200 (Ext 12800)</span></li>
+                </ul>
+            </div>
+
+            <!-- Lentes -->
+            <div class="gear-card">
+                <i class="fas fa-circle-notch gear-icon"></i>
+                <h3>Lentes y Óptica</h3>
+                <ul class="gear-list" style="margin-top: 1rem;">
+                    <li><span class="spec-label">Kit</span> <span>AF-S DX 18-55mm VR</span></li>
+                    <li><span class="spec-label">Retrato</span> <span>Nikkor 50mm f/1.8G</span></li>
+                    <li><span class="spec-label">Zoom</span> <span>55-200mm f/4-5.6</span></li>
+                </ul>
+            </div>
+
+            <!-- Edición -->
+            <div class="gear-card">
+                <i class="fas fa-laptop-code gear-icon"></i>
+                <h3>Post-Producción</h3>
+                <ul class="gear-list" style="margin-top: 1rem;">
+                    <li><span class="spec-label">Software</span> <span>Adobe Premiere / Lightroom</span></li>
+                    <li><span class="spec-label">Monitor</span> <span>Calibrado 4K</span></li>
+                    <li><span class="spec-label">Entrega</span> <span>Digital & Impresa</span></li>
+                </ul>
+            </div>
+        </div>
+    </section>
+
+    <!-- GALERÍA -->
+    <section id="galeria">
+        <h2 class="section-title"><span>Portafolio Reciente</span></h2>
+        <div class="gallery-grid">
+            <!-- Imágenes de ejemplo de Unsplash -->
+            <div class="gallery-item" onclick="openLightbox(this)">
+                <img src="https://images.unsplash.com/photo-1516035069371-29a1b244cc32?auto=format&fit=crop&w=600&q=80" loading="lazy">
+            </div>
+            <div class="gallery-item" onclick="openLightbox(this)">
+                <img src="https://images.unsplash.com/photo-1520390138845-fd2d229dd552?auto=format&fit=crop&w=600&q=80" loading="lazy">
+            </div>
+            <div class="gallery-item" onclick="openLightbox(this)">
+                <img src="https://images.unsplash.com/photo-1542038784456-1ea8e935640e?auto=format&fit=crop&w=600&q=80" loading="lazy">
+            </div>
+            <div class="gallery-item" onclick="openLightbox(this)">
+                <img src="https://images.unsplash.com/photo-1551009175-8a68da93d5f9?auto=format&fit=crop&w=600&q=80" loading="lazy">
+            </div>
+            <div class="gallery-item" onclick="openLightbox(this)">
+                <img src="https://images.unsplash.com/photo-1493863641943-9b68992a8d07?auto=format&fit=crop&w=600&q=80" loading="lazy">
+            </div>
+            <div class="gallery-item" onclick="openLightbox(this)">
+                <img src="https://images.unsplash.com/photo-1500917293891-ef795e70e1f6?auto=format&fit=crop&w=600&q=80" loading="lazy">
+            </div>
+        </div>
+    </section>
+
+    <!-- CONTACTO -->
+    <section id="contacto">
+        <h2 class="section-title"><span>Trabajemos Juntos</span></h2>
+        <div class="contact-container">
+            <!-- Configura aquí tu action de Formspree -->
+            <form action="https://formspree.io/f/TU_ID_DE_FORMSPREE" method="POST">
+                <div class="form-group">
+                    <label>Nombre Completo</label>
+                    <input type="text" name="name" class="form-control" required placeholder="Tu nombre">
+                </div>
+                <div class="form-group">
+                    <label>Email</label>
+                    <input type="email" name="email" class="form-control" required placeholder="tucorreo@ejemplo.com">
+                </div>
+                <div class="form-group">
+                    <label>Tipo de Proyecto</label>
+                    <select name="service" class="form-control">
+                        <option>Sesión Fotográfica</option>
+                        <option>Video Escolar/Evento</option>
+                        <option>Videoclip Musical</option>
+                    </select>
+                </div>
+                <div class="form-group">
+                    <label>Mensaje</label>
+                    <textarea name="message" rows="4" class="form-control" placeholder="Cuéntame sobre tu idea..."></textarea>
+                </div>
+                <button type="submit" class="cta-btn" style="width: 100%; border:none; cursor:pointer;">Enviar Mensaje</button>
+            </form>
+        </div>
+    </section>
+
+    <footer>
+        <p>&copy; 2025 Visual Pro Studio. Todos los derechos reservados.</p>
+        <div style="margin-top: 1rem; font-size: 1.5rem;">
+            <i class="fab fa-instagram" style="margin: 0 10px;"></i>
+            <i class="fab fa-youtube" style="margin: 0 10px;"></i>
+        </div>
+    </footer>
+
+    <!-- LIGHTBOX SCRIPT -->
+    <div class="lightbox" id="lightbox" onclick="closeLightbox()">
+        <span class="close-btn">&times;</span>
+        <img id="lightbox-img" src="">
+    </div>
+
+    <script>
+        const lightbox = document.getElementById('lightbox');
+        const lightboxImg = document.getElementById('lightbox-img');
+
+        function openLightbox(element) {
+            const img = element.querySelector('img');
+            lightboxImg.src = img.src.replace('w=600', 'w=1600');
+            lightbox.classList.add('active');
+            document.body.style.overflow = 'hidden';
+        }
+
+        function closeLightbox() {
+            lightbox.classList.remove('active');
+            document.body.style.overflow = 'auto';
+        }
+    </script>
+</body>
+</html>

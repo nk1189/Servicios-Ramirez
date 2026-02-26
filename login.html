@@ -1,0 +1,221 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Iniciar sesión</title>
+  <style>
+
+    body {
+      margin: 0;
+      background: #f1f2f6;
+      font-family: Arial, sans-serif;
+    }
+
+    /* NAV BAR (TÚ DESPUÉS LO EDITAS) */
+    .nav {
+      width: 100%;
+      height: 70px;
+      background: #000;
+      display: flex;
+      align-items: center;
+      justify-content: right;
+      padding-right: 40px;
+      gap: 30px;
+    }
+
+    .nav div {
+      color: white;
+      font-size: 18px;
+      cursor: pointer;
+    }
+
+    /* Caja central */
+    .login-box {
+      width: 480px;
+      background: #2c2f3a;
+      color: white;
+      padding: 40px;
+      margin: 120px auto;
+      border-radius: 4px;
+      text-align: left;
+    }
+
+    .login-box h2 {
+      font-size: 26px;
+      font-weight: 400;
+      margin-bottom: 10px;
+    }
+
+    .sub {
+      margin-bottom: 25px;
+      opacity: 0.8;
+    }
+
+    .label {
+      margin-top: 20px;
+      font-size: 14px;
+    }
+
+    input {
+      width: 95%;
+      margin-top: 8px;
+      padding: 12px;
+      border: none;
+      border-radius: 2px;
+      font-size: 14px;
+    }
+
+    .btn {
+      background: #3f6be0;
+      color: white;
+      border: none;
+      padding: 12px 25px;
+      border-radius: 3px;
+      cursor: pointer;
+      font-size: 16px;
+      margin-top: 25px;
+    }
+
+    .btn:hover {
+      background: #335bc5;
+    }
+
+    /* FOOTER */
+    .footer {
+      margin-top: 130px;
+      background: #000;
+      color: white;
+      padding: 40px 80px;
+      display: flex;
+      justify-content: space-between;
+      flex-wrap: wrap;
+    }
+
+    .footer-col {
+      width: 260px;
+    }
+
+    .footer-col h4 {
+      margin-bottom: 15px;
+      font-weight: 500;
+    }
+
+    .footer-col div {
+      margin: 6px 0;
+      font-size: 14px;
+      opacity: 0.8;
+      cursor: pointer;
+    }
+    /* 1. Quitar las viñetas (puntos) */
+.footer-section ul {
+    list-style: none; /* Esto elimina los puntos/viñetas */
+    padding-left: 0; /* Esto elimina el espacio que las viñetas ocupaban a la izquierda */
+}
+
+/* 2. Estilizar los enlaces (color y subrayado) */
+.footer-section ul li a {
+    color: white; /* Por ejemplo, cambiar el color a blanco para que coincida con el título */
+    text-decoration: none; /* Esto quita el subrayado */
+    display: block; /* Hace que el enlace ocupe todo el ancho del li */
+    padding: 2px 0; /* Agrega un pequeño espacio vertical entre los enlaces */
+}
+
+/* 3. Estilo al pasar el mouse (hover) para mejorar la interacción */
+.footer-section ul li a:hover {
+    color: #f0f0f0; /* Un blanco ligeramente diferente para el efecto */
+    text-decoration: underline; /* Puedes volver a poner el subrayado solo al pasar el mouse */
+}
+.boton {
+  display: inline-block;
+  padding: 10px 20px;
+  background-color: #007BFF;
+  color: white;
+  text-decoration: none;
+  border-radius: 5px;
+  cursor: pointer;
+}
+
+.boton:hover {
+  background-color: #0056b3;
+}
+
+  </style>
+</head>
+<body>
+
+  <!-- NAV SUPERIOR -->
+  <div class="nav">
+  <a href="cuenta.html">crea tu cuenta</a>
+    <div></div>
+    <div></div>
+    <div></div>
+  </div>
+  <div class="header-container">
+      <div class="logo">
+        <img src="logo-opcion4.svg" alt="servicios Ramirez" />
+      </div>
+
+  <!-- CAJA CENTRAL -->
+ <div class="login-box">
+  <h2>Ingrese su dirección de correo electrónico</h2>
+  <div class="sub">Usuario o e-mail</div>
+
+  <div class="label">Usuario o e-mail</div>
+  <input id="input-usuario" type="text" placeholder="ejemplo@correo.com">
+
+  <div class="label">Contraseña</div>
+  <input type="password" placeholder="Ingresa tu contraseña">
+
+  <button class="btn" id="btn-continuar">Continuar</button>
+</div>
+
+  <!-- FOOTER -->
+  <div class="footer">
+
+    
+
+<div class="footer-section">
+        <h4>Compra Online</h4>
+        <ul>
+          <li><a href="formulario.html">Servicio al cliente</a></li>
+          <li><a href="https://wa.me/56932991546">Ayuda Ramirez Store</a></li>
+          <li><a href="pagina de calidad de producto.html">Calidad del Producto</a></li>
+        </ul>
+      </div>
+
+    <div class="footer-section">
+        <h4>Comunidad</h4>
+        <ul>
+          <li><a href="#">Comunidad Ramirez</a></li>
+          <li><a href="#">videos twich</a></li>
+          <li><a href="quienes_somos.html">Quienes somos </a></li>
+        </ul>
+      </div>
+
+    <div class="footer-section">
+        <h4>Noticias e Información</h4>
+        <ul>
+          <li><a href="#">Información Corporativa</a></li>
+          <li><a href="#">Centro de Prensa</a></li>
+          <li><a href="#">Los Ramirez y el Medio Ambiente</a></li>
+        </ul>
+      </div>
+
+  </div>
+<script>
+  const btnContinuar = document.getElementById('btn-continuar');
+  const inputUsuario = document.getElementById('input-usuario');
+
+  btnContinuar.addEventListener('click', () => {
+    const usuario = inputUsuario.value.trim();
+    if (!usuario) return;              // si está vacío, no guarda
+
+    localStorage.setItem('usuario', usuario);  // guarda el nombre
+    window.location.href = 'index.html';       // tu página principal
+  });
+</script>
+
+</body>
+</html>
+

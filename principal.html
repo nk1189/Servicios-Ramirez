@@ -1,0 +1,42 @@
+
+<!DOCTYPE html>
+<html lang="es">
+<head>
+  <meta charset="UTF-8">
+  <title>Página principal</title>
+</head>
+<body>
+
+  <h1>Página principal</h1>
+
+  <!-- Botón de la barra, el que dice Mi cuenta -->
+  <button id="btn-cuenta">Mi cuenta</button>
+
+  <!-- EL SCRIPT VA CASI AL FINAL DEL BODY -->
+  <script>
+    // 1. Busco el botón
+    const btnCuenta = document.getElementById('btn-cuenta');
+
+    // 2. Leo el nombre que se guardó al iniciar sesión
+    const usuario = localStorage.getItem('usuario');
+
+    // 3. Si hay usuario (ya inició sesión)
+    if (usuario) {
+      // Cambia el texto del botón a Pepe, Juan, etc.
+      btnCuenta.textContent = usuario;
+
+      // Al hacer clic, va a la página de historial
+      btnCuenta.addEventListener('click', () => {
+        window.location.href = 'historial.html';
+      });
+    } else {
+      // 4. Si NO hay usuario (no inició sesión)
+      // Al hacer clic, lo manda a la página de login
+      btnCuenta.addEventListener('click', () => {
+        window.location.href = 'login.html';
+      });
+    }
+  </script>
+
+</body>
+</html>
