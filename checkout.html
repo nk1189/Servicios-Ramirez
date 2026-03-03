@@ -1,0 +1,367 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Pago Seguro | Servicios Ramírez</title>
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+  
+  <style>
+    /* =========================================================
+       VARIABLES Y RESET
+       ========================================================= */
+    :root {
+      --bg-color: #f5f5f7;
+      --surface: #ffffff;
+      --text-main: #1d1d1f;
+      --text-muted: #86868b;
+      --accent: #0066cc;
+      --border: #d2d2d7;
+      --black: #000000;
+    }
+    * { margin: 0; padding: 0; box-sizing: border-box; font-family: 'Inter', sans-serif; }
+    body { background: var(--bg-color); color: var(--text-main); line-height: 1.5; }
+    
+    .header { background: rgba(255, 255, 255, 0.8); backdrop-filter: blur(10px); padding: 20px 5%; display: flex; justify-content: space-between; align-items: center; border-bottom: 1px solid var(--border); position: sticky; top: 0; z-index: 100;}
+    .header a { color: var(--accent); text-decoration: none; font-weight: 500; font-size: 0.95rem; }
+    .secure-badge { display: flex; align-items: center; gap: 8px; font-size: 0.9rem; color: #107c10; font-weight: 600; }
+
+    .checkout-wrapper { max-width: 1100px; margin: 40px auto; padding: 0 5%; display: grid; grid-template-columns: 1.5fr 1fr; gap: 40px; }
+    @media (max-width: 800px) { .checkout-wrapper { grid-template-columns: 1fr; } }
+
+    /* FORMULARIO */
+    .form-section { background: var(--surface); padding: 40px; border-radius: 20px; box-shadow: 0 10px 30px rgba(0,0,0,0.03); }
+    .section-title { font-size: 1.4rem; font-weight: 600; margin-bottom: 25px; border-bottom: 1px solid #eee; padding-bottom: 10px;}
+    .form-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 20px; margin-bottom: 30px; }
+    .full-width { grid-column: 1 / -1; }
+    .input-group label { display: block; font-size: 0.85rem; color: var(--text-muted); margin-bottom: 8px; font-weight: 500; }
+    .input-group input { width: 100%; padding: 12px; border: 1px solid var(--border); border-radius: 10px; font-size: 1rem; background: #fafafa; }
+    .input-group input:focus { background: var(--surface); border-color: var(--accent); outline: none; }
+
+    /* SELECTOR DE PAGO (Radio Cards) */
+    .payment-methods-grid { display: grid; grid-template-columns: 1fr; gap: 15px; margin-bottom: 30px; }
+    .pay-card-label { cursor: pointer; display: block; }
+    .pay-card-label input[type="radio"] { display: none; }
+    .pay-card { border: 2px solid var(--border); border-radius: 12px; padding: 15px 20px; display: flex; align-items: center; gap: 15px; transition: all 0.3s; background: #fff; }
+    .pay-card-label input[type="radio"]:checked + .pay-card { border-color: var(--accent); background: rgba(0, 102, 204, 0.05); box-shadow: 0 4px 10px rgba(0, 102, 204, 0.1); }
+    .radio-circle { width: 20px; height: 20px; border-radius: 50%; border: 2px solid var(--border); display: flex; align-items: center; justify-content: center; }
+    .pay-card-label input[type="radio"]:checked + .pay-card .radio-circle { border-color: var(--accent); }
+    .pay-card-label input[type="radio"]:checked + .pay-card .radio-circle::after { content: ''; width: 10px; height: 10px; background: var(--accent); border-radius: 50%; }
+    .pay-card-info { flex: 1; }
+    .pay-title { font-weight: 600; font-size: 1rem; color: var(--text-main); display: block;}
+    .pay-desc { font-size: 0.85rem; color: var(--text-muted); }
+    
+    /* DATOS BANCARIOS (Ocultos por defecto) */
+    .bank-details {
+      display: none;
+      background: #f8fafc; border: 1px solid #c7d2fe;
+      padding: 15px; border-radius: 10px; margin-top: 10px;
+      font-size: 0.9rem; color: #3730a3; line-height: 1.6;
+    }
+    .pay-card-label input[value="Transferencia Bancaria"]:checked ~ .bank-details { display: block; }
+    
+    .btn-submit { background: var(--black); color: white; width: 100%; padding: 18px; border: none; border-radius: 12px; font-size: 1.1rem; font-weight: 600; cursor: pointer; margin-top: 10px; transition: 0.3s; }
+    .btn-submit:hover { background: var(--accent); }
+
+    /* RESUMEN OSCURO */
+    .summary-section { background: var(--black); color: white; padding: 40px; border-radius: 20px; height: fit-content; position: sticky; top: 100px;}
+    .summary-title { font-size: 1.2rem; font-weight: 500; border-bottom: 1px solid #333; padding-bottom: 20px; margin-bottom: 20px; }
+    .item-list { max-height: 350px; overflow-y: auto; }
+    .checkout-item { display: flex; align-items: center; margin-bottom: 20px; gap: 15px; }
+    .item-img { width: 60px; height: 60px; background: white; border-radius: 10px; padding: 5px; object-fit: contain; }
+    .item-details { flex: 1; }
+    .item-name { font-size: 0.95rem; font-weight: 500; margin-bottom: 5px; }
+    .summary-totals { border-top: 1px dashed #333; margin-top: 20px; padding-top: 20px; }
+    .total-row { display: flex; justify-content: space-between; margin-bottom: 10px; color: #aaa; }
+    .total-final { display: flex; justify-content: space-between; align-items: center; margin-top: 15px; padding-top: 15px; border-top: 1px solid #444; font-size: 1.5rem; font-weight: 700; color: #fff; }
+
+    /* =========================================================
+       OVERLAY DE CARGA (SPINNER Y CHECK)
+       ========================================================= */
+    .loading-overlay {
+      position: fixed; top: 0; left: 0; width: 100%; height: 100%;
+      background: rgba(0,0,0,0.85); backdrop-filter: blur(5px);
+      display: flex; flex-direction: column; align-items: center; justify-content: center;
+      z-index: 9999; visibility: hidden; opacity: 0; transition: 0.3s;
+    }
+    .loading-overlay.active { visibility: visible; opacity: 1; }
+    
+    .spinner {
+      width: 60px; height: 60px;
+      border: 5px solid rgba(255,255,255,0.3);
+      border-top: 5px solid var(--accent);
+      border-radius: 50%;
+      animation: spin 1s linear infinite;
+      margin-bottom: 20px;
+    }
+    @keyframes spin { 0% { transform: rotate(0deg); } 100% { transform: rotate(360deg); } }
+
+    .loading-text { color: white; font-size: 1.2rem; font-weight: 500; text-align: center; }
+
+    .success-mark {
+      width: 80px; height: 80px;
+      background: #107c10; border-radius: 50%;
+      display: none; align-items: center; justify-content: center;
+      margin-bottom: 20px; animation: popIn 0.5s cubic-bezier(0.175, 0.885, 0.32, 1.275);
+    }
+    .success-mark svg { color: white; width: 40px; height: 40px; }
+    @keyframes popIn { 0% { transform: scale(0); } 100% { transform: scale(1); } }
+  </style>
+</head>
+<body>
+
+  <!-- PANTALLA DE CARGA Y ÉXITO -->
+  <div class="loading-overlay" id="loading-screen">
+    <div class="spinner" id="spinner-anim"></div>
+    <div class="success-mark" id="success-anim">
+      <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3"><polyline points="20 6 9 17 4 12"></polyline></svg>
+    </div>
+    <h2 class="loading-text" id="loading-msg">Procesando pedido...</h2>
+    <p style="color:#aaa; font-size:0.9rem; margin-top:10px;" id="loading-submsg">Por favor no cierres esta ventana.</p>
+  </div>
+
+  <header class="header">
+    <a href="tiendaSVR.html">← Volver a la Tienda</a>
+    <div class="secure-badge">Checkout Seguro 🔒</div>
+  </header>
+
+  <main class="checkout-wrapper">
+    
+    <section class="form-section">
+      <!-- REEMPLAZA TU_ID_FORMSPREE AQUI -->
+      <form action="https://formspree.io/f/xgvrwwrg" method="POST" id="form-compra">
+        
+        <h2 class="section-title">1. Detalles de Envío</h2>
+        <div class="form-grid">
+          <div class="input-group full-width"><label>Nombre Completo</label><input type="text" name="Nombre" id="input-nombre" required placeholder="Ej: Pedro Ramírez"></div>
+          <div class="input-group full-width"><label>Correo Electrónico</label><input type="email" name="Email" id="input-correo" required placeholder="correo@ejemplo.com"></div>
+          <div class="input-group full-width"><label>Teléfono / WhatsApp</label><input type="tel" name="Telefono" id="input-telefono" required placeholder="+56 9..."></div>
+          <div class="input-group full-width"><label>Dirección</label><input type="text" name="Direccion" id="input-direccion" required placeholder="Calle, Número, Depto"></div>
+        </div>
+
+        <h2 class="section-title">2. Método de Pago</h2>
+        <div class="payment-methods-grid" id="lista-metodos-pago">
+          <!-- Opciones inyectadas por JS -->
+        </div>
+
+        <input type="hidden" name="Productos_Comprados" id="datos-ocultos-productos" value="">
+        <input type="hidden" name="Metodo_de_Pago_Seleccionado" id="metodo-pago-oculto" value="Transferencia Bancaria">
+
+        <button type="submit" class="btn-submit" id="btn-finalizar">Confirmar Pedido</button>
+      </form>
+    </section>
+
+    <aside class="summary-section">
+      <h3 class="summary-title">Resumen de tu Pedido</h3>
+      <div class="item-list" id="checkout-items"></div>
+      <div class="summary-totals">
+        <div class="total-row"><span>Subtotal</span><span id="checkout-subtotal">$0</span></div>
+        <div class="total-row"><span>Envío</span><span style="color:#4ade80;">Gratis</span></div>
+        <div class="total-final"><span>Total</span><span id="checkout-total" style="color:#407ce8;">$0</span></div>
+      </div>
+      <button onclick="limpiarCarritoRoto()" style="width:100%; margin-top:20px; background:none; border:none; color:#ef4444; cursor:pointer; text-decoration:underline;">Vaciar carrito y salir</button>
+    </aside>
+
+  </main>
+
+  <script>
+    function formatP(num) { return num.toString().replace(/\B(?=(\d{3})+(?!\d))/g, "."); }
+    function limpiarCarritoRoto() { localStorage.removeItem('carritoSVR'); window.location.href = 'tiendaSVR.html'; }
+
+    let totalGlobal = 0; 
+    let carritoGlobal = [];
+
+    document.addEventListener("DOMContentLoaded", () => {
+      const checkoutItemsDiv = document.getElementById('checkout-items');
+      const checkoutSubDiv = document.getElementById('checkout-subtotal');
+      const checkoutTotalDiv = document.getElementById('checkout-total');
+      const inputOculto = document.getElementById('datos-ocultos-productos');
+      
+      carritoGlobal = JSON.parse(localStorage.getItem('carritoSVR')) || [];
+      if(carritoGlobal.length === 0) {
+        checkoutItemsDiv.innerHTML = '<p style="text-align:center; color:#888;">Tu carrito está vacío.</p>';
+        document.getElementById('btn-finalizar').disabled = true;
+        document.getElementById('btn-finalizar').style.background = '#333';
+        return;
+      }
+
+      let resumenParaCorreo = "=== NUEVO PEDIDO ===\n\nPRODUCTOS:\n";
+
+      carritoGlobal.forEach((item) => {
+        let precioSinPuntos = String(item.precio).replace(/\./g, '').replace(/,/g, '');
+        let precioLimpio = parseInt(precioSinPuntos, 10);
+        if(isNaN(precioLimpio)) { precioLimpio = 0; }
+        totalGlobal += precioLimpio; 
+        
+        checkoutItemsDiv.innerHTML += `
+          <div class="checkout-item">
+            <img src="${item.imagen || ''}" class="item-img">
+            <div class="item-details">
+              <div class="item-name">${item.nombre}</div>
+              <div style="color:#fff; font-weight:bold;">$${formatP(precioLimpio)}</div>
+            </div>
+          </div>
+        `;
+        resumenParaCorreo += `- ${item.nombre} ($${formatP(precioLimpio)})\n`;
+      });
+      checkoutSubDiv.textContent = checkoutTotalDiv.textContent = '$' + formatP(totalGlobal);
+      
+      resumenParaCorreo += `\nTOTAL A PAGAR: $${formatP(totalGlobal)}`;
+      inputOculto.value = resumenParaCorreo;
+
+
+      // ==========================================
+      // AUTORELLENAR Y MOSTRAR MÉTODOS DE PAGO
+      // ==========================================
+      const listaPagosDiv = document.getElementById('lista-metodos-pago');
+      const correoActivo = localStorage.getItem('usuarioActivo');
+      let metodosDePagoUsuario = [];
+
+      if (correoActivo) {
+        const cuentaUsuario = JSON.parse(localStorage.getItem('cuenta_' + correoActivo));
+        if (cuentaUsuario) {
+          document.getElementById('input-nombre').value = cuentaUsuario.nombre || "";
+          document.getElementById('input-correo').value = cuentaUsuario.correo || "";
+          document.getElementById('input-telefono').value = cuentaUsuario.telefono || "";
+          document.getElementById('input-direccion').value = cuentaUsuario.direccion || "";
+
+          if (cuentaUsuario.tarjetas) { metodosDePagoUsuario = cuentaUsuario.tarjetas; }
+        }
+      }
+
+      // SIEMPRE mostramos la opción de Transferencia Bancaria
+      let htmlPagos = `
+        <label class="pay-card-label" onclick="actualizarMetodoSeleccionado('Transferencia Bancaria')">
+          <!-- Marcada por defecto -->
+          <input type="radio" name="pago-radio" value="Transferencia Bancaria" checked>
+          <div class="pay-card">
+            <div class="radio-circle"></div>
+            <div class="pay-card-info">
+              <span class="pay-title">Transferencia Bancaria</span>
+              <span class="pay-desc">Transfiere directo a nuestra cuenta</span>
+            </div>
+          </div>
+          <!-- Datos que aparecen al seleccionar transferencia -->
+          <div class="bank-details">
+            <strong>Datos para transferencia:</strong><br>
+            Banco: Banco Estado<br>
+            Tipo: Cuenta RUT<br>
+            RUT: 12.345.678-9<br>
+            Nombre: Pedro Ramírez<br>
+            Correo: contacto@ejemplo.com<br>
+            <em>*Te recordaremos estos datos por WhatsApp al confirmar.</em>
+          </div>
+        </label>
+      `;
+
+      // Si el usuario tiene tarjetas guardadas, las agregamos a la lista
+      if (metodosDePagoUsuario.length > 0) {
+        metodosDePagoUsuario.forEach((metodo) => {
+          const numOculto = metodo.numero.length > 4 ? "**** " + metodo.numero.slice(-4) : "**** " + metodo.numero;
+          
+          htmlPagos += `
+            <label class="pay-card-label" onclick="actualizarMetodoSeleccionado('${metodo.tipo}: ${numOculto}')">
+              <input type="radio" name="pago-radio" value="${metodo.numero}">
+              <div class="pay-card">
+                <div class="radio-circle"></div>
+                <div class="pay-card-info">
+                  <span class="pay-title">${metodo.tipo} (${numOculto})</span>
+                  <span class="pay-desc">Titular: ${metodo.titular}</span>
+                </div>
+              </div>
+            </label>
+          `;
+        });
+      }
+
+      listaPagosDiv.innerHTML = htmlPagos;
+      // Definimos por defecto que el input oculto diga Transferencia
+      document.getElementById('metodo-pago-oculto').value = 'Transferencia Bancaria';
+    });
+
+    function actualizarMetodoSeleccionado(metodo) { document.getElementById('metodo-pago-oculto').value = metodo; }
+
+
+    // ====================================================================
+    // LA MAGIA: ANIMACIÓN DE PAGO Y ENVÍO A WSP/CORREO
+    // ====================================================================
+    document.getElementById('form-compra').addEventListener('submit', function(e) {
+      e.preventDefault(); 
+      
+      const formulario = this;
+      const numeroVendedor = "56932991546"; // <-- ¡REEMPLAZA ESTO POR TU NÚMERO DE WHATSAPP!
+      
+      document.getElementById('loading-screen').classList.add('active');
+      guardarPedidoEnHistorial();
+
+      setTimeout(() => {
+        document.getElementById('spinner-anim').style.display = 'none';
+        document.getElementById('success-anim').style.display = 'flex';
+        document.getElementById('loading-msg').textContent = '¡Pedido Confirmado con Éxito!';
+        document.getElementById('loading-submsg').textContent = 'Abriendo WhatsApp para coordinar...';
+        
+        let nombreCliente = document.querySelector('input[name="Nombre"]').value;
+        let direccionCli = document.querySelector('input[name="Direccion"]').value;
+        let metodoPago = document.getElementById('metodo-pago-oculto').value;
+        
+        let msjWsp = `Hola Servicios Ramírez! Acabo de confirmar mi pedido en la web. %0A%0A`;
+        msjWsp += `*Datos del Cliente:* %0A`;
+        msjWsp += `- Nombre: ${nombreCliente} %0A`;
+        msjWsp += `- Dirección: ${direccionCli} %0A`;
+        msjWsp += `- Método Seleccionado: ${metodoPago} %0A%0A`;
+        msjWsp += `*Mi Pedido:* %0A`;
+        
+        carritoGlobal.forEach(p => { msjWsp += `- ${p.nombre} %0A`; });
+        msjWsp += `%0A*TOTAL A PAGAR: $${formatP(totalGlobal)}*`;
+
+        if(metodoPago === 'Transferencia Bancaria') {
+          msjWsp += `%0A%0A_Por favor, envíame los datos para hacerte la transferencia._`;
+        }
+
+        localStorage.removeItem('carritoSVR');
+
+        const formData = new FormData(formulario);
+        fetch(formulario.action, {
+          method: 'POST',
+          body: formData,
+          headers: { 'Accept': 'application/json' }
+        }).then(response => {
+          setTimeout(() => {
+            window.open(`https://wa.me/${numeroVendedor}?text=${msjWsp}`, '_blank');
+            window.location.href = 'perfil.html';
+          }, 1500);
+        }).catch(error => {
+          setTimeout(() => {
+            window.open(`https://wa.me/${numeroVendedor}?text=${msjWsp}`, '_blank');
+            window.location.href = 'perfil.html';
+          }, 1500);
+        });
+
+      }, 3000); 
+    });
+
+    function guardarPedidoEnHistorial() {
+      const historial = JSON.parse(localStorage.getItem('historialPedidos')) || [];
+      const fechaHoy = new Date().toLocaleDateString('es-CL');
+      const idUnico = Math.floor(Math.random() * 90000) + 10000; 
+      const metodo = document.getElementById('metodo-pago-oculto').value;
+
+      const itemsParaHistorial = carritoGlobal.map(prod => {
+        return { nombre: prod.nombre, img: prod.imagen, cantidad: 1 };
+      });
+
+      const nuevoPedido = {
+        id: idUnico,
+        fecha: fechaHoy,
+        estado: 'Pendiente',
+        metodo: metodo,
+        total: totalGlobal,
+        items: itemsParaHistorial
+      };
+
+      historial.push(nuevoPedido);
+      localStorage.setItem('historialPedidos', JSON.stringify(historial));
+    }
+  </script>
+</body>
+</html>

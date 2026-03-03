@@ -1,0 +1,167 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Detalle de Producto | Servicios Ramírez</title>
+  <link href="https://fonts.googleapis.com/css2?family=Roboto:wght@300;400;700;900&display=swap" rel="stylesheet">
+  <style>
+    /* =========================================================
+       ESTILOS GENERALES
+       ========================================================= */
+    body { margin: 0; font-family: 'Roboto', sans-serif; background: #fff; color: #333; }
+    
+    /* HEADER CON CARRITO */
+    .header { 
+      background: #000; padding: 15px 5%; color: white; 
+      display: flex; justify-content: space-between; align-items: center; 
+      position: sticky; top: 0; z-index: 100;
+    }
+    .back-btn { color: white; text-decoration: none; font-weight: bold; font-size: 1.1rem; }
+    .back-btn:hover { color: #407ce8; }
+    
+    .cart-icon { position: relative; cursor: pointer; display: flex; align-items: center; gap: 5px; color: white; text-decoration: none; }
+    .cart-count { 
+      position: absolute; top: -10px; right: -15px; 
+      background: #e30613; color: white; font-size: 0.8rem; 
+      padding: 2px 8px; border-radius: 50%; font-weight: bold; 
+    }
+
+    /* =========================================================
+       CONTENEDOR DEL PRODUCTO
+       ========================================================= */
+    .detail-container { display: flex; flex-wrap: wrap; max-width: 1200px; margin: 50px auto; padding: 0 5%; gap: 50px; }
+    
+    .detail-img { flex: 1; min-width: 300px; text-align: center; background: #f5f5f7; padding: 40px; border-radius: 20px;}
+    .detail-img img { width: 100%; max-width: 500px; object-fit: contain; mix-blend-mode: multiply;}
+    
+    .detail-info { flex: 1; min-width: 300px; display: flex; flex-direction: column; justify-content: center; }
+    .cat { color: #e30613; font-weight: bold; text-transform: uppercase; font-size: 0.9rem; margin-bottom: 10px; }
+    .title { font-size: 2.5rem; font-weight: 900; margin-bottom: 20px; line-height: 1.1; }
+    .price { font-size: 2.5rem; font-weight: 700; margin-bottom: 30px; color: #000; }
+    
+    .btn-add { 
+      background: #407ce8; color: white; padding: 18px; border: none; 
+      font-size: 1.2rem; font-weight: bold; cursor: pointer; border-radius: 8px; 
+      margin-bottom: 15px; transition: 0.3s; width: 100%; box-shadow: 0 4px 15px rgba(64, 124, 232, 0.3);
+    }
+    .btn-add:hover { background: #2c5ca8; transform: translateY(-2px); }
+    .btn-pay {
+      background: #000; color: white; padding: 18px; border: none; 
+      font-size: 1.2rem; font-weight: bold; cursor: pointer; border-radius: 8px; 
+      margin-bottom: 30px; transition: 0.3s; width: 100%; display: block; text-align: center; text-decoration: none;
+    }
+    .btn-pay:hover { background: #333; }
+
+    .desc { font-size: 1.1rem; color: #666; line-height: 1.6; border-top: 1px solid #eee; padding-top: 20px;}
+
+    /* NOTIFICACIÓN FLOTANTE (Toast) */
+    .toast {
+      visibility: hidden; min-width: 250px; background-color: #333; color: #fff; 
+      text-align: center; border-radius: 8px; padding: 16px; position: fixed; 
+      z-index: 1000; left: 50%; bottom: 30px; transform: translateX(-50%); font-size: 1.1rem;
+    }
+    .toast.show { visibility: visible; animation: fadein 0.5s, fadeout 0.5s 2.5s; }
+    @keyframes fadein { from {bottom: 0; opacity: 0;} to {bottom: 30px; opacity: 1;} }
+    @keyframes fadeout { from {bottom: 30px; opacity: 1;} to {bottom: 0; opacity: 0;} }
+  </style>
+</head>
+<body>
+
+  <!-- HEADER CON BOTÓN DE VOLVER Y CARRITO -->
+  <div class="header">
+    <a href="tiendaSVR.html" class="back-btn">← Volver a la Tienda</a>
+    
+    <a href="tiendaSVR.html" class="cart-icon" title="Ir a la tienda para ver el carrito">
+      <svg width="28" height="28" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="9" cy="21" r="1"></circle><circle cx="20" cy="21" r="1"></circle><path d="M1 1h4l2.68 13.39a2 2 0 0 0 2 1.61h9.72a2 2 0 0 0 2-1.61L23 6H6"></path></svg>
+      <span class="cart-count" id="cart-count-detail">0</span>
+    </a>
+  </div>
+
+  <!-- DETALLE DEL PRODUCTO -->
+  <div class="detail-container">
+    <div class="detail-img">
+      <img id="prod-img" src="" alt="Producto">
+    </div>
+    <div class="detail-info">
+      <div class="cat" id="prod-cat">Categoría</div>
+      <h1 class="title" id="prod-title">Cargando producto...</h1>
+      <div class="price" id="prod-price">$0</div>
+      
+      <!-- BOTONES DE ACCIÓN -->
+      <button class="btn-add" onclick="agregarAlCarritoDesdeDetalle()">Agregar al Carrito 🛒</button>
+      <a href="checkout.html" class="btn-pay">Ir a Pagar Ahora</a>
+      
+      <div class="desc" id="prod-desc">
+        Producto original distribuido por Servicios Ramírez. Cuenta con garantía y soporte técnico especializado.
+      </div>
+    </div>
+  </div>
+
+  <!-- MENSAJE FLOTANTE -->
+  <div id="toast" class="toast">¡Producto agregado al carrito!</div>
+
+  <script>
+    // Formateador de precio (10000 -> 10.000)
+    function formatP(num) { return num.toString().replace(/\B(?=(\d{3})+(?!\d))/g, "."); }
+
+    let productoActual = null;
+
+    // ==========================================
+    // 1. CARGAR DATOS DEL PRODUCTO
+    // ==========================================
+    document.addEventListener("DOMContentLoaded", () => {
+      const prodGuardado = localStorage.getItem('productoSeleccionado');
+      
+      if (prodGuardado) {
+        productoActual = JSON.parse(prodGuardado);
+        document.getElementById('prod-img').src = productoActual.imagen;
+        document.getElementById('prod-cat').textContent = productoActual.categoria;
+        document.getElementById('prod-title').textContent = productoActual.nombre;
+        document.getElementById('prod-price').textContent = '$' + formatP(productoActual.precio);
+      } else {
+        document.getElementById('prod-title').textContent = "No se ha seleccionado ningún producto.";
+      }
+
+      // Actualizar el número del carrito apenas carga la página
+      actualizarContador();
+    });
+
+    // ==========================================
+    // 2. AGREGAR AL CARRITO (SIN SALIR DE LA PÁGINA)
+    // ==========================================
+    function agregarAlCarritoDesdeDetalle() {
+      if(!productoActual) return;
+      
+      // Rescata el carrito existente o crea uno nuevo vacío
+      let carrito = JSON.parse(localStorage.getItem('carritoSVR')) || [];
+      
+      // Mete el producto al final de la lista
+      carrito.push(productoActual);
+      
+      // Guarda la lista actualizada en el navegador
+      localStorage.setItem('carritoSVR', JSON.stringify(carrito));
+      
+      // Actualiza el numerito rojo de arriba
+      actualizarContador();
+      
+      // Muestra el mensaje de éxito
+      mostrarAviso();
+    }
+
+    // ==========================================
+    // 3. FUNCIONES EXTRA (Contador y Aviso)
+    // ==========================================
+    function actualizarContador() {
+      let carrito = JSON.parse(localStorage.getItem('carritoSVR')) || [];
+      document.getElementById('cart-count-detail').textContent = carrito.length;
+    }
+
+    function mostrarAviso() {
+      var toast = document.getElementById("toast");
+      toast.className = "toast show";
+      setTimeout(function(){ toast.className = toast.className.replace("show", ""); }, 3000);
+    }
+  </script>
+</body>
+</html>

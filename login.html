@@ -3,219 +3,264 @@
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>Iniciar sesión</title>
+  <title>Acceso | Servicios Ramírez</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Roboto:wght@300;400;500;700&display=swap" rel="stylesheet">
+  
   <style>
-
+    /* =========================================
+       DISEÑO DEL LOGIN
+       ========================================= */
+    :root {
+      --primary-color: #000000;
+      --accent-color: #e30613; 
+      --bg-color: #f5f5f7;
+      --text-color: #1d1d1f;
+    }
+    * { margin: 0; padding: 0; box-sizing: border-box; font-family: 'Roboto', sans-serif; }
+    
     body {
-      margin: 0;
-      background: #f1f2f6;
-      font-family: Arial, sans-serif;
-    }
-
-    /* NAV BAR (TÚ DESPUÉS LO EDITAS) */
-    .nav {
-      width: 100%;
-      height: 70px;
-      background: #000;
+      background-color: var(--primary-color);
       display: flex;
+      justify-content: center;
       align-items: center;
-      justify-content: right;
-      padding-right: 40px;
-      gap: 30px;
+      min-height: 100vh;
+      /* Fondo oscuro elegante */
+      background-image: radial-gradient(circle at center, #222 0%, #000 100%);
     }
 
-    .nav div {
-      color: white;
-      font-size: 18px;
-      cursor: pointer;
-    }
-
-    /* Caja central */
-    .login-box {
-      width: 480px;
-      background: #2c2f3a;
-      color: white;
+    .auth-container {
+      background: #fff;
+      width: 100%;
+      max-width: 400px;
       padding: 40px;
-      margin: 120px auto;
-      border-radius: 4px;
-      text-align: left;
+      border-radius: 12px;
+      box-shadow: 0 10px 30px rgba(0,0,0,0.8);
+      text-align: center;
     }
 
-    .login-box h2 {
-      font-size: 26px;
-      font-weight: 400;
-      margin-bottom: 10px;
+    .logo { width: 160px; margin-bottom: 25px; }
+
+    /* Animación para cambiar entre login y registro */
+    .form-box { display: none; animation: fadeIn 0.4s ease; }
+    .form-box.active { display: block; }
+
+    @keyframes fadeIn {
+      from { opacity: 0; transform: translateY(10px); }
+      to { opacity: 1; transform: translateY(0); }
     }
 
-    .sub {
-      margin-bottom: 25px;
-      opacity: 0.8;
+    h2 { font-size: 1.5rem; margin-bottom: 20px; color: var(--primary-color); }
+    
+    .input-group { margin-bottom: 15px; text-align: left; }
+    .input-group label { display: block; font-size: 0.85rem; font-weight: 500; margin-bottom: 5px; color: #555; }
+    .input-group input {
+      width: 100%; padding: 12px; border: 1px solid #ccc; border-radius: 8px;
+      font-size: 1rem; outline: none; transition: border-color 0.3s;
     }
+    .input-group input:focus { border-color: var(--accent-color); }
 
-    .label {
-      margin-top: 20px;
-      font-size: 14px;
+    button[type="submit"] {
+      width: 100%; padding: 14px; background-color: var(--primary-color); color: #fff;
+      border: none; border-radius: 8px; font-size: 1rem; font-weight: bold; cursor: pointer;
+      margin-top: 10px; transition: background 0.3s;
     }
+    button[type="submit"]:hover { background-color: var(--accent-color); }
 
-    input {
-      width: 95%;
-      margin-top: 8px;
-      padding: 12px;
-      border: none;
-      border-radius: 2px;
-      font-size: 14px;
-    }
-
-    .btn {
-      background: #3f6be0;
-      color: white;
-      border: none;
-      padding: 12px 25px;
-      border-radius: 3px;
-      cursor: pointer;
-      font-size: 16px;
-      margin-top: 25px;
-    }
-
-    .btn:hover {
-      background: #335bc5;
-    }
-
-    /* FOOTER */
-    .footer {
-      margin-top: 130px;
-      background: #000;
-      color: white;
-      padding: 40px 80px;
-      display: flex;
-      justify-content: space-between;
-      flex-wrap: wrap;
-    }
-
-    .footer-col {
-      width: 260px;
-    }
-
-    .footer-col h4 {
-      margin-bottom: 15px;
-      font-weight: 500;
-    }
-
-    .footer-col div {
-      margin: 6px 0;
-      font-size: 14px;
-      opacity: 0.8;
-      cursor: pointer;
-    }
-    /* 1. Quitar las viñetas (puntos) */
-.footer-section ul {
-    list-style: none; /* Esto elimina los puntos/viñetas */
-    padding-left: 0; /* Esto elimina el espacio que las viñetas ocupaban a la izquierda */
-}
-
-/* 2. Estilizar los enlaces (color y subrayado) */
-.footer-section ul li a {
-    color: white; /* Por ejemplo, cambiar el color a blanco para que coincida con el título */
-    text-decoration: none; /* Esto quita el subrayado */
-    display: block; /* Hace que el enlace ocupe todo el ancho del li */
-    padding: 2px 0; /* Agrega un pequeño espacio vertical entre los enlaces */
-}
-
-/* 3. Estilo al pasar el mouse (hover) para mejorar la interacción */
-.footer-section ul li a:hover {
-    color: #f0f0f0; /* Un blanco ligeramente diferente para el efecto */
-    text-decoration: underline; /* Puedes volver a poner el subrayado solo al pasar el mouse */
-}
-.boton {
-  display: inline-block;
-  padding: 10px 20px;
-  background-color: #007BFF;
-  color: white;
-  text-decoration: none;
-  border-radius: 5px;
-  cursor: pointer;
-}
-
-.boton:hover {
-  background-color: #0056b3;
-}
-
+    .switch-form { margin-top: 20px; font-size: 0.9rem; color: #666; }
+    .switch-form a { color: var(--accent-color); font-weight: bold; text-decoration: none; cursor: pointer; }
+    .switch-form a:hover { text-decoration: underline; }
+    
+    .btn-volver { display: inline-block; margin-top: 20px; font-size: 0.85rem; color: #888; text-decoration: none; }
+    .btn-volver:hover { color: var(--primary-color); }
   </style>
 </head>
 <body>
 
-  <!-- NAV SUPERIOR -->
-  <div class="nav">
-  <a href="cuenta.html">crea tu cuenta</a>
-    <div></div>
-    <div></div>
-    <div></div>
-  </div>
-  <div class="header-container">
-      <div class="logo">
-        <img src="logo-opcion4.svg" alt="servicios Ramirez" />
-      </div>
-
-  <!-- CAJA CENTRAL -->
- <div class="login-box">
-  <h2>Ingrese su dirección de correo electrónico</h2>
-  <div class="sub">Usuario o e-mail</div>
-
-  <div class="label">Usuario o e-mail</div>
-  <input id="input-usuario" type="text" placeholder="ejemplo@correo.com">
-
-  <div class="label">Contraseña</div>
-  <input type="password" placeholder="Ingresa tu contraseña">
-
-  <button class="btn" id="btn-continuar">Continuar</button>
-</div>
-
-  <!-- FOOTER -->
-  <div class="footer">
-
+  <div class="auth-container">
     
+    <img src="logo-opcion4.svg" alt="Servicios Ramírez" class="logo" onerror="this.src='https://upload.wikimedia.org/wikipedia/commons/thumb/c/c4/Sony_logo.svg/1200px-Sony_logo.svg.png'">
 
-<div class="footer-section">
-        <h4>Compra Online</h4>
-        <ul>
-          <li><a href="formulario.html">Servicio al cliente</a></li>
-          <li><a href="https://wa.me/56932991546">Ayuda Ramirez Store</a></li>
-          <li><a href="pagina de calidad de producto.html">Calidad del Producto</a></li>
-        </ul>
+    <!-- =========================================
+         PANTALLA: INICIAR SESIÓN
+         ========================================= -->
+    <form id="login-form" class="form-box active">
+      <h2>Iniciar Sesión</h2>
+      
+      <div class="input-group">
+        <label>Correo Electrónico / Usuario</label>
+        <input type="text" id="log-correo" required placeholder="correo@ejemplo.com" autocomplete="off">
       </div>
+      
+      <div class="input-group">
+        <label>Contraseña</label>
+        <input type="password" id="log-pass" required placeholder="Ingresa tu contraseña">
+      </div>
+      
+      <button type="submit" id="btn-entrar">Entrar a mi cuenta</button>
+      
+      <div class="switch-form">
+        ¿No tienes cuenta? <a id="btn-to-register">Regístrate aquí</a>
+      </div>
+    </form>
 
-    <div class="footer-section">
-        <h4>Comunidad</h4>
-        <ul>
-          <li><a href="#">Comunidad Ramirez</a></li>
-          <li><a href="#">videos twich</a></li>
-          <li><a href="quienes_somos.html">Quienes somos </a></li>
-        </ul>
+    <!-- =========================================
+         PANTALLA: CREAR CUENTA
+         ========================================= -->
+    <form id="register-form" class="form-box">
+      <h2>Crear Cuenta</h2>
+      
+      <div class="input-group">
+        <label>Nombre Completo</label>
+        <input type="text" id="reg-nombre" required placeholder="Ej: Juan Pérez">
       </div>
+      
+      <div class="input-group">
+        <label>Correo Electrónico</label>
+        <input type="email" id="reg-correo" required placeholder="correo@ejemplo.com">
+      </div>
+      
+      <div class="input-group">
+        <label>Crea una Contraseña</label>
+        <input type="password" id="reg-pass" required placeholder="Mínimo 6 caracteres" minlength="6">
+      </div>
+      
+      <button type="submit">Registrarme</button>
+      
+      <div class="switch-form">
+        ¿Ya tienes cuenta? <a id="btn-to-login">Inicia sesión</a>
+      </div>
+    </form>
 
-    <div class="footer-section">
-        <h4>Noticias e Información</h4>
-        <ul>
-          <li><a href="#">Información Corporativa</a></li>
-          <li><a href="#">Centro de Prensa</a></li>
-          <li><a href="#">Los Ramirez y el Medio Ambiente</a></li>
-        </ul>
-      </div>
+    <a href="index.html" class="btn-volver">← Volver a la tienda</a>
 
   </div>
-<script>
-  const btnContinuar = document.getElementById('btn-continuar');
-  const inputUsuario = document.getElementById('input-usuario');
 
-  btnContinuar.addEventListener('click', () => {
-    const usuario = inputUsuario.value.trim();
-    if (!usuario) return;              // si está vacío, no guarda
+  <script>
+    const loginForm = document.getElementById('login-form');
+    const registerForm = document.getElementById('register-form');
+    
+    // Cambiar entre Login y Registro
+    document.getElementById('btn-to-register').addEventListener('click', () => {
+      loginForm.classList.remove('active');
+      registerForm.classList.add('active');
+    });
 
-    localStorage.setItem('usuario', usuario);  // guarda el nombre
-    window.location.href = 'index.html';       // tu página principal
-  });
-</script>
+    document.getElementById('btn-to-login').addEventListener('click', () => {
+      registerForm.classList.remove('active');
+      loginForm.classList.add('active');
+    });
 
+    // =========================================
+    // 1. SISTEMA DE REGISTRO PARA CLIENTES
+    // =========================================
+    registerForm.addEventListener('submit', (e) => {
+      e.preventDefault();
+      
+      const nombre = document.getElementById('reg-nombre').value.trim();
+      const correo = document.getElementById('reg-correo').value.trim().toLowerCase();
+      const pass = document.getElementById('reg-pass').value.trim();
+
+      // Verificar si el correo ya existe
+      if (localStorage.getItem('cuenta_' + correo)) {
+        alert("⚠️ Este correo ya está registrado. Por favor, inicia sesión.");
+        return;
+      }
+
+      // Crear objeto con los datos del usuario
+      const cuenta = {
+        nombre: nombre,
+        correo: correo,
+        contrasena: pass, 
+        telefono: "", 
+        direccion: ""
+      };
+
+      // Guardar en el navegador
+      localStorage.setItem('cuenta_' + correo, JSON.stringify(cuenta));
+      
+      alert('¡Cuenta creada con éxito! 🎉\nAhora inicia sesión con tu correo y contraseña.');
+      
+      registerForm.reset();
+      
+      // Volver a la pantalla de login
+      registerForm.classList.remove('active');
+      loginForm.classList.add('active');
+    });
+
+    // =========================================
+    // 2. SISTEMA DE LOGIN DUAL (ADMIN / CLIENTE)
+    // =========================================
+    loginForm.addEventListener('submit', (e) => {
+      e.preventDefault();
+      
+      const correoIngresado = document.getElementById('log-correo').value.trim().toLowerCase();
+      const passIngresada = document.getElementById('log-pass').value.trim();
+      const botonEntrar = document.getElementById('btn-entrar');
+
+      // ----------------------------------------------
+      // ACCESO DIRECTO PARA ADMINISTRADOR (TÚNEL SECRETO)
+      // ----------------------------------------------
+      if (correoIngresado === 'admin' && passIngresada === 'admin123') {
+        botonEntrar.innerText = "Verificando...";
+        botonEntrar.style.backgroundColor = "#28a745"; // Verde de éxito
+        
+        setTimeout(() => {
+          window.location.href = "admin.html"; // Redirige a tu panel
+        }, 1000);
+        return; 
+      }
+
+      // ----------------------------------------------
+      // ACCESO PARA CLIENTES REGISTRADOS
+      // ----------------------------------------------
+      const cuentaGuardada = localStorage.getItem('cuenta_' + correoIngresado);
+
+      if (!cuentaGuardada) {
+        alert("❌ Error: No existe ninguna cuenta registrada con este correo.");
+        return; 
+      }
+
+      const cuenta = JSON.parse(cuentaGuardada);
+
+      if (passIngresada !== cuenta.contrasena) {
+        alert("❌ Error: Contraseña incorrecta. Inténtalo de nuevo.");
+        return; 
+      }
+
+      // --- REGISTRO DE DISPOSITIVO Y HORA ---
+      const esCelular = /Mobi|Android/i.test(navigator.userAgent);
+      const dispositivo = esCelular ? "📱 Teléfono Móvil" : "💻 Computadora";
+      
+      let navegador = "Navegador Desconocido";
+      if (navigator.userAgent.includes("Chrome")) navegador = "Google Chrome";
+      else if (navigator.userAgent.includes("Safari")) navegador = "Safari";
+      else if (navigator.userAgent.includes("Firefox")) navegador = "Firefox";
+
+      const fechaHora = new Date().toLocaleString('es-CL');
+
+      // Actualizar último acceso del cliente
+      cuenta.ultimoAcceso = {
+        dispositivo: dispositivo,
+        navegador: navegador,
+        fecha: fechaHora
+      };
+      
+      localStorage.setItem('cuenta_' + correoIngresado, JSON.stringify(cuenta));
+      
+      // Guardar sesión activa temporalmente
+      localStorage.setItem('usuarioActivo', cuenta.correo); 
+      localStorage.setItem('usuario', cuenta.nombre); 
+      
+      botonEntrar.innerText = "Entrando...";
+      
+      // Enviar al cliente a la página principal de la tienda (o donde prefieras)
+      setTimeout(() => {
+        window.location.href = 'perfil.html'; 
+      }, 1000);
+    });
+
+  </script>
 </body>
 </html>
-

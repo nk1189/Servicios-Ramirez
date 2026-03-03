@@ -1,0 +1,380 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>TV y Video | SVR Store</title>
+  <link href="https://fonts.googleapis.com/css2?family=Roboto:wght@300;400;500;700;900&display=swap" rel="stylesheet">
+  
+  <style>
+    /* =========================================
+       VARIABLES Y RESET
+       ========================================= */
+    :root {
+      --svr-black: #000000; --svr-dark: #1e1e1e; --svr-white: #ffffff;
+      --svr-gray-bg: #f5f5f5; --svr-blue: #2d68ff; --svr-orange: #ff5722;
+      --text-main: #333333; --text-muted: #666666; --border-color: #e0e0e0;
+    }
+    * { margin: 0; padding: 0; box-sizing: border-box; font-family: 'Roboto', sans-serif; }
+    body { background-color: var(--svr-white); color: var(--text-main); overflow-x: hidden; }
+    a { text-decoration: none; color: inherit; }
+    ul { list-style: none; }
+    button { cursor: pointer; border: none; background: none; }
+
+    /* =========================================
+       HEADER Y MENÚ HAMBURGUESA
+       ========================================= */
+    .main-header {
+      background: var(--svr-black); padding: 15px 5%; display: flex; justify-content: space-between; align-items: center; position: sticky; top: 0; z-index: 1000;
+    }
+    
+    .header-left { display: flex; align-items: center; gap: 20px; }
+    .hamburger-btn { display: flex; flex-direction: column; gap: 5px; padding: 5px; cursor: pointer; }
+    .hamburger-btn span { display: block; width: 25px; height: 3px; background-color: var(--svr-white); transition: 0.3s;}
+    
+    .header-logo { font-size: 1.8rem; font-weight: 900; color: var(--svr-white); letter-spacing: 2px;}
+    
+    .nav-links { display: flex; gap: 30px; color: white; font-size: 0.9rem; font-weight: 500;}
+    .nav-links a:hover { color: var(--svr-blue); }
+
+    .header-icons { display: flex; gap: 15px; color: white;}
+    .icon-cart { position: relative; font-size: 1.2rem; cursor: pointer; }
+    .cart-counter { position: absolute; top: -8px; right: -10px; border-radius: 50%; width: 18px; height: 18px; font-size: 0.65rem; display: flex; align-items: center; justify-content: center; font-weight: bold; background: var(--svr-orange); color: white; }
+
+    /* =========================================
+       MENÚ LATERAL (SIDEBAR NAVEGACIÓN GLOBAL)
+       ========================================= */
+    .nav-sidebar { position: fixed; top: 0; left: -320px; width: 320px; height: 100vh; background: var(--svr-dark); color: white; z-index: 5000; transition: left 0.4s cubic-bezier(0.4, 0, 0.2, 1); box-shadow: 5px 0 15px rgba(0,0,0,0.5); display: flex; flex-direction: column; }
+    .nav-sidebar.open { left: 0; }
+    .sidebar-header { padding: 20px; border-bottom: 1px solid #333; display: flex; justify-content: space-between; align-items: center; background: var(--svr-black);}
+    .sidebar-header h2 { font-size: 1.2rem; font-weight: 700; letter-spacing: 1px;}
+    .btn-close-sidebar { color: white; font-size: 2rem; line-height: 1; }
+    .sidebar-menu { padding: 10px 0; overflow-y: auto; }
+    .sidebar-menu li a { display: block; padding: 15px 25px; font-size: 1rem; font-weight: 400; border-bottom: 1px solid #222; transition: 0.2s; }
+    .sidebar-menu li a:hover { background: #333; padding-left: 30px; color: var(--svr-blue); }
+    .sidebar-menu li.highlight a { color: var(--svr-orange); font-weight: 700; }
+
+    /* BREADCRUMB Y TITULO */
+    .breadcrumb-bar { background: var(--svr-gray-bg); padding: 15px 5%; font-size: 0.85rem; color: var(--text-muted); border-bottom: 1px solid var(--border-color);}
+    .category-header { padding: 30px 5%; background: white; border-bottom: 1px solid var(--border-color); display: flex; justify-content: space-between; align-items: flex-end;}
+    .category-header h1 { font-size: 2.5rem; font-weight: 300; letter-spacing: -1px; color: var(--svr-black);}
+    .sort-box select { padding: 10px; border: 1px solid var(--border-color); outline: none; font-size: 0.9rem;}
+
+    /* LAYOUT Y FILTROS */
+    .store-layout { display: flex; max-width: 1400px; margin: 0 auto; padding: 40px 5%; gap: 40px; align-items: flex-start;}
+    .sidebar-filters { width: 250px; flex-shrink: 0; }
+    .filter-group { margin-bottom: 30px; border-bottom: 1px solid var(--border-color); padding-bottom: 20px;}
+    .filter-title { font-size: 1rem; font-weight: 700; margin-bottom: 15px; text-transform: uppercase;}
+    .filter-list li { margin-bottom: 10px; font-size: 0.9rem; color: var(--text-muted); display: flex; align-items: center; gap: 10px;}
+    
+    /* GRID PRODUCTOS (ESTILO TV) */
+    .products-area { flex: 1; }
+    .products-grid { display: grid; grid-template-columns: repeat(auto-fill, minmax(280px, 1fr)); gap: 20px; }
+
+    .sony-card { background: white; display: flex; flex-direction: column; cursor: pointer; position: relative; padding-bottom: 20px; border: 1px solid var(--border-color); transition: 0.3s;}
+    .sony-card:hover { box-shadow: 0 10px 20px rgba(0,0,0,0.1); border-color: var(--svr-black); z-index: 10;}
+    .card-badges { position: absolute; top: 10px; right: 10px; z-index: 2; width: 120px; text-align: right;}
+    .badge-alpha { background: #1e1e1e; color: white; width: 100%; text-align: center; font-size: 0.75rem; font-weight: 700; padding: 4px; margin-bottom: 5px; }
+    .badge-bravia { background: #0056b3; color: white; width: 100%; text-align: center; font-size: 0.75rem; font-weight: 700; padding: 4px; }
+    
+    .sony-img-box { width: 100%; height: 220px; display: flex; justify-content: center; align-items: center; padding: 20px; margin-bottom: 10px; background: #fdfdfd;}
+    .sony-img-box img { max-width: 100%; max-height: 100%; object-fit: contain; mix-blend-mode: multiply; transition: 0.3s;}
+    .sony-card:hover .sony-img-box img { transform: scale(1.05); }
+    .sony-info { padding: 0 20px; flex: 1; display: flex; flex-direction: column; pointer-events: none;} 
+    .sony-type { font-size: 0.7rem; color: var(--svr-blue); font-weight: 700; text-transform: uppercase; margin-bottom: 5px;}
+    .sony-title { font-size: 1rem; font-weight: 400; line-height: 1.4; margin-bottom: 8px; color: var(--svr-black);}
+    .sony-price-box { padding: 0 20px; margin-top: auto; border-top: 1px solid var(--svr-gray-bg); padding-top: 15px;}
+    .price-now { font-size: 1.5rem; font-weight: 700; color: var(--svr-black); margin-bottom: 2px;}
+    .sony-btn-add { background: var(--svr-black); color: white; padding: 12px; font-size: 0.9rem; font-weight: 700; margin: 15px 20px 0; opacity: 0; transition: 0.3s; text-align:center;}
+    .sony-card:hover .sony-btn-add { opacity: 1; }
+
+    /* MODAL DE DETALLE RÁPIDO */
+    .modal-overlay { position: fixed; inset: 0; background: rgba(0,0,0,0.7); z-index: 4000; display: none; align-items: center; justify-content: center; opacity: 0; transition: opacity 0.3s; }
+    .modal-overlay.active { display: flex; opacity: 1; }
+    .quick-view-box { background: white; width: 900px; max-width: 90%; height: 500px; display: flex; position: relative; border-radius: 4px; overflow: hidden; transform: scale(0.9); transition: transform 0.3s; box-shadow: 0 25px 50px rgba(0,0,0,0.5);}
+    .modal-overlay.active .quick-view-box { transform: scale(1); }
+    .qv-close { position: absolute; top: 15px; right: 20px; font-size: 2rem; cursor: pointer; color: #999; z-index: 10; line-height: 1;}
+    .qv-close:hover { color: black; }
+    .qv-img-section { width: 50%; background: #f9f9f9; display: flex; justify-content: center; align-items: center; padding: 40px; }
+    .qv-img-section img { max-width: 100%; max-height: 100%; object-fit: contain; mix-blend-mode: multiply; }
+    .qv-info-section { width: 50%; padding: 50px 40px; display: flex; flex-direction: column; overflow-y: auto;}
+    .qv-category { color: var(--svr-blue); font-size: 0.8rem; font-weight: 700; letter-spacing: 1px; margin-bottom: 10px; text-transform: uppercase;}
+    .qv-title { font-size: 1.8rem; font-weight: 700; color: var(--svr-black); margin-bottom: 10px; line-height: 1.2;}
+    .qv-sku { font-size: 0.8rem; color: #888; margin-bottom: 25px; padding-bottom: 25px; border-bottom: 1px solid var(--border-color);}
+    .qv-price { font-size: 2.2rem; font-weight: 900; color: #b73218; margin-bottom: 20px;}
+    .qv-desc { font-size: 0.95rem; color: var(--text-muted); line-height: 1.6; margin-bottom: 30px; flex: 1;}
+    .qv-btn-cart { background: var(--svr-orange); color: white; padding: 15px; font-size: 1.1rem; font-weight: 700; text-align: center; width: 100%; border-radius: 2px; transition: background 0.2s;}
+
+    /* CARRITO LATERAL Y OVERLAY GLOBAL */
+    .cart-drawer { position: fixed; top: 0; right: -400px; width: 100%; max-width: 400px; height: 100vh; background: white; z-index: 5000; transition: right 0.4s; display: flex; flex-direction: column; box-shadow: -5px 0 15px rgba(0,0,0,0.2);}
+    .cart-drawer.open { right: 0; }
+    .global-overlay { position: fixed; inset: 0; background: rgba(0,0,0,0.6); z-index: 4500; display: none; }
+    .global-overlay.active { display: block; }
+    .cart-header { padding: 20px; background: var(--svr-black); color: white; display: flex; justify-content: space-between; }
+    .cart-items { flex: 1; padding: 20px; overflow-y: auto; color: black; }
+    .cart-footer-btn { padding: 20px; background: var(--svr-gray-bg); border-top: 1px solid var(--border-color);}
+    .btn-checkout { background: var(--svr-orange); color: white; width: 100%; padding: 15px; text-align: center; display: block; font-weight: bold; }
+
+    @media (max-width: 900px) {
+      .store-layout { flex-direction: column; }
+      .sidebar-filters { width: 100%; display: flex; overflow-x: auto; gap: 20px; padding-bottom: 10px; border-bottom: none;}
+      .quick-view-box { flex-direction: column; height: 80vh; overflow-y: auto;}
+      .qv-img-section, .qv-info-section { width: 100%; }
+      .qv-img-section { height: 300px; }
+      .nav-links { display: none; } 
+    }
+  </style>
+</head>
+<body>
+
+  <!-- ==========================================
+       HEADER CON HAMBURGUESA
+       ========================================== -->
+  <header class="main-header">
+    <div class="header-left">
+      <button class="hamburger-btn" onclick="abrirMenu()">
+        <span></span><span></span><span></span>
+      </button>
+      <a href="index.html" class="header-logo">SVR</a>
+    </div>
+    
+    <nav class="nav-links">
+      <a href="index.html">Inicio</a>
+      <a href="camaras.html">Cámaras</a>
+      <a href="#" style="color: var(--svr-blue);">TV y Video</a>
+      <a href="audio.html">audifonos y audio</a>
+    </nav>
+
+    <div class="header-icons">
+      <div class="icon-cart" onclick="abrirCarrito()">
+        <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="9" cy="21" r="1"></circle><circle cx="20" cy="21" r="1"></circle><path d="M1 1h4l2.68 13.39a2 2 0 0 0 2 1.61h9.72a2 2 0 0 0 2-1.61L23 6H6"></path></svg>
+        <div class="cart-counter" id="cart-count">0</div>
+      </div>
+    </div>
+  </header>
+
+  <!-- ==========================================
+       MENÚ LATERAL (LAS 3 RAYAS)
+       ========================================== -->
+  <nav class="nav-sidebar" id="side-menu">
+    <div class="sidebar-header">
+      <h2>MENÚ SVR</h2>
+      <button class="btn-close-sidebar" onclick="cerrarPaneles()">×</button>
+    </div>
+    <ul class="sidebar-menu">
+      <li class="highlight"><a href="tiendaSVR.html">🏠 Volver al Inicio</a></li>
+      <li><a href="camaras.html">📷 Cámaras y Lentes</a></li>
+      <li><a href="#" style="color: var(--svr-blue); font-weight: bold;">📺 TV y Teatro en casa</a></li>
+      <li><a href="audio.html">🎧 Audio y Audífonos</a></li>
+      <li><a href="#">🎮 PlayStation & Gaming</a></li>
+      <li><a href="#">🛠️ Repuestos Oficiales</a></li>
+      <li style="margin-top:20px; border-top:1px solid #333;"><a href="perfil.html">👤 Mi Cuenta SVR</a></li>
+    </ul>
+  </nav>
+
+  <div class="breadcrumb-bar"><a href="index.html">Inicio</a> <span>></span> <strong style="color:black;">TV y Video</strong></div>
+  
+  <div class="category-header">
+    <div>
+      <h1>TV y Video SVR</h1>
+      <p style="color:var(--text-muted); margin-top:10px;">Descubre resoluciones 4K, 8K y tecnología OLED para tu hogar.</p>
+    </div>
+    <div class="sort-box">
+      <select id="ordenar" onchange="ordenarProductos()">
+        <option value="destacados">Ordenar por: Destacados</option>
+        <option value="menor">Precio: Menor a Mayor</option>
+        <option value="mayor">Precio: Mayor a Menor</option>
+      </select>
+    </div>
+  </div>
+
+  <main class="store-layout">
+    <aside class="sidebar-filters">
+      <!-- Filtros Específicos para Televisión -->
+      <div class="filter-group">
+        <div class="filter-title">Categorías Guardadas</div>
+        <ul class="filter-list">
+          <li><input type="checkbox" id="cat-todas" checked><label for="cat-todas">Mostrar Todo</label></li>
+        </ul>
+      </div>
+
+      <div class="filter-group">
+        <div class="filter-title">Tamaño de Pantalla</div>
+        <ul class="filter-list">
+          <li><input type="checkbox"><label>43" a 50"</label></li>
+          <li><input type="checkbox"><label>55" a 65"</label></li>
+          <li><input type="checkbox"><label>75" o más</label></li>
+        </ul>
+      </div>
+      
+      <div class="filter-group">
+        <div class="filter-title">Resolución</div>
+        <ul class="filter-list">
+          <li><input type="checkbox"><label>OLED 4K</label></li>
+          <li><input type="checkbox"><label>Mini LED 4K</label></li>
+          <li><input type="checkbox"><label>8K Ultra HD</label></li>
+        </ul>
+      </div>
+    </aside>
+    
+    <div class="products-area"><div class="products-grid" id="grid-tv"></div></div>
+  </main>
+
+  <!-- ==========================================
+       MODAL DE DETALLE DE PRODUCTO
+       ========================================== -->
+  <div class="modal-overlay" id="quick-view-modal">
+    <div class="quick-view-box">
+      <div class="qv-close" onclick="cerrarModal()">×</div>
+      <div class="qv-img-section"><img id="modal-img" src="" alt="Producto TV"></div>
+      <div class="qv-info-section">
+        <div class="qv-category" id="modal-cat">CATEGORÍA</div>
+        <h2 class="qv-title" id="modal-title">Nombre del Televisor</h2>
+        <div class="qv-sku" id="modal-sku">SKU: 000000</div>
+        <div class="qv-price" id="modal-price">$0</div>
+        <div class="qv-desc" id="modal-desc">Resolución y contraste sin igual para una experiencia de cine en casa.</div>
+        <button class="qv-btn-cart" id="modal-btn-add">AGREGAR AL CARRITO</button>
+      </div>
+    </div>
+  </div>
+
+  <!-- ==========================================
+       CARRITO LATERAL Y FONDO OSCURO GLOBAL
+       ========================================== -->
+  <div class="cart-drawer" id="side-cart">
+    <div class="cart-header"><h2>Mi Carrito SVR</h2><button onclick="cerrarPaneles()" style="color:white; font-size:1.5rem;">×</button></div>
+    <div class="cart-items" id="drawer-items"></div>
+    <div class="cart-footer-btn">
+      <div style="display:flex; justify-content:space-between; font-weight:bold; font-size:1.2rem; margin-bottom:15px; color:#000;"><span>Total:</span><span id="drawer-total">$0</span></div>
+      <a href="checkout.html" class="btn-checkout">IR A PAGAR</a>
+    </div>
+  </div>
+  
+  <div class="global-overlay" id="global-overlay" onclick="cerrarPaneles()"></div>
+
+  <script>
+    function formatP(num) { return num.toString().replace(/\B(?=(\d{3})+(?!\d))/g, "."); }
+
+    // PRODUCTOS DEMOSTRATIVOS DE TV
+    const tvDemo = [
+      { id: "XR-65A80L", nombre: "Smart TV 65\" OLED 4K UHD BRAVIA XR", precio: 1599990, categoria: "Televisión", descripcion: "Procesador Cognitivo XR. Colores puros y negros absolutos en una pantalla OLED espectacular. Sonido Acoustic Surface Audio+.", imagen: "https://www.sony.cl/image/0b919d3bdf86714cf852dd3d2a02422d?fmt=pjpeg&wid=330&bgcolor=FFFFFF&bgc=FFFFFF" },
+      { id: "HT-A9000", nombre: "Barra de Sonido Premium BRAVIA Theater Bar 9", precio: 899990, categoria: "Audio TV", descripcion: "Sonido envolvente Dolby Atmos y 360 Spatial Sound Mapping. Perfecta combinación con tu TV Bravia.", imagen: "https://www.sony.cl/image/74fb44c20d7ee85cc4ec2bdfbd6f2122?fmt=pjpeg&wid=330&bgcolor=FFFFFF&bgc=FFFFFF" },
+      { id: "KD-55X85L", nombre: "Smart TV 55\" Full Array LED 4K UHD", precio: 749990, categoria: "Televisión", descripcion: "Contraste realista con tecnología Full Array LED y colores vibrantes de Triluminos Pro.", imagen: "https://www.sony.cl/image/1bc4ec9aeb2405cb6b38c20847b2c589?fmt=pjpeg&wid=330&bgcolor=FFFFFF&bgc=FFFFFF" }
+    ];
+
+    let productosAmostrar = [];
+
+    document.addEventListener("DOMContentLoaded", () => {
+      let inventarioAdmin = JSON.parse(localStorage.getItem('inventarioSVR')) || [];
+      
+      // FILTRO MÁGICO: Extrae del admin solo productos que digan tv, television, video, pantalla, soundbar
+      productosAmostrar = inventarioAdmin.filter(prod => {
+        let cat = (prod.categoria || '').toLowerCase();
+        return cat.includes('tv') || cat.includes('televisión') || cat.includes('television') || cat.includes('video') || cat.includes('pantalla');
+      });
+
+      // Si no has creado TVs en tu admin, carga la demo
+      if(productosAmostrar.length === 0) productosAmostrar = tvDemo;
+      
+      renderizarGrid(productosAmostrar);
+      actualizarSideCart();
+    });
+
+    function renderizarGrid(lista) {
+      const grid = document.getElementById('grid-tv');
+      if(lista.length === 0) { grid.innerHTML = '<div style="padding:50px;">No hay productos en esta categoría.</div>'; return; }
+      let html = '';
+      lista.forEach((prod) => {
+        
+        // Etiqueta visual dependiente de si es TV o Audio
+        let esAudio = (prod.categoria || '').toLowerCase().includes('audio');
+        let tagNombre = esAudio ? 'HOME THEATER' : 'BRAVIA XR';
+        let bgColor = esAudio ? '#1e1e1e' : '#0056b3';
+
+        let prodJSON = encodeURIComponent(JSON.stringify(prod));
+        
+        html += `
+          <div class="sony-card" onclick="abrirModalDetalle('${prodJSON}')">
+            <div class="card-badges"><div class="badge-bravia" style="background:${bgColor}">${tagNombre}</div></div>
+            <div class="sony-img-box"><img src="${prod.imagen}" onerror="this.src='https://via.placeholder.com/300'"></div>
+            <div class="sony-info">
+              <div class="sony-type">${prod.categoria ? prod.categoria.toUpperCase() : 'TELEVISIÓN'}</div>
+              <h3 class="sony-title">${prod.nombre}</h3>
+              <div class="sony-sku">SKU: ${prod.id}</div>
+            </div>
+            <div class="sony-price-box"><div class="price-now">$${formatP(prod.precio)}</div></div>
+            <button class="sony-btn-add" onclick="event.stopPropagation(); agregarAlCarritoLocal('${prod.id}', '${prod.nombre}', ${prod.precio}, '${prod.imagen}')">AGREGAR RÁPIDO</button>
+          </div>
+        `;
+      });
+      grid.innerHTML = html;
+    }
+
+    // ===============================================
+    // LÓGICA DE MENÚS Y MODAL
+    // ===============================================
+    function abrirMenu() { document.getElementById('global-overlay').classList.add('active'); document.getElementById('side-menu').classList.add('open'); }
+    function abrirCarrito() { actualizarSideCart(); document.getElementById('global-overlay').classList.add('active'); document.getElementById('side-cart').classList.add('open'); }
+    function cerrarPaneles() { document.getElementById('global-overlay').classList.remove('active'); document.getElementById('side-cart').classList.remove('open'); document.getElementById('side-menu').classList.remove('open');}
+
+    function abrirModalDetalle(prodString) {
+      let prod = JSON.parse(decodeURIComponent(prodString)); 
+      document.getElementById('modal-img').src = prod.imagen;
+      document.getElementById('modal-title').innerText = prod.nombre;
+      document.getElementById('modal-sku').innerText = 'SKU: ' + prod.id;
+      document.getElementById('modal-cat').innerText = prod.categoria ? prod.categoria.toUpperCase() : 'TELEVISIÓN';
+      document.getElementById('modal-price').innerText = '$' + formatP(prod.precio);
+      document.getElementById('modal-desc').innerText = prod.descripcion ? prod.descripcion : "Resolución y contraste sin igual para una experiencia de cine en casa con SVR Store.";
+      
+      let btnCart = document.getElementById('modal-btn-add');
+      btnCart.onclick = function() {
+        agregarAlCarritoLocal(prod.id, prod.nombre, prod.precio, prod.imagen);
+        cerrarModal(); 
+      };
+      document.getElementById('quick-view-modal').classList.add('active');
+    }
+
+    function cerrarModal() { document.getElementById('quick-view-modal').classList.remove('active'); }
+    document.getElementById('quick-view-modal').addEventListener('click', function(e) { if(e.target === this) cerrarModal(); });
+
+    // ===============================================
+    // CARRITO Y ORDENAMIENTO COMPARTIDO
+    // ===============================================
+    function ordenarProductos() {
+      let orden = document.getElementById('ordenar').value;
+      let lista = [...productosAmostrar]; 
+      if(orden === 'menor') lista.sort((a,b) => a.precio - b.precio);
+      else if(orden === 'mayor') lista.sort((a,b) => b.precio - a.precio);
+      renderizarGrid(lista);
+    }
+
+    function agregarAlCarritoLocal(id, nombre, precio, imagen) {
+      let carrito = JSON.parse(localStorage.getItem('carritoSVR')) || [];
+      carrito.push({ id, nombre, precio, imagen });
+      localStorage.setItem('carritoSVR', JSON.stringify(carrito));
+      abrirCarrito();
+    }
+
+    function actualizarSideCart() {
+      let carrito = JSON.parse(localStorage.getItem('carritoSVR')) || [];
+      const contenedor = document.getElementById('drawer-items');
+      document.getElementById('cart-count').textContent = carrito.length;
+      if(carrito.length === 0) { contenedor.innerHTML = '<p style="text-align:center; color:#888; margin-top:50px;">Tu carrito está vacío.</p>'; document.getElementById('drawer-total').textContent = '$0'; return; }
+      let html = ''; let subtotal = 0;
+      carrito.forEach((item, index) => {
+        subtotal += parseInt(item.precio);
+        html += `<div style="display:flex; gap:15px; margin-bottom:15px; border-bottom:1px solid #eee; padding-bottom:15px;"><img src="${item.imagen}" style="width:60px; height:60px; object-fit:contain; background:#f5f5f5;"><div style="flex:1;"><div style="font-size:0.9rem; margin-bottom:5px; font-weight:500; color:black;">${item.nombre}</div><div style="font-weight:700; color:var(--svr-blue);">$${formatP(item.precio)}</div><span style="color:red; font-size:0.8rem; cursor:pointer;" onclick="eliminarDelCarrito(${index})">Quitar</span></div></div>`;
+      });
+      contenedor.innerHTML = html;
+      document.getElementById('drawer-total').textContent = '$' + formatP(subtotal);
+    }
+
+    function eliminarDelCarrito(index) {
+      let carrito = JSON.parse(localStorage.getItem('carritoSVR'));
+      carrito.splice(index, 1);
+      localStorage.setItem('carritoSVR', JSON.stringify(carrito));
+      actualizarSideCart();
+    }
+  </script>
+</body>
+</html>

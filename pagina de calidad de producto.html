@@ -1,152 +1,292 @@
 <!DOCTYPE html>
 <html lang="es">
 <head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Calidad Garantizada - Servicios Ramírez</title>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Calidad Garantizada | Servicios Ramírez</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Roboto:wght@300;400;500;700&display=swap" rel="stylesheet">
 
-    <style>
-        body {
-            margin: 0;
-            padding: 0;
-            font-family: Arial, sans-serif;
-            background-color: #ffffff;
-            color: #000;
-        }
+  <style>
+    /* =========================================
+       VARIABLES Y ESTILOS BASE
+       ========================================= */
+    :root {
+      --primary-color: #000000;
+      --accent-color: #e30613; 
+      --bg-light: #f5f5f7;
+      --bg-white: #ffffff;
+      --text-main: #1d1d1f;
+      --text-muted: #86868b;
+      --border-color: #e5e5e5;
+    }
 
-        /* Encabezado estilo Sony */
-        header {
-            background-color: #000;
-            padding: 25px;
-            text-align: center;
-        }
+    * { margin: 0; padding: 0; box-sizing: border-box; font-family: 'Roboto', sans-serif; }
+    body { background-color: var(--bg-white); color: var(--text-main); line-height: 1.6; overflow-x: hidden; }
+    a { text-decoration: none; color: inherit; }
 
-        header h1 {
-            color: white;
-            margin: 0;
-            font-size: 30px;
-            letter-spacing: 1px;
-        }
+    /* =========================================
+       HEADER 
+       ========================================= */
+    .header { background: var(--bg-white); position: sticky; top: 0; z-index: 100; border-bottom: 1px solid var(--border-color); }
+    .header-container { display: flex; justify-content: space-between; align-items: center; padding: 1rem 5%; max-width: 1200px; margin: 0 auto; }
+    .logo img { height: 35px; cursor: pointer; }
+    .btn-volver { display: flex; align-items: center; gap: 8px; font-weight: 500; color: var(--text-muted); font-size: 0.95rem; transition: color 0.3s; }
+    .btn-volver:hover { color: var(--accent-color); }
 
-        /* Contenido */
-        .contenedor {
-            max-width: 1000px;
-            margin: auto;
-            padding: 40px 20px;
-            text-align: center;
-        }
+    /* =========================================
+       HERO SECTION (Oscuro y Premium)
+       ========================================= */
+    .hero-calidad {
+      background: var(--primary-color);
+      color: var(--bg-white);
+      text-align: center;
+      padding: 6rem 5% 5rem;
+      position: relative;
+    }
+    .hero-calidad h1 {
+      font-size: 3.5rem;
+      font-weight: 700;
+      letter-spacing: -1px;
+      margin-bottom: 1.5rem;
+      background: linear-gradient(90deg, #fff, #aaa);
+      -webkit-background-clip: text;
+      -webkit-text-fill-color: transparent;
+    }
+    .hero-calidad p {
+      font-size: 1.25rem;
+      color: #a1a1a6;
+      max-width: 700px;
+      margin: 0 auto;
+      font-weight: 300;
+    }
 
-        h2 {
-            font-size: 36px;
-            font-weight: 700;
-            margin-bottom: 15px;
-        }
+    /* =========================================
+       SECCIÓN DE ICONOS / PILARES
+       ========================================= */
+    .pilares-container {
+      max-width: 1200px;
+      margin: -3rem auto 4rem;
+      padding: 0 5%;
+      position: relative;
+      z-index: 10;
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+      gap: 30px;
+    }
+    .pilar-card {
+      background: var(--bg-light);
+      padding: 40px 30px;
+      border-radius: 20px;
+      text-align: center;
+      transition: transform 0.3s ease, box-shadow 0.3s ease;
+      border: 1px solid var(--border-color);
+    }
+    .pilar-card:hover {
+      transform: translateY(-10px);
+      box-shadow: 0 15px 30px rgba(0,0,0,0.08);
+      background: var(--bg-white);
+    }
+    .pilar-icon {
+      width: 70px;
+      height: 70px;
+      background: var(--primary-color);
+      color: white;
+      border-radius: 50%;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      margin: 0 auto 20px;
+    }
+    .pilar-card h3 { font-size: 1.4rem; margin-bottom: 15px; font-weight: 700; }
+    .pilar-card p { color: var(--text-muted); font-size: 0.95rem; }
 
-        p {
-            font-size: 19px;
-            line-height: 1.6;
-            margin-bottom: 40px;
-        }
+    /* =========================================
+       SECCIÓN FOTO Y DETALLE
+       ========================================= */
+    .detalle-section {
+      max-width: 1200px;
+      margin: 5rem auto;
+      padding: 0 5%;
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      align-items: center;
+      gap: 50px;
+    }
+    .detalle-texto h2 {
+      font-size: 2.5rem;
+      font-weight: 700;
+      line-height: 1.1;
+      margin-bottom: 20px;
+      letter-spacing: -0.5px;
+    }
+    .detalle-texto p {
+      font-size: 1.1rem;
+      color: var(--text-muted);
+      margin-bottom: 20px;
+      line-height: 1.8;
+    }
+    .detalle-texto ul {
+      list-style: none;
+      margin-bottom: 30px;
+    }
+    .detalle-texto li {
+      display: flex;
+      align-items: center;
+      gap: 10px;
+      font-size: 1.05rem;
+      margin-bottom: 12px;
+      font-weight: 500;
+    }
+    .detalle-texto li svg { color: var(--accent-color); }
 
-        /* Iconos */
-        .iconos {
-            display: flex;
-            justify-content: center;
-            gap: 40px;
-            margin-bottom: 40px;
-        }
+    .detalle-imagen img {
+      width: 100%;
+      border-radius: 20px;
+      box-shadow: 0 20px 40px rgba(0,0,0,0.15);
+      transition: transform 0.5s ease;
+    }
+    .detalle-imagen img:hover {
+      transform: scale(1.02);
+    }
 
-        .icono {
-            text-align: center;
-            transition: transform .3s;
-        }
+    /* =========================================
+       BOTÓN FINAL
+       ========================================= */
+    .cta-section {
+      text-align: center;
+      padding: 5rem 5%;
+      background: var(--bg-light);
+    }
+    .cta-section h2 { font-size: 2rem; margin-bottom: 30px; }
+    
+    .boton-principal {
+      display: inline-flex;
+      align-items: center;
+      gap: 10px;
+      padding: 16px 35px;
+      background-color: var(--primary-color);
+      color: white;
+      font-size: 1.1rem;
+      font-weight: bold;
+      border-radius: 30px;
+      transition: all 0.3s ease;
+    }
+    .boton-principal:hover {
+      background-color: var(--accent-color);
+      transform: scale(1.05);
+      box-shadow: 0 10px 20px rgba(227, 6, 19, 0.3);
+    }
 
-        .icono:hover {
-            transform: scale(1.1);
-        }
-
-        .icono img {
-            width: 70px;
-        }
-
-        .icono p {
-            margin-top: 10px;
-            font-size: 16px;
-            font-weight: bold;
-        }
-
-        /* Foto grande */
-        .foto-calidad img {
-            width: 100%;
-            max-width: 800px;
-            border-radius: 10px;
-            box-shadow: 0px 0px 10px #0002;
-            margin-bottom: 40px;
-        }
-
-        /* Botón volver */
-        .boton-volver {
-            display: inline-block;
-            padding: 15px 30px;
-            background-color: black;
-            color: white;
-            text-decoration: none;
-            font-size: 18px;
-            border-radius: 5px;
-            transition: .2s;
-        }
-
-        .boton-volver:hover {
-            background-color: #333;
-        }
-    </style>
+    /* =========================================
+       RESPONSIVE
+       ========================================= */
+    @media (max-width: 900px) {
+      .hero-calidad h1 { font-size: 2.5rem; }
+      .detalle-section { grid-template-columns: 1fr; text-align: center; }
+      .detalle-texto ul { display: inline-block; text-align: left; }
+      .pilares-container { margin-top: 2rem; }
+    }
+  </style>
 </head>
 
 <body>
 
-    <header>
-        <h1>Servicios Ramírez</h1>
-    </header>
-
-    <div class="contenedor">
-
-        <h2>Productos 100% de Calidad</h2>
-
-        <p>
-            En <strong>Servicios Ramírez</strong> trabajamos con estándares de calidad del más alto nivel.
-            Cada producto que ofrecemos es <strong>probado, verificado y revisado</strong> para asegurar 
-            un rendimiento profesional.  
-            Con nosotros no existen fallas, no existen sorpresas:  
-            <strong>solo tecnología confiable y certificada.</strong>
-        </p>
-
-        <!-- Iconos -->
-        <div class="iconos">
-            <div class="icono">
-                <img src="https://cdn-icons-png.flaticon.com/512/992/992700.png" alt="Certificado">
-                <p>Certificación</p>
-            </div>
-
-            <div class="icono">
-                <img src="https://cdn-icons-png.flaticon.com/512/992/992651.png" alt="Garantía">
-                <p>Garantía</p>
-            </div>
-
-            <div class="icono">
-                <img src="https://cdn-icons-png.flaticon.com/512/992/992673.png" alt="Tecnología Premium">
-                <p>Tecnología Premium</p>
-            </div>
-        </div>
-
-        <!-- Foto grande -->
-        <div class="foto-calidad">
-            <img src="https://tse3.mm.bing.net/th/id/OIP.S5gqM9VH86vfRo7S0nsmPAHaEB?rs=1&pid=ImgDetMain&o=7&rm=3" alt="Producto de calidad">
-        </div>
-
-        <a href="index.html" class="boton-volver">Volver a la página principal</a>
-
+  <!-- HEADER -->
+  <header class="header">
+    <div class="header-container">
+      <div class="logo">
+        <a href="index.html">
+          <img src="logo-opcion4.svg" alt="Servicios Ramírez" onerror="this.src='https://upload.wikimedia.org/wikipedia/commons/thumb/c/c4/Sony_logo.svg/1200px-Sony_logo.svg.png'" />
+        </a>
+      </div>
+      <a href="index.html" class="btn-volver">
+        <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+          <line x1="19" y1="12" x2="5" y2="12"></line>
+          <polyline points="12 19 5 12 12 5"></polyline>
+        </svg>
+        Volver
+      </a>
     </div>
+  </header>
+
+  <!-- HERO SECTION -->
+  <section class="hero-calidad">
+    <h1>Calidad sin compromisos.</h1>
+    <p>En Servicios Ramírez no existen las sorpresas. Solo tecnología premium, rigurosamente verificada para llevar tu creatividad al siguiente nivel.</p>
+  </section>
+
+  <!-- 3 PILARES -->
+  <section class="pilares-container">
+    
+    <div class="pilar-card">
+      <div class="pilar-icon">
+        <svg width="32" height="32" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M22 11.08V12a10 10 0 1 1-5.93-9.14"></path><polyline points="22 4 12 14.01 9 11.01"></polyline></svg>
+      </div>
+      <h3>Certificación Total</h3>
+      <p>Cada lente, cámara y accesorio pasa por un proceso de revisión exhaustivo antes de llegar a tus manos. Funcionamiento garantizado al 100%.</p>
+    </div>
+
+    <div class="pilar-card">
+      <div class="pilar-icon">
+        <svg width="32" height="32" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><rect x="3" y="11" width="18" height="11" rx="2" ry="2"></rect><path d="M7 11V7a5 5 0 0 1 10 0v4"></path></svg>
+      </div>
+      <h3>Garantía Segura</h3>
+      <p>Respaldamos lo que vendemos. Disfruta de 3 meses de garantía en productos nuevos y 1 mes en semi-nuevos. Tu inversión está protegida.</p>
+    </div>
+
+    <div class="pilar-card">
+      <div class="pilar-icon">
+        <svg width="32" height="32" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><polygon points="13 2 3 14 12 14 11 22 21 10 12 10 13 2"></polygon></svg>
+      </div>
+      <h3>Tecnología Premium</h3>
+      <p>Trabajamos solo con marcas líderes del mercado audiovisual y gamer. Sony, Canon, Nikon y Logitech son nuestra especialidad.</p>
+    </div>
+
+  </section>
+
+  <!-- SECCIÓN DETALLE Y FOTO -->
+  <section class="detalle-section">
+    <div class="detalle-texto">
+      <h2>El estándar que los profesionales exigen.</h2>
+      <p>Sabemos que una falla en medio de una grabación o un stream no es una opción. Por eso, nuestro equipo técnico se encarga de probar sensores, limpieza de ópticas y respuesta de hardware antes de publicar cualquier artículo en nuestra tienda.</p>
+      
+      <ul>
+        <li>
+          <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3"><polyline points="20 6 9 17 4 12"></polyline></svg>
+          Revisión de sensores y obturadores.
+        </li>
+        <li>
+          <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3"><polyline points="20 6 9 17 4 12"></polyline></svg>
+          Limpieza profesional de equipos.
+        </li>
+        <li>
+          <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3"><polyline points="20 6 9 17 4 12"></polyline></svg>
+          Test de estrés en periféricos gamer.
+        </li>
+      </ul>
+    </div>
+    
+    <div class="detalle-imagen">
+      <!-- Mantuve la foto original que pusiste, pero con bordes y sombras modernas -->
+      <img src="https://tse3.mm.bing.net/th/id/OIP.S5gqM9VH86vfRo7S0nsmPAHaEB?rs=1&pid=ImgDetMain&o=7&rm=3" alt="Cámara profesional de alta calidad">
+    </div>
+  </section>
+
+  <!-- CTA FINAL -->
+  <section class="cta-section">
+    <h2>¿Listo para mejorar tu equipo?</h2>
+    <a href="tiendaSVR.html" class="boton-principal">
+      Explorar el Catálogo
+      <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><line x1="5" y1="12" x2="19" y2="12"></line><polyline points="12 5 19 12 12 19"></polyline></svg>
+    </a>
+  </section>
+
+  <!-- FOOTER -->
+  <footer style="background: #000; color: #fff; text-align: center; padding: 2rem 5%; font-size: 0.9rem;">
+    <p>© 2026 SERVICIOS RAMÍREZ. TODOS LOS DERECHOS RESERVADOS.</p>
+  </footer>
 
 </body>
 </html>
-

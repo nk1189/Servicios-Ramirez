@@ -1,0 +1,521 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Admin Dashboard | SVR</title>
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800&display=swap" rel="stylesheet">
+  
+  <style>
+    /* =======================================
+       VARIABLES Y RESET MODERNO
+       ======================================= */
+    :root {
+      --bg: #f8fafc;           /* Fondo más claro y limpio */
+      --surface: #ffffff;
+      --primary: #0f172a;      /* Azul muy oscuro, casi negro */
+      --secondary: #1e293b;
+      --accent: #3b82f6;       /* Azul vibrante */
+      --accent-hover: #2563eb;
+      --text-main: #334155;
+      --text-muted: #64748b;
+      --border: #e2e8f0;
+      
+      --success: #10b981;
+      --warning: #f59e0b;
+      --danger: #ef4444;
+      --info: #0ea5e9;
+    }
+    
+    * { margin: 0; padding: 0; box-sizing: border-box; font-family: 'Inter', sans-serif; }
+    body { background: var(--bg); color: var(--text-main); height: 100vh; overflow: hidden; }
+
+    /* =======================================
+       PANTALLA DE LOGIN
+       ======================================= */
+    #login-screen {
+      position: fixed; top:0; left:0; width: 100%; height: 100%;
+      background: linear-gradient(135deg, var(--primary) 0%, var(--secondary) 100%);
+      display: flex; align-items: center; justify-content: center; z-index: 1000;
+    }
+    .login-box {
+      background: var(--surface); padding: 40px; border-radius: 16px;
+      width: 100%; max-width: 400px; box-shadow: 0 25px 50px -12px rgba(0,0,0,0.5);
+      text-align: center;
+    }
+    .login-box h2 { color: var(--primary); margin-bottom: 8px; font-weight: 800; font-size: 1.8rem; }
+    .login-box p { color: var(--text-muted); font-size: 0.9rem; margin-bottom: 25px; }
+    
+    .input-group { text-align: left; margin-bottom: 20px; }
+    .input-group label { display: block; font-size: 0.85rem; font-weight: 600; color: var(--text-main); margin-bottom: 8px; }
+    .input-group input { width: 100%; padding: 12px 15px; border: 1.5px solid var(--border); border-radius: 8px; font-size: 1rem; outline: none; transition: 0.3s; }
+    .input-group input:focus { border-color: var(--accent); box-shadow: 0 0 0 3px rgba(59,130,246,0.1); }
+    
+    .btn-primary {
+      width: 100%; padding: 12px; background: var(--accent); color: white;
+      border: none; border-radius: 8px; font-weight: 600; font-size: 1rem; cursor: pointer; transition: 0.3s;
+    }
+    .btn-primary:hover { background: var(--accent-hover); transform: translateY(-2px); }
+
+    /* =======================================
+       LAYOUT PRINCIPAL (DASHBOARD)
+       ======================================= */
+    #admin-dashboard { display: none; height: 100vh; }
+    
+    /* SIDEBAR (Menú Lateral Elegante) */
+    .sidebar {
+      width: 260px; background: var(--primary); color: white;
+      display: flex; flex-direction: column; box-shadow: 4px 0 15px rgba(0,0,0,0.05);
+    }
+    .sidebar-header { padding: 30px 20px; border-bottom: 1px solid rgba(255,255,255,0.1); margin-bottom: 20px; }
+    .sidebar-header h2 { font-size: 1.4rem; font-weight: 800; letter-spacing: -0.5px; }
+    .sidebar-header span { font-size: 0.8rem; color: var(--accent); font-weight: 600; text-transform: uppercase; letter-spacing: 1px; }
+
+    .menu-list { padding: 0 15px; list-style: none; flex: 1; }
+    .menu-item {
+      padding: 12px 15px; border-radius: 8px; margin-bottom: 8px;
+      color: #94a3b8; font-weight: 500; font-size: 0.95rem;
+      cursor: pointer; display: flex; align-items: center; gap: 12px; transition: all 0.3s;
+    }
+    .menu-item:hover { background: rgba(255,255,255,0.05); color: white; }
+    .menu-item.active { background: var(--accent); color: white; box-shadow: 0 4px 10px rgba(59,130,246,0.3); }
+    
+    .logout-btn { margin-top: auto; margin-bottom: 20px; margin-left: 15px; margin-right: 15px; background: rgba(239,68,68,0.1); color: var(--danger); }
+    .logout-btn:hover { background: var(--danger); color: white; }
+
+    /* ÁREA DE CONTENIDO */
+    .main-content { flex: 1; display: flex; flex-direction: column; background: var(--bg); overflow: hidden; }
+    
+    /* Topbar */
+    .topbar { height: 70px; background: var(--surface); border-bottom: 1px solid var(--border); display: flex; align-items: center; justify-content: space-between; padding: 0 40px; }
+    .topbar h1 { font-size: 1.2rem; font-weight: 600; color: var(--primary); }
+    .admin-badge { display: flex; align-items: center; gap: 10px; font-weight: 500; font-size: 0.9rem; }
+    .admin-avatar { width: 35px; height: 35px; background: var(--accent); color: white; border-radius: 50%; display: flex; align-items: center; justify-content: center; font-weight: bold; }
+
+    /* Área de Pestañas */
+    .content-area { padding: 40px; overflow-y: auto; flex: 1; }
+    .tab-content { display: none; animation: fadeIn 0.4s ease; }
+    .tab-content.active { display: block; }
+    @keyframes fadeIn { from { opacity: 0; transform: translateY(10px); } to { opacity: 1; transform: translateY(0); } }
+
+    /* =======================================
+       TARJETAS DE ESTADÍSTICAS
+       ======================================= */
+    .stats-grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(250px, 1fr)); gap: 24px; margin-bottom: 40px; }
+    .stat-card { background: var(--surface); padding: 25px; border-radius: 16px; box-shadow: 0 4px 6px -1px rgba(0,0,0,0.05); display: flex; align-items: center; gap: 20px; }
+    .stat-icon { width: 60px; height: 60px; border-radius: 12px; display: flex; align-items: center; justify-content: center; font-size: 1.5rem; }
+    .bg-green { background: rgba(16,185,129,0.1); color: var(--success); }
+    .bg-blue { background: rgba(59,130,246,0.1); color: var(--accent); }
+    .bg-orange { background: rgba(245,158,11,0.1); color: var(--warning); }
+    
+    .stat-info h3 { font-size: 0.85rem; color: var(--text-muted); font-weight: 600; text-transform: uppercase; margin-bottom: 5px; }
+    .stat-info p { font-size: 1.8rem; font-weight: 800; color: var(--primary); }
+
+    /* =======================================
+       TABLAS MODERNAS
+       ======================================= */
+    .panel-card { background: var(--surface); border-radius: 16px; box-shadow: 0 4px 6px -1px rgba(0,0,0,0.05); overflow: hidden; }
+    .panel-header { padding: 20px 25px; border-bottom: 1px solid var(--border); display: flex; justify-content: space-between; align-items: center; }
+    .panel-header h3 { font-size: 1.1rem; font-weight: 600; color: var(--primary); }
+    
+    table { width: 100%; border-collapse: collapse; }
+    th { background: #f8fafc; padding: 15px 25px; text-align: left; font-size: 0.85rem; font-weight: 600; color: var(--text-muted); text-transform: uppercase; border-bottom: 1px solid var(--border); }
+    td { padding: 15px 25px; border-bottom: 1px solid var(--border); font-size: 0.95rem; vertical-align: middle; }
+    tr:last-child td { border-bottom: none; }
+    tr:hover { background: #f8fafc; }
+    
+    .badge { padding: 6px 12px; border-radius: 20px; font-size: 0.8rem; font-weight: 600; }
+    .badge.pendiente { background: rgba(245,158,11,0.1); color: var(--warning); }
+    .badge.preparando { background: rgba(14,165,233,0.1); color: var(--info); }
+    .badge.transito { background: rgba(59,130,246,0.1); color: var(--accent); }
+    .badge.entregado { background: rgba(16,185,129,0.1); color: var(--success); }
+
+    .status-select { padding: 6px 10px; border-radius: 6px; border: 1px solid var(--border); font-size: 0.85rem; font-weight: 600; cursor: pointer; background: var(--surface); color: var(--text-main); outline: none; }
+    .status-select:focus { border-color: var(--accent); }
+
+    /* =======================================
+       FORMULARIO DE CREAR PRODUCTO
+       ======================================= */
+    .form-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 24px; padding: 25px; }
+    .form-group { display: flex; flex-direction: column; gap: 8px; }
+    .form-group.full { grid-column: 1 / -1; }
+    .form-group label { font-size: 0.9rem; font-weight: 600; color: var(--text-main); }
+    .form-group input, .form-group textarea, .form-group select {
+      padding: 12px; border: 1px solid var(--border); border-radius: 8px;
+      font-size: 0.95rem; outline: none; background: #f8fafc; transition: 0.3s;
+    }
+    .form-group input:focus, .form-group textarea:focus { border-color: var(--accent); background: var(--surface); box-shadow: 0 0 0 3px rgba(59,130,246,0.1); }
+    
+    /* Pequeña tabla de productos creados */
+    .product-img-mini { width: 50px; height: 50px; object-fit: cover; border-radius: 8px; border: 1px solid var(--border); }
+    .btn-delete { background: rgba(239,68,68,0.1); color: var(--danger); border: none; padding: 8px 12px; border-radius: 6px; cursor: pointer; font-weight: 600; }
+    .btn-delete:hover { background: var(--danger); color: white; }
+
+  </style>
+</head>
+<body>
+
+  <!-- LOGIN -->
+  <div id="login-screen">
+    <div class="login-box">
+      <h2>Servicios Ramírez</h2>
+      <p>Panel de Administración Seguro</p>
+      
+      <div class="input-group">
+        <label>Contraseña Maestra</label>
+        <input type="password" id="admin-pass" placeholder="Ingresa tu clave...">
+      </div>
+      
+      <button class="btn-primary" onclick="validarAdmin()">Entrar al Sistema</button>
+      <p id="error-msg" style="color:var(--danger); font-size:0.85rem; margin-top:15px; display:none; font-weight:600;">Contraseña incorrecta. Intenta de nuevo.</p>
+    </div>
+  </div>
+
+  <!-- DASHBOARD PRINCIPAL -->
+  <div id="admin-dashboard">
+    
+    <!-- SIDEBAR -->
+    <aside class="sidebar">
+      <div class="sidebar-header">
+        <h2>SVR Admin</h2>
+        <span>Panel de Control</span>
+      </div>
+      
+      <ul class="menu-list">
+        <li class="menu-item active" onclick="cambiarPestana('tab-general', this)">
+          📊 Vista General
+        </li>
+        <li class="menu-item" onclick="cambiarPestana('tab-pedidos', this)">
+          📦 Gestión de Pedidos
+        </li>
+        <li class="menu-item" onclick="cambiarPestana('tab-productos', this)">
+          🛒 Creador de Productos
+        </li>
+        
+        <li class="menu-item logout-btn" onclick="cerrarAdmin()">
+          🚪 Cerrar Sesión
+        </li>
+      </ul>
+    </aside>
+
+    <!-- ÁREA CENTRAL -->
+    <main class="main-content">
+      
+      <!-- Topbar -->
+      <header class="topbar">
+        <h1 id="topbar-title">Vista General</h1>
+        <div class="admin-badge">
+          <span>Administrador</span>
+          <div class="admin-avatar">A</div>
+        </div>
+      </header>
+
+      <!-- Contenido de las pestañas -->
+      <div class="content-area">
+        
+        <!-- PESTAÑA 1: VISTA GENERAL -->
+        <div id="tab-general" class="tab-content active">
+          <div class="stats-grid">
+            <div class="stat-card">
+              <div class="stat-icon bg-green">💰</div>
+              <div class="stat-info">
+                <h3>Ingresos Netos</h3>
+                <p id="stat-ingresos">$0</p>
+              </div>
+            </div>
+            <div class="stat-card">
+              <div class="stat-icon bg-blue">🛍️</div>
+              <div class="stat-info">
+                <h3>Ventas Totales</h3>
+                <p id="stat-pedidos">0</p>
+              </div>
+            </div>
+            <div class="stat-card">
+              <div class="stat-icon bg-orange">⏳</div>
+              <div class="stat-info">
+                <h3>Por Preparar</h3>
+                <p id="stat-pendientes">0</p>
+              </div>
+            </div>
+          </div>
+        </div>
+
+        <!-- PESTAÑA 2: GESTIÓN DE PEDIDOS -->
+        <div id="tab-pedidos" class="tab-content">
+          <div class="panel-card">
+            <div class="panel-header">
+              <h3>Todos los Pedidos</h3>
+              <button class="btn-primary" style="width:auto; padding:8px 15px; font-size:0.85rem;" onclick="cargarDatos()">🔄 Refrescar</button>
+            </div>
+            <table id="tabla-pedidos-html">
+              <thead>
+                <tr>
+                  <th>Orden</th>
+                  <th>Fecha</th>
+                  <th>Método Pago</th>
+                  <th>Total</th>
+                  <th>Estado</th>
+                  <th>Acción</th>
+                </tr>
+              </thead>
+              <tbody id="tabla-pedidos">
+                <!-- Pedidos inyectados por JS -->
+              </tbody>
+            </table>
+          </div>
+        </div>
+
+        <!-- PESTAÑA 3: CREADOR DE PRODUCTOS -->
+        <div id="tab-productos" class="tab-content">
+          <div class="stats-grid" style="grid-template-columns: 1fr;">
+            
+            <div class="panel-card">
+              <div class="panel-header">
+                <h3>✨ Crear Nuevo Producto</h3>
+              </div>
+              
+              <form class="form-grid" id="form-producto">
+                <div class="form-group full">
+                  <label>Nombre del Producto</label>
+                  <input type="text" id="prod-nombre" required placeholder="Ej: Mando PS4 Personalizado">
+                </div>
+                
+                <div class="form-group">
+                  <label>Precio (sin puntos ni signos)</label>
+                  <input type="number" id="prod-precio" required placeholder="Ej: 45000">
+                </div>
+
+                <div class="form-group">
+                  <label>Categoría</label>
+                  <select id="prod-categoria">
+                    <option value="tecnologia">Tecnología / Gaming</option>
+                    <option value="audifonos/audio">audio y audifonos</option>
+                    <option value="ropa">Ropa / Accesorios</option>
+                    <option value="Camaras">Camaras / lentes</option>
+                    <option value="television">television / video</option>
+                  </select>
+                </div>
+
+                <div class="form-group full">
+                  <label>URL de la Imagen (Pega un enlace de internet o archivo local)</label>
+                  <input type="text" id="prod-img" required placeholder="https://ejemplo.com/imagen.jpg o ruta local">
+                </div>
+
+                <div class="form-group full">
+                  <button type="submit" class="btn-primary">Publicar Producto en Tienda</button>
+                </div>
+              </form>
+            </div>
+
+          </div>
+
+          <!-- Tabla de Productos Creados -->
+          <div class="panel-card">
+            <div class="panel-header">
+              <h3>Inventario Actual</h3>
+            </div>
+            <table>
+              <thead>
+                <tr>
+                  <th>Imagen</th>
+                  <th>Producto</th>
+                  <th>Categoría</th>
+                  <th>Precio</th>
+                  <th>Acción</th>
+                </tr>
+              </thead>
+              <tbody id="tabla-productos">
+                <!-- Productos inyectados por JS -->
+              </tbody>
+            </table>
+          </div>
+
+        </div>
+
+      </div>
+    </main>
+
+  </div>
+
+  <script>
+    // FORMATEADOR DE PRECIOS
+    function formatP(num) { return num.toString().replace(/\B(?=(\d{3})+(?!\d))/g, "."); }
+
+    // SISTEMA DE NAVEGACIÓN
+    function cambiarPestana(idPestana, elemento) {
+      document.querySelectorAll('.tab-content').forEach(tab => tab.classList.remove('active'));
+      document.querySelectorAll('.menu-item').forEach(li => li.classList.remove('active'));
+      
+      document.getElementById(idPestana).classList.add('active');
+      elemento.classList.add('active');
+      
+      // Cambiar título de arriba
+      const titulo = elemento.innerText.replace('📊', '').replace('📦', '').replace('🛒', '').trim();
+      document.getElementById('topbar-title').innerText = titulo;
+    }
+
+    // LOGIN
+    function validarAdmin() {
+      const pass = document.getElementById('admin-pass').value;
+      if (pass === 'admin123') { 
+        document.getElementById('login-screen').style.display = 'none';
+        document.getElementById('admin-dashboard').style.display = 'flex';
+        cargarDatos(); 
+        cargarInventario();
+      } else {
+        document.getElementById('error-msg').style.display = 'block';
+      }
+    }
+
+    function cerrarAdmin() {
+      document.getElementById('login-screen').style.display = 'flex';
+      document.getElementById('admin-dashboard').style.display = 'none';
+      document.getElementById('admin-pass').value = '';
+      document.getElementById('error-msg').style.display = 'none';
+    }
+
+    // ===============================================
+    // LÓGICA DE PEDIDOS Y ESTADÍSTICAS
+    // ===============================================
+    function cargarDatos() {
+      const tbody = document.getElementById('tabla-pedidos');
+      let historial = JSON.parse(localStorage.getItem('historialPedidos')) || [];
+
+      // Estadísticas
+      let totalIngresos = 0;
+      let totalPedidos = historial.length;
+      let totalPendientes = 0;
+
+      historial.forEach(pedido => {
+        if (pedido.estado === 'Entregado') totalIngresos += parseInt(pedido.total);
+        if (pedido.estado === 'Pendiente' || pedido.estado === 'Procesando' || pedido.estado === 'En Preparación') totalPendientes++;
+      });
+
+      document.getElementById('stat-ingresos').textContent = '$' + formatP(totalIngresos);
+      document.getElementById('stat-pedidos').textContent = totalPedidos;
+      document.getElementById('stat-pendientes').textContent = totalPendientes;
+
+      // Tabla Pedidos
+      if (historial.length === 0) {
+        tbody.innerHTML = `<tr><td colspan="6" style="text-align:center; color:#94a3b8; padding:30px;">Aún no hay ventas.</td></tr>`;
+        return;
+      }
+
+      let html = '';
+      historial.reverse().forEach((pedido, index) => {
+        let realIndex = historial.length - 1 - index; 
+
+        // Badges estéticos
+        let claseBadge = 'pendiente';
+        if(pedido.estado === 'En Preparación') claseBadge = 'preparando';
+        if(pedido.estado === 'En Tránsito') claseBadge = 'transito';
+        if(pedido.estado === 'Entregado') claseBadge = 'entregado';
+
+        html += `
+          <tr>
+            <td style="font-weight:700; color:var(--primary);">#${pedido.id}</td>
+            <td style="color:var(--text-muted);">${pedido.fecha}</td>
+            <td><span style="font-size:0.85rem; color:#64748b; background:#f1f5f9; padding:4px 8px; border-radius:6px;">${pedido.metodo}</span></td>
+            <td style="font-weight:700;">$${formatP(pedido.total)}</td>
+            <td>
+              <div style="display:flex; flex-direction:column; gap:8px; align-items:flex-start;">
+                <span class="badge ${claseBadge}">${pedido.estado}</span>
+                <select class="status-select" onchange="cambiarEstado(${realIndex}, this.value)">
+                  <option value="">Cambiar a...</option>
+                  <option value="En Preparación">📦 En Preparación</option>
+                  <option value="En Tránsito">🚚 En Tránsito</option>
+                  <option value="Entregado">✅ Entregado</option>
+                </select>
+              </div>
+            </td>
+            <td><button class="btn-primary" style="padding:6px 12px; font-size:0.85rem;" onclick="verDetalle(${pedido.id})">Ver</button></td>
+          </tr>
+        `;
+      });
+      tbody.innerHTML = html;
+    }
+
+    function cambiarEstado(index, nuevoEstado) {
+      if(!nuevoEstado) return;
+      let historial = JSON.parse(localStorage.getItem('historialPedidos'));
+      historial[index].estado = nuevoEstado;
+      localStorage.setItem('historialPedidos', JSON.stringify(historial));
+      cargarDatos(); 
+    }
+
+    function verDetalle(idPedido) {
+      let historial = JSON.parse(localStorage.getItem('historialPedidos'));
+      let pedido = historial.find(p => p.id === idPedido);
+      let detalle = `PEDIDO #${pedido.id}\n\n`;
+      pedido.items.forEach(item => { detalle += `- ${item.cantidad}x ${item.nombre}\n`; });
+      alert(detalle);
+    }
+
+    // ===============================================
+    // LÓGICA DEL CREADOR DE PRODUCTOS (¡NUEVO!)
+    // ===============================================
+    document.getElementById('form-producto').addEventListener('submit', function(e) {
+      e.preventDefault();
+      
+      const nombre = document.getElementById('prod-nombre').value;
+      const precio = document.getElementById('prod-precio').value;
+      const categoria = document.getElementById('prod-categoria').value;
+      const imagen = document.getElementById('prod-img').value;
+
+      // Rescatar inventario existente
+      let inventario = JSON.parse(localStorage.getItem('inventarioSVR')) || [];
+
+      // Crear objeto nuevo
+      const nuevoProducto = {
+        id: 'PROD_' + Date.now(), // ID único automático
+        nombre: nombre,
+        precio: parseInt(precio),
+        categoria: categoria,
+        imagen: imagen
+      };
+
+      // Guardar
+      inventario.push(nuevoProducto);
+      localStorage.setItem('inventarioSVR', JSON.stringify(inventario));
+
+      alert("¡Producto publicado correctamente!");
+      this.reset(); // Limpiar formulario
+      cargarInventario(); // Refrescar tabla
+    });
+
+    function cargarInventario() {
+      const tbody = document.getElementById('tabla-productos');
+      let inventario = JSON.parse(localStorage.getItem('inventarioSVR')) || [];
+
+      if (inventario.length === 0) {
+        tbody.innerHTML = `<tr><td colspan="5" style="text-align:center; color:#94a3b8; padding:30px;">No has creado ningún producto.</td></tr>`;
+        return;
+      }
+
+      let html = '';
+      inventario.forEach((prod, index) => {
+        html += `
+          <tr>
+            <td><img src="${prod.imagen}" class="product-img-mini" onerror="this.src='https://via.placeholder.com/50'"></td>
+            <td style="font-weight:600;">${prod.nombre}</td>
+            <td style="text-transform:capitalize; color:var(--text-muted);">${prod.categoria}</td>
+            <td style="font-weight:700; color:var(--accent);">$${formatP(prod.precio)}</td>
+            <td><button class="btn-delete" onclick="borrarProducto(${index})">Eliminar</button></td>
+          </tr>
+        `;
+      });
+      tbody.innerHTML = html;
+    }
+
+    function borrarProducto(index) {
+      if(confirm("¿Seguro que quieres borrar este producto? Desaparecerá de la tienda.")) {
+        let inventario = JSON.parse(localStorage.getItem('inventarioSVR'));
+        inventario.splice(index, 1);
+        localStorage.setItem('inventarioSVR', JSON.stringify(inventario));
+        cargarInventario();
+      }
+    }
+
+  </script>
+</body>
+</html>

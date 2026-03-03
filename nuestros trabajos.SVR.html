@@ -1,0 +1,269 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Nuestros Trabajos | Servicios Ramírez</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;600;800&display=swap" rel="stylesheet">
+  
+  <style>
+    /* =========================================================
+       VARIABLES Y EFECTOS BASE (Estilo Neón y Cristal)
+       ========================================================= */
+    :root {
+      --bg-dark: #050505;
+      --neon-red: #ff003c;
+      --neon-blue: #00f3ff;
+      --glass-bg: rgba(255, 255, 255, 0.05);
+      --glass-border: rgba(255, 255, 255, 0.1);
+      --text-main: #ffffff;
+    }
+    * { margin: 0; padding: 0; box-sizing: border-box; font-family: 'Poppins', sans-serif; }
+    
+    body { 
+      background-color: var(--bg-dark); 
+      color: var(--text-main); 
+      overflow-x: hidden;
+      /* Fondo dinámico oscuro con luces */
+      background-image: 
+        radial-gradient(circle at 15% 50%, rgba(255, 0, 60, 0.15), transparent 25%),
+        radial-gradient(circle at 85% 30%, rgba(0, 243, 255, 0.15), transparent 25%);
+    }
+    
+    a { text-decoration: none; color: inherit; }
+
+    /* =========================================================
+       HEADER Y NAVEGACIÓN (Igual al tuyo pero en modo oscuro)
+       ========================================================= */
+    .header { 
+      background: rgba(0, 0, 0, 0.8); 
+      backdrop-filter: blur(10px);
+      position: sticky; top: 0; z-index: 100; 
+      border-bottom: 1px solid var(--glass-border);
+    }
+    .header-container { display: flex; justify-content: space-between; align-items: center; padding: 1rem 5%; max-width: 1200px; margin: 0 auto; }
+    .logo img { height: 40px; filter: brightness(0) invert(1); } /* Hace el logo blanco */
+    .nav-icons { display: flex; align-items: center; gap: 30px; }
+    .nav-icon { display: flex; flex-direction: column; align-items: center; cursor: pointer; font-size: 0.8rem; transition: all 0.3s; color: #fff; }
+    .nav-icon:hover { color: var(--neon-red); transform: translateY(-3px); text-shadow: 0 0 10px var(--neon-red); }
+    .nav-icon span { margin-top: 4px; font-weight: 500; }
+
+    /* =========================================================
+       HERO IMPACTANTE CON TEXTO ANIMADO
+       ========================================================= */
+    .hero { 
+      height: 60vh; display: flex; flex-direction: column; 
+      justify-content: center; align-items: center; text-align: center;
+      position: relative; padding: 0 5%;
+    }
+    .hero h1 { 
+      font-size: 4rem; font-weight: 800; line-height: 1.1; margin-bottom: 1rem;
+      background: linear-gradient(to right, var(--neon-red), var(--neon-blue));
+      -webkit-background-clip: text; color: transparent;
+      animation: pulse 3s infinite alternate;
+    }
+    .hero p { font-size: 1.2rem; color: #aaa; max-width: 600px; }
+    
+    @keyframes pulse {
+      0% { filter: drop-shadow(0 0 5px rgba(255,0,60,0.5)); }
+      100% { filter: drop-shadow(0 0 15px rgba(0,243,255,0.5)); }
+    }
+
+    /* =========================================================
+       TARJETAS 3D EFECTO CRISTAL (GLASSMORPHISM)
+       ========================================================= */
+    .container { max-width: 1200px; margin: 0 auto; padding: 0 5% 5rem; }
+    .services-grid { 
+      display: grid; grid-template-columns: repeat(auto-fit, minmax(300px, 1fr)); 
+      gap: 40px; margin-top: 2rem; perspective: 1000px;
+    }
+    
+    .glass-card { 
+      background: var(--glass-bg);
+      border: 1px solid var(--glass-border);
+      border-radius: 20px;
+      padding: 30px;
+      backdrop-filter: blur(15px); /* El efecto cristal */
+      box-shadow: 0 8px 32px 0 rgba(0, 0, 0, 0.37);
+      transition: all 0.5s ease;
+      position: relative;
+      overflow: hidden;
+      cursor: pointer;
+    }
+
+    /* Brillo al pasar el mouse por encima */
+    .glass-card::before {
+      content: ""; position: absolute; top: 0; left: -100%; width: 50%; height: 100%;
+      background: linear-gradient(to right, transparent, rgba(255,255,255,0.1), transparent);
+      transform: skewX(-20deg); transition: 0.5s;
+    }
+    .glass-card:hover::before { left: 150%; }
+    .glass-card:hover { 
+      transform: translateY(-15px) rotateX(5deg) rotateY(5deg); 
+      box-shadow: 0 15px 40px rgba(255, 0, 60, 0.2);
+      border-color: rgba(255, 0, 60, 0.5);
+    }
+
+    .card-icon { font-size: 3rem; margin-bottom: 20px; display: inline-block; }
+    .card-title { font-size: 1.8rem; font-weight: 600; margin-bottom: 15px; color: #fff; }
+    .card-desc { color: #ccc; font-size: 0.95rem; margin-bottom: 25px; line-height: 1.6; }
+    
+    .neon-btn { 
+      display: inline-block; padding: 12px 30px; border-radius: 30px;
+      background: transparent; color: #fff; font-weight: 600; letter-spacing: 1px;
+      border: 2px solid var(--neon-red);
+      box-shadow: 0 0 10px rgba(255,0,60,0.3), inset 0 0 10px rgba(255,0,60,0.1);
+      transition: all 0.3s;
+    }
+    .neon-btn:hover { 
+      background: var(--neon-red); color: #fff;
+      box-shadow: 0 0 20px var(--neon-red), 0 0 40px var(--neon-red);
+    }
+
+    /* Variaciones de color por tarjeta */
+    .glass-card:nth-child(2):hover { 
+      box-shadow: 0 15px 40px rgba(0, 243, 255, 0.2); border-color: rgba(0, 243, 255, 0.5); 
+    }
+    .glass-card:nth-child(2) .neon-btn { border-color: var(--neon-blue); box-shadow: 0 0 10px rgba(0,243,255,0.3); }
+    .glass-card:nth-child(2) .neon-btn:hover { background: var(--neon-blue); box-shadow: 0 0 20px var(--neon-blue); }
+
+    .glass-card:nth-child(3):hover { 
+      box-shadow: 0 15px 40px rgba(138, 43, 226, 0.2); border-color: rgba(138, 43, 226, 0.5); 
+    }
+    .glass-card:nth-child(3) .neon-btn { border-color: #8a2be2; box-shadow: 0 0 10px rgba(138,43,226,0.3); }
+    .glass-card:nth-child(3) .neon-btn:hover { background: #8a2be2; box-shadow: 0 0 20px #8a2be2; }
+
+    /* =========================================================
+       BANNER PUBLICITARIO ULTRA MODERNO
+       ========================================================= */
+    .cyber-banner {
+      margin: 4rem auto; max-width: 1200px; border-radius: 20px;
+      background: linear-gradient(45deg, #111, #222);
+      padding: 4rem 3rem; text-align: center; position: relative;
+      overflow: hidden; border: 1px solid #333;
+    }
+    .cyber-banner::before {
+      content: ""; position: absolute; top: -50%; left: -50%; width: 200%; height: 200%;
+      background: conic-gradient(transparent, rgba(255,0,60,0.3), transparent 30%);
+      animation: rotate 4s linear infinite; z-index: 0;
+    }
+    @keyframes rotate { 100% { transform: rotate(360deg); } }
+    .banner-content { position: relative; z-index: 1; }
+    .banner-content h2 { font-size: 2.5rem; margin-bottom: 10px; color: #fff; }
+    .banner-content p { color: #aaa; margin-bottom: 30px; font-size: 1.1rem; }
+
+    /* =========================================================
+       FOOTER
+       ========================================================= */
+    .footer { background: #000; border-top: 1px solid #222; padding: 3rem 5% 1rem; color: #777; font-size: 0.9rem; text-align: center; }
+  </style>
+</head>
+
+<body>
+
+  <!-- HEADER -->
+  <header class="header">
+    <div class="header-container">
+      <div class="logo">
+        <a href="index.html">
+          <!-- El logo se pintará blanco automáticamente gracias al CSS -->
+          <img src="logo-opcion4.svg" alt="Servicios Ramírez" onerror="this.src='https://upload.wikimedia.org/wikipedia/commons/thumb/c/c4/Sony_logo.svg/1200px-Sony_logo.svg.png'" />
+        </a>
+      </div>
+      
+      <nav class="nav-icons">
+        <a href="index.html" class="nav-icon">
+          <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M3 9l9-7 9 7v11a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2z"></path><polyline points="9 22 9 12 15 12 15 22"></polyline></svg>
+          <span>Inicio</span>
+        </a>
+
+        <!-- BOTÓN CUENTA VIGILADO -->
+        <a href="login.html" class="nav-icon" id="btn-cuenta-link">
+          <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+            <path d="M20 21v-2a4 4 0 0 0-4-4H8a4 4 0 0 0-4 4v2"></path>
+            <circle cx="12" cy="7" r="4"></circle>
+          </svg>
+          <span id="btn-cuenta-texto">Mi cuenta</span>
+        </a>
+      </nav>
+    </div>
+  </header>
+
+  <!-- HERO SECTION -->
+  <section class="hero">
+    <h1>ELEVAMOS TU REALIDAD</h1>
+    <p>Tecnología, Fotografía y Setups de alto rendimiento. Diseñamos la estética visual de tu contenido.</p>
+  </section>
+
+  <!-- SERVICIOS GLASSMORPHISM -->
+  <div class="container">
+    <div class="services-grid">
+      
+      <!-- Tarjeta 1 (Roja) -->
+      <div class="glass-card">
+        <div class="card-icon">📷</div>
+        <h3 class="card-title">Asesoría de Cámaras</h3>
+        <p class="card-desc">Análisis de tu presupuesto y objetivos para elegir el equipo perfecto. No gastes de más, invierte en la cámara y lente que realmente necesitas para tus vlogs o e-commerce.</p>
+        <a href="https://wa.me/56932991546" class="neon-btn">Cotizar Asesoría</a>
+      </div>
+
+      <!-- Tarjeta 2 (Azul) -->
+      <div class="glass-card">
+        <div class="card-icon">💻</div>
+        <h3 class="card-title">Setup para Streaming</h3>
+        <p class="card-desc">Instalación completa de tu espacio de transmisión. Micrófonos, captura de video, iluminación RGB y configuración de software para que te veas como un profesional.</p>
+        <a href="https://wa.me/56932991546" class="neon-btn">Armar mi Setup</a>
+      </div>
+
+      <!-- Tarjeta 3 (Morada) -->
+      <div class="glass-card">
+        <div class="card-icon">🎬</div>
+        <h3 class="card-title">Sesiones y Eventos</h3>
+        <p class="card-desc">Fotografía de alta definición con equipos Sony Alpha. Cobertura de eventos, sesiones en exteriores y fotografía de productos para que tu marca destaque.</p>
+        <a href="https://wa.me/56932991546" class="neon-btn">Ver Portafolio</a>
+      </div>
+
+    </div>
+  </div>
+
+  <!-- BANNER CIBERNÉTICO -->
+  <div class="container">
+    <div class="cyber-banner">
+      <div class="banner-content">
+        <h2>¿LISTO PARA EL SIGUIENTE NIVEL?</h2>
+        <p>Descubre nuestro catálogo oculto de equipos, cámaras y periféricos gamer de alta gama.</p>
+        <a href="tiendaSVR.html" class="neon-btn" style="border-color: #fff; color: #fff; box-shadow: none;">ENTRAR A LA TIENDA</a>
+      </div>
+    </div>
+  </div>
+
+  <!-- FOOTER -->
+  <footer class="footer">
+    <p>Servicios Ramírez © 2026. Todos los derechos reservados. | Quillota, Chile</p>
+  </footer>
+
+  <!-- SCRIPT DE SESIÓN (Mantiene el nombre arriba) -->
+  <script>
+    document.addEventListener("DOMContentLoaded", () => {
+      const correoActivo = localStorage.getItem('usuarioActivo');
+      const btnCuenta = document.getElementById('btn-cuenta-link');
+      const textoCuenta = document.getElementById('btn-cuenta-texto');
+
+      if (correoActivo) {
+        const datosBoveda = localStorage.getItem('cuenta_' + correoActivo);
+        if (datosBoveda) {
+          const cuenta = JSON.parse(datosBoveda);
+          if (textoCuenta) textoCuenta.textContent = 'Hola, ' + cuenta.nombre;
+          if (btnCuenta) btnCuenta.href = 'perfil.html';
+        }
+      } else {
+        if (textoCuenta) textoCuenta.textContent = 'Mi cuenta';
+        if (btnCuenta) btnCuenta.href = 'login.html';
+      }
+    });
+  </script>
+
+</body>
+</html>
