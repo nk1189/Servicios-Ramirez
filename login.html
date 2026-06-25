@@ -6,261 +6,382 @@
   <title>Acceso | Servicios Ramírez</title>
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-  <link href="https://fonts.googleapis.com/css2?family=Roboto:wght@300;400;500;700&display=swap" rel="stylesheet">
-  
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&display=swap" rel="stylesheet">
   <style>
-    /* =========================================
-       DISEÑO DEL LOGIN
-       ========================================= */
     :root {
-      --primary-color: #000000;
-      --accent-color: #e30613; 
-      --bg-color: #f5f5f7;
-      --text-color: #1d1d1f;
+      --accent: #e30613;
+      --accent-hover: #b5040f;
+      --text: #1a1a1a;
+      --text-muted: #6b6b6b;
+      --border: #e5e5e5;
+      --radius: 14px;
+      --transition: 200ms cubic-bezier(0.16,1,0.3,1);
     }
-    * { margin: 0; padding: 0; box-sizing: border-box; font-family: 'Roboto', sans-serif; }
-    
+    *, *::before, *::after { margin: 0; padding: 0; box-sizing: border-box; }
+    html { -webkit-font-smoothing: antialiased; }
     body {
-      background-color: var(--primary-color);
-      display: flex;
-      justify-content: center;
-      align-items: center;
+      font-family: 'Inter', system-ui, sans-serif;
       min-height: 100vh;
-      /* Fondo oscuro elegante */
-      background-image: radial-gradient(circle at center, #222 0%, #000 100%);
+      display: flex;
+      background: #0a0a0a;
     }
 
-    .auth-container {
+    /* ---- LEFT PANEL ---- */
+    .panel-left {
+      display: none;
+      flex: 1;
+      background: linear-gradient(145deg, #111 0%, #1a0305 100%);
+      position: relative; overflow: hidden;
+      padding: 48px;
+      flex-direction: column; justify-content: space-between;
+    }
+    @media (min-width: 900px) { .panel-left { display: flex; } }
+
+    .panel-left::before {
+      content: "";
+      position: absolute; inset: 0;
+      background: radial-gradient(ellipse at 30% 50%, rgba(227,6,19,0.12) 0%, transparent 60%);
+    }
+    .panel-brand { position: relative; z-index: 1; }
+    .brand-logo {
+      display: flex; align-items: center; gap: 10px;
+      font-size: 1.1rem; font-weight: 700; color: white; margin-bottom: 48px;
+    }
+    .brand-logo-icon {
+      width: 36px; height: 36px; background: var(--accent);
+      border-radius: 9px; display: flex; align-items: center; justify-content: center;
+    }
+    .panel-headline {
+      position: relative; z-index: 1;
+      color: white;
+    }
+    .panel-headline h1 {
+      font-size: clamp(1.6rem, 2.5vw, 2.2rem);
+      font-weight: 700; line-height: 1.2; margin-bottom: 14px; letter-spacing: -0.3px;
+    }
+    .panel-headline h1 span { color: var(--accent); }
+    .panel-headline p { font-size: 0.9rem; color: rgba(255,255,255,0.5); max-width: 32ch; line-height: 1.6; }
+    .panel-features { position: relative; z-index: 1; display: flex; flex-direction: column; gap: 14px; }
+    .feature-item {
+      display: flex; align-items: center; gap: 12px;
+      color: rgba(255,255,255,0.65); font-size: 0.875rem;
+    }
+    .feature-dot {
+      width: 8px; height: 8px; border-radius: 50%;
+      background: var(--accent); flex-shrink: 0;
+    }
+
+    /* ---- RIGHT PANEL ---- */
+    .panel-right {
+      width: 100%; max-width: 480px;
       background: #fff;
-      width: 100%;
-      max-width: 400px;
-      padding: 40px;
-      border-radius: 12px;
-      box-shadow: 0 10px 30px rgba(0,0,0,0.8);
-      text-align: center;
+      display: flex; flex-direction: column; align-items: center; justify-content: center;
+      padding: 40px 40px;
     }
+    @media (max-width: 899px) { .panel-right { max-width: 100%; } }
 
-    .logo { width: 160px; margin-bottom: 25px; }
+    .mobile-logo {
+      display: flex; align-items: center; gap: 10px;
+      font-size: 1rem; font-weight: 700; color: var(--text);
+      margin-bottom: 32px;
+    }
+    .mobile-logo-icon {
+      width: 32px; height: 32px; background: var(--accent);
+      border-radius: 8px; display: flex; align-items: center; justify-content: center;
+    }
+    @media (min-width: 900px) { .mobile-logo { display: none; } }
 
-    /* Animación para cambiar entre login y registro */
-    .form-box { display: none; animation: fadeIn 0.4s ease; }
-    .form-box.active { display: block; }
+    .form-wrap { width: 100%; max-width: 360px; }
 
-    @keyframes fadeIn {
-      from { opacity: 0; transform: translateY(10px); }
+    .form-box { display: none; }
+    .form-box.active { display: block; animation: fadeUp 0.35s ease; }
+    @keyframes fadeUp {
+      from { opacity: 0; transform: translateY(12px); }
       to { opacity: 1; transform: translateY(0); }
     }
 
-    h2 { font-size: 1.5rem; margin-bottom: 20px; color: var(--primary-color); }
-    
-    .input-group { margin-bottom: 15px; text-align: left; }
-    .input-group label { display: block; font-size: 0.85rem; font-weight: 500; margin-bottom: 5px; color: #555; }
+    .form-title { font-size: 1.4rem; font-weight: 700; color: var(--text); margin-bottom: 6px; letter-spacing: -0.3px; }
+    .form-subtitle { font-size: 0.875rem; color: var(--text-muted); margin-bottom: 28px; }
+
+    .input-group { margin-bottom: 16px; }
+    .input-group label {
+      display: block; font-size: 0.8rem; font-weight: 600;
+      color: var(--text); margin-bottom: 6px; letter-spacing: 0.2px;
+    }
     .input-group input {
-      width: 100%; padding: 12px; border: 1px solid #ccc; border-radius: 8px;
-      font-size: 1rem; outline: none; transition: border-color 0.3s;
+      width: 100%; padding: 11px 14px;
+      border: 1.5px solid var(--border); border-radius: 10px;
+      font-size: 0.9375rem; font-family: inherit; color: var(--text);
+      outline: none; transition: border-color var(--transition), box-shadow var(--transition);
+      background: #fafafa;
     }
-    .input-group input:focus { border-color: var(--accent-color); }
-
-    button[type="submit"] {
-      width: 100%; padding: 14px; background-color: var(--primary-color); color: #fff;
-      border: none; border-radius: 8px; font-size: 1rem; font-weight: bold; cursor: pointer;
-      margin-top: 10px; transition: background 0.3s;
+    .input-group input:focus {
+      border-color: var(--accent);
+      box-shadow: 0 0 0 3px rgba(227,6,19,0.1);
+      background: #fff;
     }
-    button[type="submit"]:hover { background-color: var(--accent-color); }
+    .input-group input::placeholder { color: #c0c0c0; }
 
-    .switch-form { margin-top: 20px; font-size: 0.9rem; color: #666; }
-    .switch-form a { color: var(--accent-color); font-weight: bold; text-decoration: none; cursor: pointer; }
+    .btn-submit {
+      width: 100%; padding: 13px;
+      background: var(--text); color: white;
+      border: none; border-radius: 10px;
+      font-size: 0.9375rem; font-weight: 600; font-family: inherit;
+      cursor: pointer; margin-top: 6px;
+      transition: background var(--transition), transform var(--transition);
+      position: relative; overflow: hidden;
+    }
+    .btn-submit:hover { background: var(--accent); }
+    .btn-submit:active { transform: scale(0.98); }
+    .btn-submit:disabled { opacity: 0.6; cursor: not-allowed; }
+
+    .btn-loader {
+      display: inline-block; width: 16px; height: 16px;
+      border: 2px solid rgba(255,255,255,0.4);
+      border-top-color: white; border-radius: 50%;
+      animation: spin 0.7s linear infinite;
+      vertical-align: middle; margin-right: 8px;
+    }
+    @keyframes spin { to { transform: rotate(360deg); } }
+
+    .divider { display: flex; align-items: center; gap: 12px; margin: 20px 0; }
+    .divider::before, .divider::after { content: ""; flex: 1; height: 1px; background: var(--border); }
+    .divider span { font-size: 0.75rem; color: #bbb; }
+
+    .switch-form { text-align: center; font-size: 0.875rem; color: var(--text-muted); }
+    .switch-form a { color: var(--accent); font-weight: 600; cursor: pointer; text-decoration: none; }
     .switch-form a:hover { text-decoration: underline; }
-    
-    .btn-volver { display: inline-block; margin-top: 20px; font-size: 0.85rem; color: #888; text-decoration: none; }
-    .btn-volver:hover { color: var(--primary-color); }
+
+    .btn-back {
+      display: flex; align-items: center; gap: 6px;
+      font-size: 0.8rem; color: #aaa; text-decoration: none;
+      margin-top: 24px; justify-content: center;
+      transition: color var(--transition);
+    }
+    .btn-back:hover { color: var(--text); }
+
+    /* Alert messages */
+    .alert {
+      display: none; padding: 10px 14px;
+      border-radius: 8px; font-size: 0.84rem; font-weight: 500;
+      margin-top: 12px; line-height: 1.4;
+    }
+    .alert-error { background: #fef2f2; border: 1px solid #fecaca; color: #dc2626; }
+    .alert-success { background: #f0fdf4; border: 1px solid #bbf7d0; color: #16a34a; }
   </style>
 </head>
 <body>
 
-  <div class="auth-container">
-    
-    <img src="logo-opcion4.svg" alt="Servicios Ramírez" class="logo" onerror="this.src='https://upload.wikimedia.org/wikipedia/commons/thumb/c/c4/Sony_logo.svg/1200px-Sony_logo.svg.png'">
-
-    <!-- =========================================
-         PANTALLA: INICIAR SESIÓN
-         ========================================= -->
-    <form id="login-form" class="form-box active">
-      <h2>Iniciar Sesión</h2>
-      
-      <div class="input-group">
-        <label>Correo Electrónico / Usuario</label>
-        <input type="text" id="log-correo" required placeholder="correo@ejemplo.com" autocomplete="off">
+  <!-- PANEL IZQUIERDO (solo desktop) -->
+  <div class="panel-left">
+    <div class="panel-brand">
+      <div class="brand-logo">
+        <div class="brand-logo-icon">
+          <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="white" stroke-width="2.5"><circle cx="12" cy="12" r="3"/><path d="M20 12a8 8 0 1 0-8 8"/></svg>
+        </div>
+        Servicios Ramírez
       </div>
-      
-      <div class="input-group">
-        <label>Contraseña</label>
-        <input type="password" id="log-pass" required placeholder="Ingresa tu contraseña">
-      </div>
-      
-      <button type="submit" id="btn-entrar">Entrar a mi cuenta</button>
-      
-      <div class="switch-form">
-        ¿No tienes cuenta? <a id="btn-to-register">Regístrate aquí</a>
-      </div>
-    </form>
-
-    <!-- =========================================
-         PANTALLA: CREAR CUENTA
-         ========================================= -->
-    <form id="register-form" class="form-box">
-      <h2>Crear Cuenta</h2>
-      
-      <div class="input-group">
-        <label>Nombre Completo</label>
-        <input type="text" id="reg-nombre" required placeholder="Ej: Juan Pérez">
-      </div>
-      
-      <div class="input-group">
-        <label>Correo Electrónico</label>
-        <input type="email" id="reg-correo" required placeholder="correo@ejemplo.com">
-      </div>
-      
-      <div class="input-group">
-        <label>Crea una Contraseña</label>
-        <input type="password" id="reg-pass" required placeholder="Mínimo 6 caracteres" minlength="6">
-      </div>
-      
-      <button type="submit">Registrarme</button>
-      
-      <div class="switch-form">
-        ¿Ya tienes cuenta? <a id="btn-to-login">Inicia sesión</a>
-      </div>
-    </form>
-
-    <a href="index.html" class="btn-volver">← Volver a la tienda</a>
-
+    </div>
+    <div class="panel-headline">
+      <h1>Tecnología y<br>Fotografía <span>Profesional</span></h1>
+      <p>Accede a tu cuenta para ver tus pedidos, historial y más.</p>
+    </div>
+    <div class="panel-features">
+      <div class="feature-item"><div class="feature-dot"></div> Equipos Sony de alta calidad</div>
+      <div class="feature-item"><div class="feature-dot"></div> Asesoría personalizada</div>
+      <div class="feature-item"><div class="feature-dot"></div> Envíos a todo Chile</div>
+    </div>
   </div>
 
-  <script>
-    const loginForm = document.getElementById('login-form');
-    const registerForm = document.getElementById('register-form');
-    
-    // Cambiar entre Login y Registro
-    document.getElementById('btn-to-register').addEventListener('click', () => {
-      loginForm.classList.remove('active');
-      registerForm.classList.add('active');
+  <!-- PANEL DERECHO (formulario) -->
+  <div class="panel-right">
+    <div class="form-wrap">
+
+      <!-- Logo mobile -->
+      <div class="mobile-logo">
+        <div class="mobile-logo-icon">
+          <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="white" stroke-width="2.5"><circle cx="12" cy="12" r="3"/><path d="M20 12a8 8 0 1 0-8 8"/></svg>
+        </div>
+        Servicios Ramírez
+      </div>
+
+      <!-- INICIAR SESIÓN -->
+      <div id="login-form" class="form-box active">
+        <h2 class="form-title">Bienvenido de vuelta</h2>
+        <p class="form-subtitle">Ingresa con tu correo y contraseña</p>
+
+        <div class="input-group">
+          <label>Correo electrónico</label>
+          <input type="email" id="log-correo" placeholder="correo@ejemplo.com" autocomplete="email" />
+        </div>
+        <div class="input-group">
+          <label>Contraseña</label>
+          <input type="password" id="log-pass" placeholder="Tu contraseña" autocomplete="current-password" />
+        </div>
+
+        <button class="btn-submit" id="btn-login" onclick="iniciarSesion()">Entrar a mi cuenta</button>
+        <div class="alert alert-error" id="login-error"></div>
+
+        <div class="divider"><span>¿no tienes cuenta?</span></div>
+        <div class="switch-form">
+          <a id="btn-to-register">Crear cuenta gratis</a>
+        </div>
+      </div>
+
+      <!-- CREAR CUENTA -->
+      <div id="register-form" class="form-box">
+        <h2 class="form-title">Crear cuenta</h2>
+        <p class="form-subtitle">Regístrate gratis en segundos</p>
+
+        <div class="input-group">
+          <label>Nombre completo</label>
+          <input type="text" id="reg-nombre" placeholder="Ej: Juan Pérez" autocomplete="name" />
+        </div>
+        <div class="input-group">
+          <label>Correo electrónico</label>
+          <input type="email" id="reg-correo" placeholder="correo@ejemplo.com" autocomplete="email" />
+        </div>
+        <div class="input-group">
+          <label>Contraseña</label>
+          <input type="password" id="reg-pass" placeholder="Mínimo 6 caracteres" autocomplete="new-password" />
+        </div>
+
+        <button class="btn-submit" id="btn-register" onclick="registrar()">Crear mi cuenta</button>
+        <div class="alert alert-error" id="register-error"></div>
+        <div class="alert alert-success" id="register-success"></div>
+
+        <div class="divider"><span>¿ya tienes cuenta?</span></div>
+        <div class="switch-form">
+          <a id="btn-to-login">Iniciar sesión</a>
+        </div>
+      </div>
+
+      <a href="index.html" class="btn-back">
+        <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><polyline points="15 18 9 12 15 6"/></svg>
+        Volver a la tienda
+      </a>
+
+    </div>
+  </div>
+
+  <!-- FIREBASE SDK (CDN modular) -->
+  <script type="module">
+    import { initializeApp } from "https://www.gstatic.com/firebasejs/12.15.0/firebase-app.js";
+    import { getAuth, signInWithEmailAndPassword, createUserWithEmailAndPassword, updateProfile } from "https://www.gstatic.com/firebasejs/12.15.0/firebase-auth.js";
+
+    const firebaseConfig = {
+      apiKey: "AIzaSyB7IODeAnczMkBq8UoeqZkJWpw9wZbxYZk",
+      authDomain: "servicios-ramirez.firebaseapp.com",
+      projectId: "servicios-ramirez",
+      storageBucket: "servicios-ramirez.firebasestorage.app",
+      messagingSenderId: "540818066798",
+      appId: "1:540818066798:web:47bf4d3f68d6959f6fc57f",
+      measurementId: "G-58DYHDR3J7"
+    };
+
+    const app = initializeApp(firebaseConfig);
+    const auth = getAuth(app);
+
+    // Cambiar entre formularios
+    document.getElementById("btn-to-register").addEventListener("click", () => {
+      document.getElementById("login-form").classList.remove("active");
+      document.getElementById("register-form").classList.add("active");
+    });
+    document.getElementById("btn-to-login").addEventListener("click", () => {
+      document.getElementById("register-form").classList.remove("active");
+      document.getElementById("login-form").classList.add("active");
     });
 
-    document.getElementById('btn-to-login').addEventListener('click', () => {
-      registerForm.classList.remove('active');
-      loginForm.classList.add('active');
-    });
-
-    // =========================================
-    // 1. SISTEMA DE REGISTRO PARA CLIENTES
-    // =========================================
-    registerForm.addEventListener('submit', (e) => {
-      e.preventDefault();
-      
-      const nombre = document.getElementById('reg-nombre').value.trim();
-      const correo = document.getElementById('reg-correo').value.trim().toLowerCase();
-      const pass = document.getElementById('reg-pass').value.trim();
-
-      // Verificar si el correo ya existe
-      if (localStorage.getItem('cuenta_' + correo)) {
-        alert("⚠️ Este correo ya está registrado. Por favor, inicia sesión.");
-        return;
+    function mostrarError(id, msg) {
+      const el = document.getElementById(id);
+      el.textContent = msg;
+      el.style.display = "block";
+    }
+    function ocultarAlertas() {
+      ["login-error","register-error","register-success"].forEach(id => {
+        document.getElementById(id).style.display = "none";
+      });
+    }
+    function setLoading(btnId, loading) {
+      const btn = document.getElementById(btnId);
+      if (loading) {
+        btn.disabled = true;
+        btn.innerHTML = '<span class="btn-loader"></span>Cargando...';
+      } else {
+        btn.disabled = false;
+        btn.innerHTML = btnId === "btn-login" ? "Entrar a mi cuenta" : "Crear mi cuenta";
       }
+    }
 
-      // Crear objeto con los datos del usuario
-      const cuenta = {
-        nombre: nombre,
-        correo: correo,
-        contrasena: pass, 
-        telefono: "", 
-        direccion: ""
+    function traducirError(codigo) {
+      const errores = {
+        "auth/user-not-found": "❌ No existe ninguna cuenta con este correo.",
+        "auth/wrong-password": "❌ Contraseña incorrecta. Inténtalo de nuevo.",
+        "auth/invalid-email": "❌ El correo ingresado no es válido.",
+        "auth/email-already-in-use": "⚠️ Este correo ya está registrado. Inicia sesión.",
+        "auth/weak-password": "⚠️ La contraseña debe tener al menos 6 caracteres.",
+        "auth/too-many-requests": "⚠️ Demasiados intentos. Espera un momento.",
+        "auth/invalid-credential": "❌ Correo o contraseña incorrectos."
       };
+      return errores[codigo] || "❌ Ocurrió un error. Inténtalo de nuevo.";
+    }
 
-      // Guardar en el navegador
-      localStorage.setItem('cuenta_' + correo, JSON.stringify(cuenta));
-      
-      alert('¡Cuenta creada con éxito! 🎉\nAhora inicia sesión con tu correo y contraseña.');
-      
-      registerForm.reset();
-      
-      // Volver a la pantalla de login
-      registerForm.classList.remove('active');
-      loginForm.classList.add('active');
-    });
+    // LOGIN
+    window.iniciarSesion = async function() {
+      ocultarAlertas();
+      const correo = document.getElementById("log-correo").value.trim();
+      const pass   = document.getElementById("log-pass").value;
 
-    // =========================================
-    // 2. SISTEMA DE LOGIN DUAL (ADMIN / CLIENTE)
-    // =========================================
-    loginForm.addEventListener('submit', (e) => {
-      e.preventDefault();
-      
-      const correoIngresado = document.getElementById('log-correo').value.trim().toLowerCase();
-      const passIngresada = document.getElementById('log-pass').value.trim();
-      const botonEntrar = document.getElementById('btn-entrar');
+      if (!correo || !pass) { mostrarError("login-error", "⚠️ Completa todos los campos."); return; }
 
-      // ----------------------------------------------
-      // ACCESO DIRECTO PARA ADMINISTRADOR (TÚNEL SECRETO)
-      // ----------------------------------------------
-      if (correoIngresado === 'admin' && passIngresada === 'admin123') {
-        botonEntrar.innerText = "Verificando...";
-        botonEntrar.style.backgroundColor = "#28a745"; // Verde de éxito
-        
-        setTimeout(() => {
-          window.location.href = "admin.html"; // Redirige a tu panel
-        }, 1000);
-        return; 
+      // Admin local (sin firebase)
+      if (correo === "admin" && pass === "admin123") {
+        window.location.href = "admin.html"; return;
       }
 
-      // ----------------------------------------------
-      // ACCESO PARA CLIENTES REGISTRADOS
-      // ----------------------------------------------
-      const cuentaGuardada = localStorage.getItem('cuenta_' + correoIngresado);
-
-      if (!cuentaGuardada) {
-        alert("❌ Error: No existe ninguna cuenta registrada con este correo.");
-        return; 
+      setLoading("btn-login", true);
+      try {
+        const cred = await signInWithEmailAndPassword(auth, correo, pass);
+        const user = cred.user;
+        localStorage.setItem("usuarioActivo", user.email);
+        localStorage.setItem("usuario", user.displayName || user.email);
+        window.location.href = "perfil.html";
+      } catch (err) {
+        mostrarError("login-error", traducirError(err.code));
+        setLoading("btn-login", false);
       }
+    };
 
-      const cuenta = JSON.parse(cuentaGuardada);
+    // REGISTRO
+    window.registrar = async function() {
+      ocultarAlertas();
+      const nombre  = document.getElementById("reg-nombre").value.trim();
+      const correo  = document.getElementById("reg-correo").value.trim();
+      const pass    = document.getElementById("reg-pass").value;
 
-      if (passIngresada !== cuenta.contrasena) {
-        alert("❌ Error: Contraseña incorrecta. Inténtalo de nuevo.");
-        return; 
+      if (!nombre || !correo || !pass) { mostrarError("register-error", "⚠️ Completa todos los campos."); return; }
+
+      setLoading("btn-register", true);
+      try {
+        const cred = await createUserWithEmailAndPassword(auth, correo, pass);
+        await updateProfile(cred.user, { displayName: nombre });
+        localStorage.setItem("usuarioActivo", cred.user.email);
+        localStorage.setItem("usuario", nombre);
+
+        const exito = document.getElementById("register-success");
+        exito.textContent = "✅ ¡Cuenta creada! Redirigiendo...";
+        exito.style.display = "block";
+        setTimeout(() => window.location.href = "perfil.html", 1500);
+      } catch (err) {
+        mostrarError("register-error", traducirError(err.code));
+        setLoading("btn-register", false);
       }
+    };
 
-      // --- REGISTRO DE DISPOSITIVO Y HORA ---
-      const esCelular = /Mobi|Android/i.test(navigator.userAgent);
-      const dispositivo = esCelular ? "📱 Teléfono Móvil" : "💻 Computadora";
-      
-      let navegador = "Navegador Desconocido";
-      if (navigator.userAgent.includes("Chrome")) navegador = "Google Chrome";
-      else if (navigator.userAgent.includes("Safari")) navegador = "Safari";
-      else if (navigator.userAgent.includes("Firefox")) navegador = "Firefox";
-
-      const fechaHora = new Date().toLocaleString('es-CL');
-
-      // Actualizar último acceso del cliente
-      cuenta.ultimoAcceso = {
-        dispositivo: dispositivo,
-        navegador: navegador,
-        fecha: fechaHora
-      };
-      
-      localStorage.setItem('cuenta_' + correoIngresado, JSON.stringify(cuenta));
-      
-      // Guardar sesión activa temporalmente
-      localStorage.setItem('usuarioActivo', cuenta.correo); 
-      localStorage.setItem('usuario', cuenta.nombre); 
-      
-      botonEntrar.innerText = "Entrando...";
-      
-      // Enviar al cliente a la página principal de la tienda (o donde prefieras)
-      setTimeout(() => {
-        window.location.href = 'perfil.html'; 
-      }, 1000);
-    });
-
+    // Enter para enviar formularios
+    document.getElementById("log-pass").addEventListener("keydown", e => { if(e.key==="Enter") window.iniciarSesion(); });
+    document.getElementById("reg-pass").addEventListener("keydown", e => { if(e.key==="Enter") window.registrar(); });
   </script>
+
 </body>
 </html>
