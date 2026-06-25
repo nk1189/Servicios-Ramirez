@@ -4,144 +4,239 @@
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <title>Mi Cuenta | Servicios Ramírez</title>
-  <link href="https://fonts.googleapis.com/css2?family=Roboto:wght@300;400;500;700&display=swap" rel="stylesheet">
-
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&display=swap" rel="stylesheet">
   <style>
-    /* =========================================
-       VARIABLES Y ESTILOS BASE
-       ========================================= */
     :root {
-      --primary-color: #000000;
-      --accent-color: #e30613; 
-      --bg-light: #f4f5f7;
-      --bg-white: #ffffff;
-      --text-main: #1d1d1f;
-      --text-muted: #86868b;
-      --border-color: #e5e5e5;
+      --accent: #e30613;
+      --accent-hover: #b5040f;
+      --bg: #f4f5f7;
+      --surface: #ffffff;
+      --surface-2: #fafafa;
+      --text: #1a1a1a;
+      --text-muted: #6b6b6b;
+      --text-faint: #b0b0b0;
+      --border: rgba(0,0,0,0.08);
+      --shadow-sm: 0 1px 3px rgba(0,0,0,0.06);
+      --shadow-md: 0 4px 16px rgba(0,0,0,0.07);
+      --radius: 14px;
+      --transition: 200ms cubic-bezier(0.16,1,0.3,1);
     }
-
-    * { margin: 0; padding: 0; box-sizing: border-box; font-family: 'Roboto', sans-serif; }
-    body { background-color: var(--bg-light); color: var(--text-main); }
+    *, *::before, *::after { margin:0; padding:0; box-sizing:border-box; }
+    html { -webkit-font-smoothing: antialiased; }
+    body { font-family: 'Inter', system-ui, sans-serif; background: var(--bg); color: var(--text); font-size: 15px; }
     a { text-decoration: none; color: inherit; }
-    button { cursor: pointer; font-family: inherit; }
+    button { cursor: pointer; font-family: inherit; border: none; background: none; }
 
-    /* =========================================
-       HEADER 
-       ========================================= */
-    .header { background: var(--bg-white); padding: 1rem 5%; box-shadow: 0 2px 10px rgba(0,0,0,0.05); position: sticky; top: 0; z-index: 50; }
-    .header-container { max-width: 1200px; margin: 0 auto; display: flex; justify-content: space-between; align-items: center; }
-    .logo img { height: 35px; }
+    /* HEADER */
+    .header {
+      background: rgba(255,255,255,0.92); backdrop-filter: blur(16px);
+      border-bottom: 1px solid var(--border);
+      position: sticky; top: 0; z-index: 100;
+    }
+    .header-inner {
+      max-width: 1280px; margin: 0 auto;
+      padding: 0 24px; height: 60px;
+      display: flex; align-items: center; justify-content: space-between;
+    }
+    .logo-wrap { display: flex; align-items: center; gap: 9px; font-size: 1rem; font-weight: 700; }
+    .logo-icon { width: 32px; height: 32px; background: var(--accent); border-radius: 8px; display: flex; align-items: center; justify-content: center; }
+    .nav-links { display: flex; align-items: center; gap: 4px; }
+    .nav-link {
+      padding: 7px 13px; border-radius: 8px;
+      font-size: 0.875rem; font-weight: 500; color: var(--text-muted);
+      transition: background var(--transition), color var(--transition);
+    }
+    .nav-link:hover { background: var(--bg); color: var(--text); }
+    .nav-link-danger { color: var(--accent) !important; }
+    .nav-link-danger:hover { background: rgba(227,6,19,0.07) !important; }
 
-    .nav-links { display: flex; gap: 20px; align-items: center; }
-    .nav-links a { font-weight: 500; font-size: 0.95rem; color: var(--text-muted); transition: color 0.3s; }
-    .nav-links a:hover { color: var(--accent-color); }
-    .btn-salir { color: var(--accent-color) !important; font-weight: bold !important; display: flex; align-items: center; gap: 5px; }
+    /* LAYOUT */
+    .dashboard { max-width: 1280px; margin: 28px auto; padding: 0 24px; display: grid; grid-template-columns: 260px 1fr; gap: 24px; }
 
-    /* =========================================
-       LAYOUT DEL DASHBOARD
-       ========================================= */
-    .dashboard-container { max-width: 1200px; margin: 3rem auto; padding: 0 5%; display: grid; grid-template-columns: 280px 1fr; gap: 40px; }
+    /* SIDEBAR */
+    .sidebar { background: var(--surface); border-radius: var(--radius); box-shadow: var(--shadow-md); overflow: hidden; height: fit-content; position: sticky; top: 84px; }
+    .profile-banner {
+      background: #0a0a0a; padding: 28px 20px; text-align: center;
+      position: relative; overflow: hidden;
+    }
+    .profile-banner::before {
+      content: ""; position: absolute; inset: 0;
+      background: radial-gradient(ellipse at 50% 80%, rgba(227,6,19,0.15) 0%, transparent 65%);
+    }
+    .avatar {
+      width: 72px; height: 72px; border-radius: 50%;
+      background: var(--accent); color: white;
+      font-size: 1.8rem; font-weight: 700;
+      display: flex; align-items: center; justify-content: center;
+      margin: 0 auto 12px; position: relative; z-index: 1;
+      box-shadow: 0 4px 16px rgba(227,6,19,0.4);
+    }
+    .profile-name { color: white; font-weight: 700; font-size: 1rem; margin-bottom: 4px; position: relative; z-index: 1; }
+    .profile-email { color: rgba(255,255,255,0.5); font-size: 0.78rem; position: relative; z-index: 1; }
+    .uid-badge {
+      display: inline-flex; align-items: center; gap: 5px;
+      background: rgba(255,255,255,0.08); border: 1px solid rgba(255,255,255,0.12);
+      color: rgba(255,255,255,0.5); font-size: 0.7rem; font-family: monospace;
+      padding: 4px 9px; border-radius: 6px; margin-top: 10px;
+      position: relative; z-index: 1; cursor: pointer;
+      transition: background var(--transition);
+    }
+    .uid-badge:hover { background: rgba(255,255,255,0.15); color: white; }
 
-    /* =========================================
-       SIDEBAR (Menú Lateral)
-       ========================================= */
-    .sidebar { background: var(--bg-white); border-radius: 16px; box-shadow: 0 4px 20px rgba(0,0,0,0.04); overflow: hidden; height: fit-content; }
-    
-    .perfil-header { background: var(--primary-color); color: white; padding: 30px 20px; text-align: center; }
-    .avatar { width: 80px; height: 80px; background: var(--bg-white); color: var(--primary-color); font-size: 2.5rem; display: flex; align-items: center; justify-content: center; border-radius: 50%; margin: 0 auto 15px; font-weight: bold; box-shadow: 0 4px 10px rgba(0,0,0,0.2); }
-    .perfil-header h2 { font-size: 1.3rem; margin-bottom: 5px; text-transform: capitalize; }
-    .perfil-header p { font-size: 0.85rem; opacity: 0.8; }
+    .sidebar-nav { padding: 10px; }
+    .nav-item {
+      display: flex; align-items: center; gap: 11px;
+      padding: 11px 14px; border-radius: 10px;
+      font-size: 0.875rem; font-weight: 500; color: var(--text-muted);
+      transition: all var(--transition); cursor: pointer; margin-bottom: 2px;
+    }
+    .nav-item:hover { background: var(--bg); color: var(--text); }
+    .nav-item.active { background: rgba(227,6,19,0.08); color: var(--accent); font-weight: 600; }
+    .nav-item svg { flex-shrink: 0; opacity: 0.7; }
+    .nav-item.active svg { opacity: 1; }
 
-    .menu-perfil { list-style: none; padding: 15px; }
-    .menu-perfil li { padding: 14px 20px; margin-bottom: 8px; border-radius: 10px; font-weight: 500; color: var(--text-muted); transition: all 0.3s; display: flex; align-items: center; gap: 12px; }
-    .menu-perfil li:hover { background: var(--bg-light); color: var(--primary-color); }
-    .menu-perfil li.activo { background: rgba(227, 6, 19, 0.1); color: var(--accent-color); font-weight: 700; }
-    .menu-icon { width: 20px; height: 20px; }
+    /* MAIN CONTENT */
+    .main-content { min-width: 0; }
+    .tab { display: none; animation: fadeUp 0.3s ease; }
+    .tab.active { display: block; }
+    @keyframes fadeUp { from { opacity:0; transform:translateY(10px); } to { opacity:1; transform:translateY(0); } }
 
-    /* =========================================
-       CONTENIDO PRINCIPAL (Tabs)
-       ========================================= */
-    .tab-content { display: none; animation: fadeIn 0.4s ease; }
-    .tab-content.activo { display: block; }
-    @keyframes fadeIn { from { opacity: 0; transform: translateY(10px); } to { opacity: 1; transform: translateY(0); } }
+    .section-head { margin-bottom: 20px; }
+    .section-head h1 { font-size: 1.3rem; font-weight: 700; letter-spacing: -0.3px; }
+    .section-head p { font-size: 0.875rem; color: var(--text-muted); margin-top: 3px; }
 
-    .panel-header { margin-bottom: 25px; border-bottom: 2px solid var(--border-color); padding-bottom: 15px; }
-    .panel-header h1 { font-size: 1.8rem; color: var(--primary-color); }
+    /* CARDS */
+    .card { background: var(--surface); border-radius: var(--radius); box-shadow: var(--shadow-sm); border: 1px solid var(--border); }
+    .card-body { padding: 24px; }
 
-    /* =========================================
-       ESTADOS VACÍOS (Diseño genérico)
-       ========================================= */
-    .estado-vacio { text-align: center; padding: 60px 20px; background: var(--bg-white); border-radius: 16px; border: 2px dashed var(--border-color); }
-    .estado-vacio h3 { margin-bottom: 10px; color: var(--text-muted); font-size: 1.2rem; }
-    .btn-comprar { display: inline-block; margin-top: 15px; padding: 12px 30px; background: var(--primary-color); color: white; border-radius: 30px; font-weight: bold; transition: background 0.3s; }
-    .btn-comprar:hover { background: var(--accent-color); }
+    /* EMPTY STATE */
+    .empty-state { padding: 56px 24px; text-align: center; }
+    .empty-icon { width: 48px; height: 48px; color: var(--text-faint); margin: 0 auto 14px; }
+    .empty-state h3 { font-size: 1rem; font-weight: 600; color: var(--text); margin-bottom: 6px; }
+    .empty-state p { font-size: 0.875rem; color: var(--text-muted); max-width: 30ch; margin: 0 auto 18px; }
 
-    /* =========================================
-       TARJETAS DE PEDIDOS (Con botón de detalle)
-       ========================================= */
-    .lista-pedidos { display: flex; flex-direction: column; gap: 20px; }
-    .pedido-card { background: var(--bg-white); border-radius: 16px; padding: 25px; box-shadow: 0 4px 15px rgba(0,0,0,0.03); border: 1px solid var(--border-color); position: relative; }
-    
-    .pedido-header { display: flex; justify-content: space-between; align-items: flex-start; margin-bottom: 20px; padding-bottom: 15px; border-bottom: 1px solid var(--border-color); }
-    .pedido-info-izq h3 { font-size: 1.1rem; margin-bottom: 5px; }
-    .pedido-fecha { color: var(--text-muted); font-size: 0.85rem; }
-    .badge-estado { background: #fef08a; color: #b45309; padding: 6px 15px; border-radius: 20px; font-size: 0.85rem; font-weight: bold; display: inline-flex; align-items: center; gap: 5px; }
-    
-    .pedido-items { display: grid; grid-template-columns: repeat(auto-fill, minmax(250px, 1fr)); gap: 15px; margin-bottom: 20px; }
-    .item-compra { display: flex; align-items: center; gap: 15px; background: var(--bg-light); padding: 10px; border-radius: 10px; }
-    .item-compra img { width: 55px; height: 55px; object-fit: cover; border-radius: 8px; border: 1px solid var(--border-color); }
-    .item-detalle p { font-size: 0.9rem; font-weight: 500; line-height: 1.2; margin-bottom: 5px; }
-    .item-detalle span { font-size: 0.8rem; color: var(--text-muted); }
+    .btn-primary {
+      display: inline-flex; align-items: center; gap: 6px;
+      background: var(--text); color: white;
+      padding: 10px 20px; border-radius: 9999px;
+      font-size: 0.875rem; font-weight: 600;
+      transition: background var(--transition);
+    }
+    .btn-primary:hover { background: var(--accent); }
 
-    .pedido-footer { display: flex; justify-content: space-between; align-items: center; background: var(--bg-light); padding: 15px 20px; border-radius: 10px; }
-    .metodo-pago { font-size: 0.9rem; color: var(--text-muted); display: flex; align-items: center; gap: 5px; }
-    .total-compra { font-size: 1.3rem; font-weight: 700; color: var(--primary-color); }
+    /* ORDERS */
+    .order-card { border: 1px solid var(--border); border-radius: var(--radius); overflow: hidden; margin-bottom: 14px; }
+    .order-head {
+      display: flex; align-items: center; justify-content: space-between;
+      padding: 16px 20px; background: var(--surface-2);
+      border-bottom: 1px solid var(--border); flex-wrap: wrap; gap: 10px;
+    }
+    .order-id { font-size: 0.875rem; font-weight: 600; }
+    .order-date { font-size: 0.8rem; color: var(--text-muted); }
+    .badge {
+      display: inline-flex; align-items: center; gap: 5px;
+      padding: 4px 12px; border-radius: 9999px;
+      font-size: 0.78rem; font-weight: 600;
+    }
+    .badge-pending { background: #fef9c3; color: #a16207; }
+    .badge-delivered { background: #dcfce7; color: #15803d; }
+    .order-items { padding: 16px 20px; display: flex; flex-direction: column; gap: 10px; }
+    .order-item { display: flex; align-items: center; gap: 12px; }
+    .order-item img { width: 52px; height: 52px; object-fit: cover; border-radius: 8px; border: 1px solid var(--border); }
+    .order-item-name { font-size: 0.875rem; font-weight: 500; }
+    .order-item-qty { font-size: 0.8rem; color: var(--text-muted); }
+    .order-foot {
+      display: flex; align-items: center; justify-content: space-between;
+      padding: 14px 20px; background: var(--surface-2);
+      border-top: 1px solid var(--border); flex-wrap: wrap; gap: 8px;
+    }
+    .order-method { font-size: 0.8rem; color: var(--text-muted); display: flex; align-items: center; gap: 6px; }
+    .order-total { font-size: 1.1rem; font-weight: 700; }
+    .btn-track {
+      padding: 7px 14px; border-radius: 8px;
+      font-size: 0.8rem; font-weight: 600;
+      background: var(--bg); color: var(--text);
+      border: 1px solid var(--border);
+      transition: background var(--transition), border-color var(--transition);
+    }
+    .btn-track:hover { background: var(--border); }
 
-    /* Botón de detalle sobre la tarjeta */
-    .btn-detalle-pedido { position: absolute; top: 25px; right: 180px; background: #eee; color: var(--text-main); border: none; padding: 6px 12px; border-radius: 6px; font-size: 0.85rem; font-weight: bold; transition: background 0.3s; }
-    .btn-detalle-pedido:hover { background: #ddd; }
+    /* FORM */
+    .form-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 18px; }
+    .form-group { display: flex; flex-direction: column; gap: 6px; }
+    .form-group.full { grid-column: 1/-1; }
+    .form-group label { font-size: 0.78rem; font-weight: 600; color: var(--text); text-transform: uppercase; letter-spacing: 0.5px; }
+    .form-group input {
+      padding: 10px 14px; border: 1.5px solid var(--border);
+      border-radius: 10px; font-size: 0.9375rem; font-family: inherit;
+      background: var(--surface-2); color: var(--text);
+      outline: none; transition: border-color var(--transition), box-shadow var(--transition);
+    }
+    .form-group input:focus { border-color: var(--accent); box-shadow: 0 0 0 3px rgba(227,6,19,0.1); background: white; }
+    .form-group input:disabled { opacity: 0.5; cursor: not-allowed; }
+    .btn-save {
+      grid-column: 1/-1; padding: 12px;
+      background: var(--text); color: white; border-radius: 10px;
+      font-size: 0.9rem; font-weight: 600;
+      transition: background var(--transition);
+    }
+    .btn-save:hover { background: var(--accent); }
 
-    /* =========================================
-       FORMULARIOS Y GRID DE OPCIONES
-       ========================================= */
-    .form-grid { background: var(--bg-white); padding: 35px; border-radius: 16px; box-shadow: 0 4px 15px rgba(0,0,0,0.03); display: grid; grid-template-columns: 1fr 1fr; gap: 25px; }
-    .input-group { display: flex; flex-direction: column; }
-    .input-group.full { grid-column: 1 / -1; }
-    .input-group label { font-size: 0.85rem; color: var(--text-muted); margin-bottom: 8px; font-weight: 500; }
-    .input-group input { padding: 14px; border: 1px solid var(--border-color); border-radius: 10px; font-size: 1rem; outline: none; background: #fafafa; transition: border-color 0.3s; }
-    .input-group input:disabled { background: #eee; color: #888; cursor: not-allowed; }
-    .input-group input:focus:not(:disabled) { border-color: var(--accent-color); background: #fff; }
-    
-    .btn-guardar { grid-column: 1 / -1; padding: 16px; background: var(--accent-color); color: white; border: none; border-radius: 10px; font-weight: bold; font-size: 1.05rem; transition: background 0.3s; margin-top: 10px; }
-    .btn-guardar:hover { background: #b3000a; }
+    /* INFO CARD */
+    .info-card { background: #eff6ff; border: 1px solid #bfdbfe; border-radius: var(--radius); padding: 18px 20px; margin-bottom: 20px; }
+    .info-card.purple { background: #f5f3ff; border-color: #ddd6fe; }
+    .info-card h4 { font-size: 0.9rem; font-weight: 600; color: #1e40af; margin-bottom: 10px; display: flex; align-items: center; gap: 7px; }
+    .info-card.purple h4 { color: #5b21b6; }
+    .info-row { display: flex; gap: 8px; font-size: 0.875rem; margin-bottom: 5px; }
+    .info-row strong { color: var(--text); min-width: 100px; }
+    .info-row span { color: var(--text-muted); }
 
-    /* Mini tarjetas para Métodos de Pago y Favoritos */
-    .opcion-card { border: 1px solid var(--border-color); border-radius: 12px; padding: 20px; display: flex; justify-content: space-between; align-items: center; }
-    .opcion-info { display: flex; align-items: center; gap: 15px; }
-    .opcion-info svg { width: 40px; height: 40px; color: var(--text-muted); }
-    .opcion-text h4 { margin-bottom: 3px; font-size: 1rem; }
-    .opcion-text p { font-size: 0.85rem; color: var(--text-muted); }
-    .btn-eliminar { color: var(--accent-color); background: none; border: none; font-weight: bold; font-size: 0.9rem; }
-    .btn-eliminar:hover { text-decoration: underline; }
+    /* PAYMENT */
+    .payment-item { display: flex; align-items: center; justify-content: space-between; padding: 14px 16px; border: 1px solid var(--border); border-radius: 10px; margin-bottom: 10px; }
+    .payment-left { display: flex; align-items: center; gap: 12px; }
+    .payment-type { font-size: 0.875rem; font-weight: 600; }
+    .payment-num { font-size: 0.8rem; color: var(--text-muted); }
+    .btn-remove { font-size: 0.8rem; font-weight: 600; color: var(--accent); transition: opacity var(--transition); }
+    .btn-remove:hover { opacity: 0.7; }
+    .add-card-box { background: var(--surface-2); border: 1.5px dashed var(--border); border-radius: 10px; padding: 18px; margin-top: 12px; }
+    .add-card-box h4 { font-size: 0.875rem; font-weight: 600; margin-bottom: 14px; }
+    .add-card-row { display: flex; gap: 10px; margin-bottom: 10px; flex-wrap: wrap; }
+    .add-card-row select, .add-card-row input {
+      padding: 9px 12px; border: 1.5px solid var(--border); border-radius: 8px;
+      font-size: 0.875rem; font-family: inherit; background: white; outline: none;
+      transition: border-color var(--transition);
+    }
+    .add-card-row select:focus, .add-card-row input:focus { border-color: var(--accent); }
 
-    /* =========================================
-       MODAL DE DETALLE DE PEDIDO (Oculto)
-       ========================================= */
-    .modal-overlay { display: none; position: fixed; top: 0; left: 0; width: 100%; height: 100%; background: rgba(0,0,0,0.6); z-index: 1000; align-items: center; justify-content: center; }
-    .modal-overlay.activo { display: flex; animation: fadeIn 0.3s; }
-    .modal-content { background: #fff; width: 90%; max-width: 500px; border-radius: 16px; padding: 30px; position: relative; }
-    .modal-close { position: absolute; top: 15px; right: 15px; background: none; border: none; font-size: 1.5rem; cursor: pointer; color: #888; }
-    .modal-timeline { margin: 20px 0; padding-left: 20px; border-left: 2px solid var(--accent-color); }
-    .timeline-step { position: relative; margin-bottom: 20px; padding-left: 15px; }
-    .timeline-step::before { content: ''; position: absolute; left: -22px; top: 0; width: 12px; height: 12px; border-radius: 50%; background: var(--accent-color); border: 3px solid #fff; }
-    .timeline-step.gris::before { background: #ccc; }
-    .timeline-step h4 { font-size: 0.95rem; margin-bottom: 2px; }
+    /* MODAL */
+    .modal-overlay { display: none; position: fixed; inset: 0; background: rgba(0,0,0,0.5); z-index: 1000; align-items: center; justify-content: center; padding: 20px; }
+    .modal-overlay.active { display: flex; animation: fadeUp 0.25s ease; }
+    .modal { background: white; border-radius: var(--radius); padding: 28px; width: 100%; max-width: 460px; position: relative; }
+    .modal-close { position: absolute; top: 16px; right: 16px; width: 30px; height: 30px; border-radius: 6px; display: flex; align-items: center; justify-content: center; color: var(--text-muted); transition: background var(--transition); }
+    .modal-close:hover { background: var(--bg); }
+    .timeline { border-left: 2px solid var(--accent); padding-left: 20px; margin: 20px 0; }
+    .timeline-step { position: relative; margin-bottom: 18px; padding-left: 4px; }
+    .timeline-step::before { content: ""; position: absolute; left: -26px; top: 3px; width: 10px; height: 10px; border-radius: 50%; background: var(--accent); border: 2px solid white; }
+    .timeline-step.dim::before { background: var(--border); }
+    .timeline-step h4 { font-size: 0.875rem; font-weight: 600; margin-bottom: 2px; }
     .timeline-step p { font-size: 0.8rem; color: var(--text-muted); }
 
-    @media (max-width: 900px) { 
-      .dashboard-container { grid-template-columns: 1fr; gap: 20px; } 
-      .form-grid { grid-template-columns: 1fr; padding: 20px; }
-      .btn-detalle-pedido { position: static; margin-bottom: 10px; width: 100%; }
+    /* ALERT */
+    .alert { display:none; padding: 10px 14px; border-radius: 8px; font-size: 0.84rem; font-weight: 500; margin-top: 12px; }
+    .alert-success { background: #f0fdf4; border: 1px solid #bbf7d0; color: #16a34a; }
+    .alert-error { background: #fef2f2; border: 1px solid #fecaca; color: #dc2626; }
+
+    @media (max-width: 900px) {
+      .dashboard { grid-template-columns: 1fr; }
+      .sidebar { position: static; }
+      .form-grid { grid-template-columns: 1fr; }
+    }
+    @media (max-width: 600px) {
+      .dashboard { padding: 0 16px; margin: 16px auto; }
+      .header-inner { padding: 0 16px; }
+      .nav-link span { display: none; }
     }
   </style>
 </head>
@@ -149,411 +244,442 @@
 
   <!-- HEADER -->
   <header class="header">
-    <div class="header-container">
-      <div class="logo">
-        <a href="index.html"><img src="logo-opcion4.svg" alt="Servicios Ramírez" onerror="this.src='https://upload.wikimedia.org/wikipedia/commons/thumb/c/c4/Sony_logo.svg/1200px-Sony_logo.svg.png'"></a>
-      </div>
+    <div class="header-inner">
+      <a href="index.html" class="logo-wrap">
+        <div class="logo-icon">
+          <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="white" stroke-width="2.5"><circle cx="12" cy="12" r="3"/><path d="M20 12a8 8 0 1 0-8 8"/></svg>
+        </div>
+        Servicios Ramírez
+      </a>
       <div class="nav-links">
-        <a href="tiendaSVR.html">Tienda</a>
-        <a href="soporte.html">Ayuda</a>
-        <a href="index.html">Menu principal</a>
-        <a onclick="cerrarSesion()" class="btn-salir" style="cursor:pointer;">
-          <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M9 21H5a2 2 0 0 1-2-2V5a2 2 0 0 1 2-2h4"></path><polyline points="16 17 21 12 16 7"></polyline><line x1="21" y1="12" x2="9" y2="12"></line></svg>
-          Salir
+        <a href="tiendaSVR.html" class="nav-link"><span>Tienda</span></a>
+        <a href="soporte.html" class="nav-link"><span>Ayuda</span></a>
+        <a href="index.html" class="nav-link"><span>Inicio</span></a>
+        <a onclick="cerrarSesion()" class="nav-link nav-link-danger" style="display:flex;align-items:center;gap:6px;cursor:pointer;">
+          <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M9 21H5a2 2 0 0 1-2-2V5a2 2 0 0 1 2-2h4"/><polyline points="16 17 21 12 16 7"/><line x1="21" y1="12" x2="9" y2="12"/></svg>
+          <span>Salir</span>
         </a>
       </div>
     </div>
   </header>
 
-  <div class="dashboard-container">
-    
-    <!-- MENU LATERAL -->
+  <div class="dashboard">
+    <!-- SIDEBAR -->
     <aside class="sidebar">
-      <div class="perfil-header">
-        <div class="avatar" id="user-avatar">U</div>
-        <h2 id="user-name">Usuario</h2>
-        <p id="user-email">Cargando...</p>
+      <div class="profile-banner">
+        <div class="avatar" id="user-avatar">?</div>
+        <div class="profile-name" id="user-name">Cargando...</div>
+        <div class="profile-email" id="user-email">—</div>
+        <div class="uid-badge" id="uid-badge" onclick="copiarUID()" title="Clic para copiar UID">
+          <svg width="10" height="10" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><rect x="9" y="9" width="13" height="13" rx="2"/><path d="M5 15H4a2 2 0 0 1-2-2V4a2 2 0 0 1 2-2h9a2 2 0 0 1 2 2v1"/></svg>
+          <span id="uid-text">uid: cargando...</span>
+        </div>
       </div>
-
-      <ul class="menu-perfil">
-        <li class="activo" onclick="cambiarTab('pedidos', this)">
-          <svg class="menu-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M21 16V8a2 2 0 0 0-1-1.73l-7-4a2 2 0 0 0-2 0l-7 4A2 2 0 0 0 3 8v8a2 2 0 0 0 1 1.73l7 4a2 2 0 0 0 2 0l7-4A2 2 0 0 0 21 16z"></path></svg>
+      <nav class="sidebar-nav">
+        <div class="nav-item active" onclick="cambiarTab('pedidos', this)">
+          <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M6 2L3 6v14a2 2 0 002 2h14a2 2 0 002-2V6l-3-4z"/><line x1="3" y1="6" x2="21" y2="6"/><path d="M16 10a4 4 0 01-8 0"/></svg>
           Mis Pedidos
-        </li>
-        <li onclick="cambiarTab('datos', this)">
-          <svg class="menu-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M20 21v-2a4 4 0 0 0-4-4H8a4 4 0 0 0-4 4v2"></path><circle cx="12" cy="7" r="4"></circle></svg>
+        </div>
+        <div class="nav-item" onclick="cambiarTab('datos', this)">
+          <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M20 21v-2a4 4 0 00-4-4H8a4 4 0 00-4 4v2"/><circle cx="12" cy="7" r="4"/></svg>
           Datos de Envío
-        </li>
-        <li onclick="cambiarTab('pagos', this)">
-          <svg class="menu-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><rect x="1" y="4" width="22" height="16" rx="2" ry="2"></rect><line x1="1" y1="10" x2="23" y2="10"></line></svg>
+        </div>
+        <div class="nav-item" onclick="cambiarTab('pagos', this)">
+          <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><rect x="1" y="4" width="22" height="16" rx="2"/><line x1="1" y1="10" x2="23" y2="10"/></svg>
           Métodos de Pago
-        </li>
-        <li onclick="cambiarTab('favoritos', this)">
-          <svg class="menu-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M20.84 4.61a5.5 5.5 0 0 0-7.78 0L12 5.67l-1.06-1.06a5.5 5.5 0 0 0-7.78 7.78l1.06 1.06L12 21.23l7.78-7.78 1.06-1.06a5.5 5.5 0 0 0 0-7.78z"></path></svg>
+        </div>
+        <div class="nav-item" onclick="cambiarTab('favoritos', this)">
+          <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M20.84 4.61a5.5 5.5 0 00-7.78 0L12 5.67l-1.06-1.06a5.5 5.5 0 00-7.78 7.78l1.06 1.06L12 21.23l7.78-7.78 1.06-1.06a5.5 5.5 0 000-7.78z"/></svg>
           Favoritos
-        </li>
-        <li onclick="cambiarTab('seguridad', this)">
-          <svg class="menu-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><rect x="3" y="11" width="18" height="11" rx="2" ry="2"></rect><path d="M7 11V7a5 5 0 0 1 10 0v4"></path></svg>
+        </div>
+        <div class="nav-item" onclick="cambiarTab('seguridad', this)">
+          <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><rect x="3" y="11" width="18" height="11" rx="2"/><path d="M7 11V7a5 5 0 0110 0v4"/></svg>
           Seguridad
-        </li>
-      </ul>
+        </div>
+      </nav>
     </aside>
 
-    <!-- CONTENIDO PRINCIPAL -->
-    <main>
-      
-      <!-- PESTAÑA 1: PEDIDOS -->
-      <div id="tab-pedidos" class="tab-content activo">
-        <div class="panel-header">
+    <!-- MAIN -->
+    <main class="main-content">
+
+      <!-- PEDIDOS -->
+      <div id="tab-pedidos" class="tab active">
+        <div class="section-head">
           <h1>Mis Pedidos</h1>
+          <p>Historial y seguimiento de tus compras</p>
         </div>
         <div id="contenedor-pedidos"></div>
       </div>
 
-      <!-- PESTAÑA 2: DATOS -->
-      <div id="tab-datos" class="tab-content">
-        <div class="panel-header">
+      <!-- DATOS -->
+      <div id="tab-datos" class="tab">
+        <div class="section-head">
           <h1>Datos de Envío</h1>
+          <p>Información para tus entregas</p>
         </div>
-        <form class="form-grid" id="form-actualizar-datos">
-          <div class="input-group full">
-            <label>Correo Electrónico (Solo lectura)</label>
-            <input type="email" id="dato-correo" disabled>
+        <div class="card">
+          <div class="card-body">
+            <form id="form-datos">
+              <div class="form-grid">
+                <div class="form-group full">
+                  <label>Correo electrónico</label>
+                  <input type="email" id="dato-correo" disabled placeholder="correo@ejemplo.com" />
+                </div>
+                <div class="form-group">
+                  <label>Nombre completo</label>
+                  <input type="text" id="dato-nombre" placeholder="Tu nombre" />
+                </div>
+                <div class="form-group">
+                  <label>Teléfono (WhatsApp)</label>
+                  <input type="tel" id="dato-telefono" placeholder="+56 9 XXXX XXXX" />
+                </div>
+                <div class="form-group full">
+                  <label>Dirección de entrega</label>
+                  <input type="text" id="dato-direccion" placeholder="Av. Principal 123, Depto 4, Comuna" />
+                </div>
+                <button type="submit" class="btn-save">Guardar cambios</button>
+              </div>
+              <div class="alert alert-success" id="datos-ok">✅ Datos actualizados correctamente.</div>
+            </form>
           </div>
-          <div class="input-group">
-            <label>Nombre Completo</label>
-            <input type="text" id="dato-nombre" required>
-          </div>
-          <div class="input-group">
-            <label>Teléfono (WhatsApp)</label>
-            <input type="tel" id="dato-telefono" placeholder="+56 9...">
-          </div>
-          <div class="input-group full">
-            <label>Dirección de Entrega Predeterminada</label>
-            <input type="text" id="dato-direccion" placeholder="Ej: Av. Principal 123, Depto 4, Comuna">
-          </div>
-          <button type="submit" class="btn-guardar">Guardar Información</button>
-        </form>
+        </div>
       </div>
 
-      <!-- PESTAÑA 3: PAGOS -->
-      <div id="tab-pagos" class="tab-content">
-        <div class="panel-header">
+      <!-- PAGOS -->
+      <div id="tab-pagos" class="tab">
+        <div class="section-head">
           <h1>Métodos de Pago</h1>
+          <p>Tus tarjetas guardadas</p>
         </div>
-        
-        <div class="form-grid" style="display:flex; flex-direction:column;">
-          <p style="color:var(--text-muted); font-size:0.95rem;">Tus tarjetas guardadas para compras más rápidas.</p>
-          
-          <div id="contenedor-tarjetas">
-            <!-- Las tarjetas guardadas aparecerán aquí -->
-          </div>
-
-          <!-- CAMBIO CLAVE AQUÍ: Usamos un div en lugar de un form para evitar el refresco -->
-          <div id="form-nueva-tarjeta" style="background:#fafafa; padding:20px; border-radius:10px; border:1px dashed #ccc; margin-top:15px;">
-            <h4 style="margin-bottom:15px;">Agregar Nueva Tarjeta</h4>
-            
-            <div style="display:flex; gap:10px; margin-bottom:10px;">
-              <select id="tipo-tarjeta" style="flex:1; padding:10px; border-radius:5px; border:1px solid #ccc;">
-                <option value="Visa">Visa</option>
-                <option value="Mastercard">Mastercard</option>
-                <option value="Cuenta RUT">Cuenta RUT</option>
-              </select>
-              <input type="text" id="numero-tarjeta" placeholder="Número (Ej: 4123...)" maxlength="19" style="flex:2; padding:10px; border-radius:5px; border:1px solid #ccc;">
-              <input type="text" id="vencimiento-tarjeta" placeholder="MM/AA" maxlength="5" style="flex:1; padding:10px; border-radius:5px; border:1px solid #ccc;">
+        <div class="card">
+          <div class="card-body">
+            <div id="contenedor-tarjetas"></div>
+            <div class="add-card-box">
+              <h4>Agregar tarjeta</h4>
+              <div class="add-card-row">
+                <select id="tipo-tarjeta" style="flex:1;">
+                  <option>Visa</option>
+                  <option>Mastercard</option>
+                  <option>Cuenta RUT</option>
+                </select>
+                <input type="text" id="numero-tarjeta" placeholder="Número" maxlength="19" style="flex:2;" />
+                <input type="text" id="vencimiento-tarjeta" placeholder="MM/AA" maxlength="5" style="flex:1;" />
+              </div>
+              <button class="btn-save" style="grid-column:unset;width:100%;margin-top:4px;" onclick="guardarMetodoPago()">Guardar tarjeta</button>
             </div>
-            
-            <!-- CAMBIO CLAVE AQUÍ: button type="button" en lugar de type="submit" -->
-            <button type="button" class="btn-guardar" style="width:100%; margin:0; font-size:0.9rem; padding:10px;" onclick="guardarMetodoPago()">Guardar Tarjeta</button>
           </div>
         </div>
       </div>
 
-      <!-- PESTAÑA 4: FAVORITOS -->
-      <div id="tab-favoritos" class="tab-content">
-        <div class="panel-header">
-          <h1>Mis Favoritos</h1>
-        </div>
-        <div class="estado-vacio">
-          <svg width="50" height="50" viewBox="0 0 24 24" fill="none" stroke="#ccc" stroke-width="2" style="margin-bottom:10px;"><path d="M20.84 4.61a5.5 5.5 0 0 0-7.78 0L12 5.67l-1.06-1.06a5.5 5.5 0 0 0-7.78 7.78l1.06 1.06L12 21.23l7.78-7.78 1.06-1.06a5.5 5.5 0 0 0 0-7.78z"></path></svg>
-          <h3>Aún no tienes favoritos</h3>
-          <p style="color:#888; font-size:0.95rem;">Cuando marques un producto con el corazón, aparecerá aquí.</p>
-          <a href="tiendaSVR.html" class="btn-comprar">Explorar Catálogo</a>
+      <!-- FAVORITOS -->
+      <div id="tab-favoritos" class="tab">
+        <div class="section-head"><h1>Mis Favoritos</h1></div>
+        <div class="card">
+          <div class="empty-state">
+            <svg class="empty-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5"><path d="M20.84 4.61a5.5 5.5 0 00-7.78 0L12 5.67l-1.06-1.06a5.5 5.5 0 00-7.78 7.78l1.06 1.06L12 21.23l7.78-7.78 1.06-1.06a5.5 5.5 0 000-7.78z"/></svg>
+            <h3>Sin favoritos aún</h3>
+            <p>Marca productos con el corazón y aparecerán aquí.</p>
+            <a href="tiendaSVR.html" class="btn-primary">Explorar tienda</a>
+          </div>
         </div>
       </div>
 
-      <!-- PESTAÑA 5: SEGURIDAD -->
-      <div id="tab-seguridad" class="tab-content">
-        <div class="panel-header">
+      <!-- SEGURIDAD -->
+      <div id="tab-seguridad" class="tab">
+        <div class="section-head">
           <h1>Seguridad</h1>
-        </div>
-        
-        <div style="background: #eef2ff; border: 1px solid #c7d2fe; padding: 20px; border-radius: 12px; margin-bottom: 25px;">
-          <h3 style="color: #4338ca; margin-bottom: 10px; display:flex; align-items:center; gap:8px;">
-            <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><rect x="3" y="11" width="18" height="11" rx="2" ry="2"></rect><path d="M7 11V7a5 5 0 0 1 10 0v4"></path></svg>
-            Último Inicio de Sesión
-          </h3>
-          <p style="font-size: 0.95rem; margin-bottom:5px;"><strong>Dispositivo:</strong> <span id="seg-dispositivo">Cargando...</span></p>
-          <p style="font-size: 0.95rem; margin-bottom:5px;"><strong>Navegador:</strong> <span id="seg-navegador">Cargando...</span></p>
-          <p style="font-size: 0.95rem; margin-bottom:0;"><strong>Fecha y Hora:</strong> <span id="seg-fecha">Cargando...</span></p>
-          <p style="font-size: 0.8rem; color: #666; margin-top: 10px;">Si no reconoces este inicio de sesión, cambia tu contraseña inmediatamente.</p>
+          <p>Información de tu cuenta y accesos</p>
         </div>
 
-        <div class="form-grid">
-          <div class="input-group full">
-            <label>Tu contraseña actual está encriptada.</label>
+        <div class="info-card purple" style="margin-bottom:16px;">
+          <h4>
+            <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M12 22s8-4 8-10V5l-8-3-8 3v7c0 6 8 10 8 10z"/></svg>
+            Información de cuenta (Firebase)
+          </h4>
+          <div class="info-row"><strong>UID:</strong><span id="seg-uid" style="font-family:monospace;font-size:0.8rem;">—</span></div>
+          <div class="info-row"><strong>Correo:</strong><span id="seg-correo">—</span></div>
+          <div class="info-row"><strong>Verificado:</strong><span id="seg-verificado">—</span></div>
+          <div class="info-row"><strong>Creado:</strong><span id="seg-creado">—</span></div>
+        </div>
+
+        <div class="info-card">
+          <h4>
+            <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="12" cy="12" r="10"/><polyline points="12 6 12 12 16 14"/></svg>
+            Último inicio de sesión
+          </h4>
+          <div class="info-row"><strong>Dispositivo:</strong><span id="seg-dispositivo">—</span></div>
+          <div class="info-row"><strong>Navegador:</strong><span id="seg-navegador">—</span></div>
+          <div class="info-row"><strong>Fecha:</strong><span id="seg-fecha">—</span></div>
+        </div>
+
+        <div class="card" style="margin-top:16px;">
+          <div class="card-body">
+            <p style="font-size:0.875rem;color:var(--text-muted);margin-bottom:14px;">¿Problemas con tu cuenta? Contáctanos directamente.</p>
+            <a href="soporte.html" class="btn-primary">Ir a soporte</a>
           </div>
-          <button type="button" class="btn-guardar" onclick="window.location.href='soporte.html'" style="background: var(--primary-color);">Contactar Soporte</button>
         </div>
       </div>
 
     </main>
   </div>
 
-  <!-- MODAL DE SEGUIMIENTO (Oculto) -->
+  <!-- MODAL TRACKING -->
   <div class="modal-overlay" id="modal-tracking">
-    <div class="modal-content">
-      <button class="modal-close" onclick="cerrarModal()">×</button>
-      <h2 style="margin-bottom:15px;" id="modal-titulo">Seguimiento de Pedido</h2>
-      
-      <div class="modal-timeline">
-        <div class="timeline-step">
-          <h4>Pedido Confirmado</h4>
-          <p id="modal-fecha">Cargando fecha...</p>
-        </div>
-        <div class="timeline-step">
-          <h4>En preparación</h4>
-          <p>Estamos empacando tus productos con cuidado.</p>
-        </div>
-        <div class="timeline-step gris">
-          <h4>Entregado al courrier</h4>
-          <p>A la espera del código de Starken / Chilexpress.</p>
-        </div>
-        <div class="timeline-step gris">
-          <h4>En tránsito</h4>
-          <p>El pedido va en camino a tu domicilio.</p>
-        </div>
+    <div class="modal">
+      <button class="modal-close" onclick="cerrarModal()">
+        <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><path d="M18 6L6 18M6 6l12 12"/></svg>
+      </button>
+      <h2 style="font-size:1.1rem;font-weight:700;margin-bottom:4px;" id="modal-titulo">Seguimiento</h2>
+      <p style="font-size:0.8rem;color:var(--text-muted);" id="modal-fecha"></p>
+      <div class="timeline">
+        <div class="timeline-step"><h4>Pedido confirmado</h4><p id="modal-fecha-texto"></p></div>
+        <div class="timeline-step"><h4>En preparación</h4><p>Empacando con cuidado.</p></div>
+        <div class="timeline-step dim"><h4>Entregado al courrier</h4><p>Esperando código Starken / Chilexpress.</p></div>
+        <div class="timeline-step dim"><h4>En tránsito</h4><p>El pedido va en camino.</p></div>
       </div>
-      
-      <button class="btn-guardar" style="width:100%;" onclick="cerrarModal()">Cerrar</button>
+      <button class="btn-primary" style="width:100%;justify-content:center;" onclick="cerrarModal()">Cerrar</button>
     </div>
   </div>
 
-  <script>
-    let correoActual = "";
-    let cuentaActual = {};
+  <script type="module">
+    import { initializeApp } from "https://www.gstatic.com/firebasejs/12.15.0/firebase-app.js";
+    import { getAuth, onAuthStateChanged, signOut, updateProfile } from "https://www.gstatic.com/firebasejs/12.15.0/firebase-auth.js";
 
-    document.addEventListener("DOMContentLoaded", () => {
-      correoActual = localStorage.getItem('usuarioActivo');
-      if (!correoActual) { window.location.href = "index.html"; return; }
+    const firebaseConfig = {
+      apiKey: "AIzaSyB7IODeAnczMkBq8UoeqZkJWpw9wZbxYZk",
+      authDomain: "servicios-ramirez.firebaseapp.com",
+      projectId: "servicios-ramirez",
+      storageBucket: "servicios-ramirez.firebasestorage.app",
+      messagingSenderId: "540818066798",
+      appId: "1:540818066798:web:47bf4d3f68d6959f6fc57f"
+    };
 
-      const datosGuardados = localStorage.getItem('cuenta_' + correoActual);
-      if(datosGuardados) { cuentaActual = JSON.parse(datosGuardados); } 
+    const app = initializeApp(firebaseConfig);
+    const auth = getAuth(app);
 
-      // Rellenar datos principales
-      document.getElementById('user-name').textContent = cuentaActual.nombre || "Usuario";
-      document.getElementById('user-email').textContent = cuentaActual.correo || "";
-      
-      if(cuentaActual.nombre) {
-        document.getElementById('user-avatar').textContent = cuentaActual.nombre.charAt(0).toUpperCase();
+    let usuarioFirebase = null;
+    let datosLocales = {};
+
+    onAuthStateChanged(auth, (user) => {
+      if (!user) {
+        // Chequea si es admin local
+        const activo = localStorage.getItem("usuarioActivo");
+        if (activo === "admin") { cargarAdmin(); return; }
+        window.location.href = "login.html";
+        return;
       }
 
-      document.getElementById('dato-correo').value = cuentaActual.correo || "";
-      document.getElementById('dato-nombre').value = cuentaActual.nombre || "";
-      document.getElementById('dato-telefono').value = cuentaActual.telefono || "";
-      document.getElementById('dato-direccion').value = cuentaActual.direccion || "";
+      usuarioFirebase = user;
+      const uid = user.uid;
+      const nombre = user.displayName || "Usuario";
+      const correo = user.email;
 
-      // Rellenar datos de Seguridad
-      if (cuentaActual.ultimoAcceso) {
-        document.getElementById('seg-dispositivo').textContent = cuentaActual.ultimoAcceso.dispositivo || "Desconocido";
-        document.getElementById('seg-navegador').textContent = cuentaActual.ultimoAcceso.navegador || "Desconocido";
-        document.getElementById('seg-fecha').textContent = cuentaActual.ultimoAcceso.fecha || "Desconocido";
-      } else {
-        document.getElementById('seg-dispositivo').textContent = "No registrado";
-      }
+      // UI sidebar
+      document.getElementById("user-avatar").textContent = nombre.charAt(0).toUpperCase();
+      document.getElementById("user-name").textContent = nombre;
+      document.getElementById("user-email").textContent = correo;
+      document.getElementById("uid-text").textContent = "uid: " + uid.substring(0,12) + "...";
+      window._uid_completo = uid;
+
+      // Seguridad
+      document.getElementById("seg-uid").textContent = uid;
+      document.getElementById("seg-correo").textContent = correo;
+      document.getElementById("seg-verificado").textContent = user.emailVerified ? "✅ Verificado" : "⚠️ No verificado";
+      document.getElementById("seg-creado").textContent = new Date(user.metadata.creationTime).toLocaleString("es-CL");
+
+      // Datos de sesión
+      const esCelular = /Mobi|Android/i.test(navigator.userAgent);
+      document.getElementById("seg-dispositivo").textContent = esCelular ? "📱 Teléfono" : "💻 Computadora";
+      let nav = "Otro";
+      if (navigator.userAgent.includes("Chrome")) nav = "Google Chrome";
+      else if (navigator.userAgent.includes("Firefox")) nav = "Firefox";
+      else if (navigator.userAgent.includes("Safari")) nav = "Safari";
+      document.getElementById("seg-navegador").textContent = nav;
+      document.getElementById("seg-fecha").textContent = new Date().toLocaleString("es-CL");
+
+      // Datos de envío desde localStorage (por uid)
+      const guardado = localStorage.getItem("datos_" + uid);
+      datosLocales = guardado ? JSON.parse(guardado) : { nombre, correo, telefono: "", direccion: "", tarjetas: [] };
+
+      document.getElementById("dato-correo").value = correo;
+      document.getElementById("dato-nombre").value = datosLocales.nombre || nombre;
+      document.getElementById("dato-telefono").value = datosLocales.telefono || "";
+      document.getElementById("dato-direccion").value = datosLocales.direccion || "";
+
+      localStorage.setItem("usuarioActivo", correo);
+      localStorage.setItem("usuario", nombre);
 
       cargarHistorial();
       cargarTarjetas();
     });
 
-    // SISTEMA DE PESTAÑAS
-    function cambiarTab(idTab, elementoLista) {
-      document.querySelectorAll('.tab-content').forEach(tab => tab.classList.remove('activo'));
-      document.querySelectorAll('.menu-perfil li').forEach(li => li.classList.remove('activo'));
-      document.getElementById('tab-' + idTab).classList.add('activo');
-      elementoLista.classList.add('activo');
-    }
-
-    // GUARDAR DATOS DE ENVÍO
-    document.getElementById('form-actualizar-datos').addEventListener('submit', (e) => {
-      e.preventDefault();
-      cuentaActual.nombre = document.getElementById('dato-nombre').value;
-      cuentaActual.telefono = document.getElementById('dato-telefono').value;
-      cuentaActual.direccion = document.getElementById('dato-direccion').value;
-
-      localStorage.setItem('cuenta_' + correoActual, JSON.stringify(cuentaActual));
-      localStorage.setItem('usuario', cuentaActual.nombre); 
-
-      document.getElementById('user-name').textContent = cuentaActual.nombre;
-      document.getElementById('user-avatar').textContent = cuentaActual.nombre.charAt(0).toUpperCase();
-      alert("✅ Datos actualizados correctamente.");
-    });
-
-    // DIBUJAR HISTORIAL DE PEDIDOS
-    function cargarHistorial() {
-      const contenedor = document.getElementById('contenedor-pedidos');
-      const historial = JSON.parse(localStorage.getItem('historialPedidos')) || [];
-
-      if (historial.length === 0) {
-        contenedor.innerHTML = `
-          <div class="estado-vacio">
-            <svg width="50" height="50" viewBox="0 0 24 24" fill="none" stroke="#ccc" stroke-width="2" style="margin-bottom:10px;"><path d="M6 2L3 6v14a2 2 0 0 0 2 2h14a2 2 0 0 0 2-2V6l-3-4z"></path><line x1="3" y1="6" x2="21" y2="6"></line><path d="M16 10a4 4 0 0 1-8 0"></path></svg>
-            <h3>Aún no has hecho ninguna compra</h3>
-            <p style="color:#888; font-size:0.95rem;">Tus pedidos aparecerán aquí para que puedas hacerles seguimiento.</p>
-            <a href="tiendaSVR.html" class="btn-comprar">Ir a la Tienda</a>
-          </div>
-        `;
-        return;
-      }
-
-      let html = '<div class="lista-pedidos">';
-      historial.reverse().forEach(pedido => {
-        let itemsHtml = '';
-        pedido.items.forEach(item => {
-          itemsHtml += `
-            <div class="item-compra">
-              <img src="${item.img}">
-              <div class="item-detalle">
-                <p>${item.nombre}</p>
-                <span>Cantidad: <strong>${item.cantidad}</strong></span>
-              </div>
-            </div>
-          `;
-        });
-
-        html += `
-          <div class="pedido-card">
-            <button class="btn-detalle-pedido" onclick="abrirModal('${pedido.id}', '${pedido.fecha}')">Rastrear Envío</button>
-            <div class="pedido-header">
-              <div class="pedido-info-izq">
-                <h3>Orden #${pedido.id}</h3>
-                <span class="pedido-fecha">Comprado el ${pedido.fecha}</span>
-              </div>
-              <div class="badge-estado">
-                <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="12" cy="12" r="10"></circle><polyline points="12 6 12 12 16 14"></polyline></svg>
-                ${pedido.estado}
-              </div>
-            </div>
-            <div class="pedido-items">${itemsHtml}</div>
-            <div class="pedido-footer">
-              <div class="metodo-pago">
-                <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><rect x="1" y="4" width="22" height="16" rx="2" ry="2"></rect><line x1="1" y1="10" x2="23" y2="10"></line></svg>
-                ${pedido.metodo}
-              </div>
-              <div class="total-compra">$${pedido.total.toLocaleString('es-CL')}</div>
-            </div>
-          </div>
-        `;
-      });
-      html += '</div>';
-      contenedor.innerHTML = html;
-    }
-
-    // LÓGICA DEL MODAL DE SEGUIMIENTO
-    function abrirModal(id, fecha) {
-      document.getElementById('modal-titulo').textContent = "Seguimiento " + id;
-      document.getElementById('modal-fecha').textContent = "Procesado el " + fecha;
-      document.getElementById('modal-tracking').classList.add('activo');
-    }
-    function cerrarModal() { 
-      document.getElementById('modal-tracking').classList.remove('activo'); 
+    function cargarAdmin() {
+      document.getElementById("user-avatar").textContent = "A";
+      document.getElementById("user-name").textContent = "Administrador";
+      document.getElementById("user-email").textContent = "admin@local";
+      document.getElementById("uid-text").textContent = "uid: admin-local";
+      document.getElementById("seg-uid").textContent = "admin-local";
+      cargarHistorial();
+      cargarTarjetas();
     }
 
     // CERRAR SESIÓN
-    function cerrarSesion() {
-      if(confirm("¿Seguro que deseas cerrar tu sesión?")) {
-        localStorage.removeItem('usuarioActivo'); 
-        window.location.href = "index.html";
+    window.cerrarSesion = async function() {
+      if (!confirm("¿Seguro que deseas cerrar sesión?")) return;
+      await signOut(auth);
+      localStorage.removeItem("usuarioActivo");
+      localStorage.removeItem("usuario");
+      window.location.href = "index.html";
+    };
+
+    // COPIAR UID
+    window.copiarUID = function() {
+      if (!window._uid_completo) return;
+      navigator.clipboard.writeText(window._uid_completo).then(() => {
+        const badge = document.getElementById("uid-badge");
+        badge.style.background = "rgba(227,6,19,0.2)";
+        document.getElementById("uid-text").textContent = "¡Copiado!";
+        setTimeout(() => {
+          badge.style.background = "";
+          document.getElementById("uid-text").textContent = "uid: " + window._uid_completo.substring(0,12) + "...";
+        }, 1500);
+      });
+    };
+
+    // TABS
+    window.cambiarTab = function(id, el) {
+      document.querySelectorAll(".tab").forEach(t => t.classList.remove("active"));
+      document.querySelectorAll(".nav-item").forEach(n => n.classList.remove("active"));
+      document.getElementById("tab-" + id).classList.add("active");
+      el.classList.add("active");
+    };
+
+    // GUARDAR DATOS
+    document.getElementById("form-datos").addEventListener("submit", async (e) => {
+      e.preventDefault();
+      const nombre = document.getElementById("dato-nombre").value.trim();
+      datosLocales.nombre = nombre;
+      datosLocales.telefono = document.getElementById("dato-telefono").value.trim();
+      datosLocales.direccion = document.getElementById("dato-direccion").value.trim();
+
+      if (usuarioFirebase) {
+        await updateProfile(usuarioFirebase, { displayName: nombre });
+        localStorage.setItem("datos_" + usuarioFirebase.uid, JSON.stringify(datosLocales));
       }
-    }
 
-    // ==========================================
-    // FUNCIÓN PARA GUARDAR TARJETAS (ARREGLADA)
-    // ==========================================
-    function guardarMetodoPago() {
-      // 1. Tomar los valores de los inputs
-      const tipo = document.getElementById('tipo-tarjeta').value;
-      const numero = document.getElementById('numero-tarjeta').value;
-      const vencimiento = document.getElementById('vencimiento-tarjeta').value;
-      
-      // 2. Validación
-      if(numero.trim().length < 4 || vencimiento.trim() === '') {
-        alert("Por favor ingresa el número y vencimiento de tu tarjeta.");
-        return;
-      }
+      document.getElementById("user-name").textContent = nombre;
+      document.getElementById("user-avatar").textContent = nombre.charAt(0).toUpperCase();
+      localStorage.setItem("usuario", nombre);
 
-      // 3. Crear el objeto tarjeta
-      const titular = cuentaActual.nombre;
-      const nuevaTarjeta = { tipo: tipo, numero: numero, vencimiento: vencimiento, titular: titular };
+      const ok = document.getElementById("datos-ok");
+      ok.style.display = "block";
+      setTimeout(() => ok.style.display = "none", 3000);
+    });
 
-      // 4. Si la cuenta no tiene la caja de tarjetas, la creamos
-      if (!cuentaActual.tarjetas) {
-        cuentaActual.tarjetas = [];
-      }
+    // PEDIDOS
+    function cargarHistorial() {
+      const cont = document.getElementById("contenedor-pedidos");
+      const historial = JSON.parse(localStorage.getItem("historialPedidos")) || [];
 
-      // 5. Agregamos la nueva tarjeta a la lista y la guardamos
-      cuentaActual.tarjetas.push(nuevaTarjeta);
-      localStorage.setItem('cuenta_' + correoActual, JSON.stringify(cuentaActual));
-
-      // 6. Limpiamos las cajas de texto
-      document.getElementById('numero-tarjeta').value = '';
-      document.getElementById('vencimiento-tarjeta').value = '';
-
-      // 7. Avisamos y redibujamos en pantalla sin recargar
-      alert("¡Tarjeta guardada con éxito!");
-      cargarTarjetas(); 
-    }
-
-    // DIBUJAR TARJETAS
-    function cargarTarjetas() {
-      const cont = document.getElementById('contenedor-tarjetas');
-      
-      if (!cuentaActual.tarjetas || cuentaActual.tarjetas.length === 0) {
-        cont.innerHTML = "<p style='color:#888; margin-bottom:15px;'>No tienes tarjetas guardadas.</p>";
+      if (historial.length === 0) {
+        cont.innerHTML = `<div class="card"><div class="empty-state">
+          <svg class="empty-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5"><path d="M6 2L3 6v14a2 2 0 002 2h14a2 2 0 002-2V6l-3-4z"/><line x1="3" y1="6" x2="21" y2="6"/><path d="M16 10a4 4 0 01-8 0"/></svg>
+          <h3>Sin compras aún</h3>
+          <p>Tus pedidos aparecerán aquí para hacerles seguimiento.</p>
+          <a href="tiendaSVR.html" class="btn-primary">Ir a la tienda</a>
+        </div></div>`;
         return;
       }
 
       let html = "";
-      cuentaActual.tarjetas.forEach((tarjeta, index) => {
-        const venci = tarjeta.vencimiento ? tarjeta.vencimiento : "N/A";
-        // Muestra solo los últimos 4 dígitos
-        const numOculto = tarjeta.numero.length > 4 ? "**** " + tarjeta.numero.slice(-4) : "**** " + tarjeta.numero;
-        
-        html += `
-          <div class="opcion-card" style="margin-bottom:10px;">
-            <div class="opcion-info">
-              <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5"><rect x="1" y="4" width="22" height="16" rx="2" ry="2"></rect><line x1="1" y1="10" x2="23" y2="10"></line></svg>
-              <div class="opcion-text">
-                <h4 style="margin:0;">${tarjeta.tipo} ${numOculto}</h4>
-                <p style="margin:0;">Expira: ${venci}</p>
-              </div>
+      [...historial].reverse().forEach(p => {
+        let items = p.items.map(i => `
+          <div class="order-item">
+            <img src="${i.img}" alt="${i.nombre}" loading="lazy" />
+            <div><div class="order-item-name">${i.nombre}</div><div class="order-item-qty">Cantidad: ${i.cantidad}</div></div>
+          </div>`).join("");
+
+        html += `<div class="order-card">
+          <div class="order-head">
+            <div><div class="order-id">Orden #${p.id}</div><div class="order-date">${p.fecha}</div></div>
+            <div style="display:flex;align-items:center;gap:10px;">
+              <button class="btn-track" onclick="abrirModal('${p.id}', '${p.fecha}')">Rastrear</button>
+              <span class="badge badge-pending">${p.estado}</span>
             </div>
-            <button class="btn-eliminar" onclick="eliminarTarjeta(${index})">Quitar</button>
           </div>
-        `;
+          <div class="order-items">${items}</div>
+          <div class="order-foot">
+            <div class="order-method">
+              <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><rect x="1" y="4" width="22" height="16" rx="2"/><line x1="1" y1="10" x2="23" y2="10"/></svg>
+              ${p.metodo}
+            </div>
+            <div class="order-total">$${p.total.toLocaleString("es-CL")}</div>
+          </div>
+        </div>`;
       });
       cont.innerHTML = html;
     }
 
-    // ELIMINAR TARJETA
-    function eliminarTarjeta(index) {
-      if(confirm("¿Seguro que quieres borrar esta tarjeta?")) {
-        cuentaActual.tarjetas.splice(index, 1);
-        localStorage.setItem('cuenta_' + correoActual, JSON.stringify(cuentaActual));
-        cargarTarjetas(); // Redibuja la pantalla
+    // MODAL
+    window.abrirModal = function(id, fecha) {
+      document.getElementById("modal-titulo").textContent = "Seguimiento " + id;
+      document.getElementById("modal-fecha").textContent = "Procesado el " + fecha;
+      document.getElementById("modal-fecha-texto").textContent = "Confirmado el " + fecha;
+      document.getElementById("modal-tracking").classList.add("active");
+    };
+    window.cerrarModal = function() {
+      document.getElementById("modal-tracking").classList.remove("active");
+    };
+
+    // TARJETAS
+    function getUID() { return usuarioFirebase ? usuarioFirebase.uid : "admin"; }
+
+    function cargarTarjetas() {
+      const cont = document.getElementById("contenedor-tarjetas");
+      const datos = JSON.parse(localStorage.getItem("datos_" + getUID()) || "{}");
+      const tarjetas = datos.tarjetas || [];
+
+      if (tarjetas.length === 0) {
+        cont.innerHTML = `<p style="font-size:0.875rem;color:var(--text-muted);margin-bottom:12px;">No tienes tarjetas guardadas.</p>`;
+        return;
       }
+
+      cont.innerHTML = tarjetas.map((t, i) => `
+        <div class="payment-item">
+          <div class="payment-left">
+            <svg width="32" height="32" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5"><rect x="1" y="4" width="22" height="16" rx="2"/><line x1="1" y1="10" x2="23" y2="10"/></svg>
+            <div><div class="payment-type">${t.tipo} **** ${t.numero.slice(-4)}</div><div class="payment-num">Expira: ${t.vencimiento}</div></div>
+          </div>
+          <button class="btn-remove" onclick="eliminarTarjeta(${i})">Quitar</button>
+        </div>`).join("");
     }
 
+    window.guardarMetodoPago = function() {
+      const tipo = document.getElementById("tipo-tarjeta").value;
+      const numero = document.getElementById("numero-tarjeta").value.trim();
+      const vencimiento = document.getElementById("vencimiento-tarjeta").value.trim();
+
+      if (numero.length < 4 || !vencimiento) { alert("Completa el número y vencimiento."); return; }
+
+      const uid = getUID();
+      const datos = JSON.parse(localStorage.getItem("datos_" + uid) || "{}");
+      if (!datos.tarjetas) datos.tarjetas = [];
+      datos.tarjetas.push({ tipo, numero, vencimiento });
+      localStorage.setItem("datos_" + uid, JSON.stringify(datos));
+
+      document.getElementById("numero-tarjeta").value = "";
+      document.getElementById("vencimiento-tarjeta").value = "";
+      cargarTarjetas();
+    };
+
+    window.eliminarTarjeta = function(index) {
+      if (!confirm("¿Quieres borrar esta tarjeta?")) return;
+      const uid = getUID();
+      const datos = JSON.parse(localStorage.getItem("datos_" + uid) || "{}");
+      datos.tarjetas.splice(index, 1);
+      localStorage.setItem("datos_" + uid, JSON.stringify(datos));
+      cargarTarjetas();
+    };
   </script>
 </body>
 </html>
