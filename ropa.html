@@ -3,7 +3,7 @@
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>TV y Video | SVR Store</title>
+  <title>Ropa y Accesorios | SVR Store</title>
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
   <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800;900&display=swap" rel="stylesheet">
@@ -19,29 +19,26 @@
       --blue: #2563eb;
       --orange: #ff7a00;
       --green: #059669;
+      --purple: #7c3aed;
       --shadow: 0 16px 40px rgba(16,24,40,.08);
     }
 
     * { margin: 0; padding: 0; box-sizing: border-box; font-family: 'Inter', sans-serif; }
     html { -webkit-font-smoothing: antialiased; }
     body {
-      background: radial-gradient(circle at top left, rgba(227,6,19,.08), transparent 28%),
-                  radial-gradient(circle at top right, rgba(37,99,235,.10), transparent 26%),
+      background: radial-gradient(circle at top left, rgba(124,58,237,.07), transparent 28%),
+                  radial-gradient(circle at top right, rgba(37,99,235,.08), transparent 26%),
                   var(--bg);
-      color: var(--text);
-      overflow-x: hidden;
-      line-height: 1.6;
+      color: var(--text); overflow-x: hidden; line-height: 1.6;
     }
     a { text-decoration: none; color: inherit; }
     button { font-family: inherit; border: none; background: none; cursor: pointer; }
 
     .main-header {
       position: sticky; top: 0; z-index: 1000;
-      background: rgba(9,11,15,.84);
-      backdrop-filter: blur(16px);
+      background: rgba(9,11,15,.84); backdrop-filter: blur(16px);
       border-bottom: 1px solid rgba(255,255,255,.08);
-      padding: 0 24px;
-      height: 68px;
+      padding: 0 24px; height: 68px;
       display: flex; align-items: center; justify-content: space-between; gap: 16px;
     }
     .header-left { display: flex; align-items: center; gap: 16px; }
@@ -54,9 +51,9 @@
     .header-icons { display: flex; align-items: center; gap: 12px; color: #fff; }
     .icon-cart { position: relative; font-size: 1.2rem; cursor: pointer; }
     .cart-counter {
-      position: absolute; top: -8px; right: -10px;
-      border-radius: 999px; min-width: 18px; height: 18px; padding: 0 5px;
-      font-size: .65rem; display: flex; align-items: center; justify-content: center;
+      position: absolute; top: -8px; right: -10px; border-radius: 999px;
+      min-width: 18px; height: 18px; padding: 0 5px; font-size: .65rem;
+      display: flex; align-items: center; justify-content: center;
       font-weight: 800; background: var(--accent); color: #fff;
     }
 
@@ -64,8 +61,7 @@
       position: fixed; top: 0; left: -320px; width: 320px; height: 100vh;
       background: #111827; color: #fff; z-index: 5000;
       transition: left .35s cubic-bezier(.16,1,.3,1);
-      box-shadow: 5px 0 25px rgba(0,0,0,.35);
-      display: flex; flex-direction: column;
+      box-shadow: 5px 0 25px rgba(0,0,0,.35); display: flex; flex-direction: column;
     }
     .nav-sidebar.open { left: 0; }
     .sidebar-header {
@@ -75,10 +71,7 @@
     .sidebar-header h2 { font-size: 1.05rem; font-weight: 800; letter-spacing: 1px; }
     .btn-close-sidebar { color: #fff; font-size: 2rem; line-height: 1; }
     .sidebar-menu { padding: 10px 0; overflow-y: auto; }
-    .sidebar-menu li a {
-      display: block; padding: 15px 22px; font-size: .95rem; font-weight: 500;
-      border-bottom: 1px solid #1f2937; transition: .2s;
-    }
+    .sidebar-menu li a { display: block; padding: 15px 22px; font-size: .95rem; font-weight: 500; border-bottom: 1px solid #1f2937; transition: .2s; }
     .sidebar-menu li a:hover { background: #1f2937; padding-left: 28px; color: #fff; }
     .sidebar-menu li.highlight a { color: var(--orange); font-weight: 800; }
 
@@ -102,17 +95,26 @@
       border: 1.5px solid var(--border); transition: .2s; background: #fafbfc;
       cursor: pointer; width: 100%; text-align: left;
     }
-    .chip-btn:hover { border-color: var(--accent); color: var(--accent); background: #fff5f5; }
-    .chip-btn.active { border-color: var(--accent); color: var(--accent); background: #fff5f5; font-weight: 800; }
+    .chip-btn:hover { border-color: var(--purple); color: var(--purple); background: #f5f0ff; }
+    .chip-btn.active { border-color: var(--purple); color: var(--purple); background: #f5f0ff; font-weight: 800; }
     .chip-dot { width: 9px; height: 9px; border-radius: 50%; background: currentColor; flex-shrink: 0; }
 
+    .talla-grid { display: grid; grid-template-columns: repeat(4, 1fr); gap: 6px; }
+    .talla-btn {
+      padding: 8px 4px; border-radius: 10px; font-size: .8rem; font-weight: 700;
+      color: var(--muted); border: 1.5px solid var(--border); background: #fafbfc;
+      cursor: pointer; text-align: center; transition: .2s;
+    }
+    .talla-btn:hover { border-color: var(--purple); color: var(--purple); background: #f5f0ff; }
+    .talla-btn.active { border-color: var(--purple); color: var(--purple); background: #f5f0ff; font-weight: 800; }
+
     .price-range-labels { display: flex; justify-content: space-between; font-size: .78rem; color: var(--muted); margin-bottom: 6px; }
-    .price-slider { width: 100%; accent-color: var(--accent); cursor: pointer; }
+    .price-slider { width: 100%; accent-color: var(--purple); cursor: pointer; }
     .price-display { text-align: center; font-size: .88rem; font-weight: 700; color: var(--text); margin-top: 10px; background: #f6f7fb; padding: 8px; border-radius: 10px; }
 
     .brand-list { display: flex; flex-direction: column; gap: 8px; }
     .brand-item { display: flex; align-items: center; gap: 10px; font-size: .875rem; color: var(--muted); cursor: pointer; padding: 4px 0; }
-    .brand-item input { accent-color: var(--accent); width: 15px; height: 15px; cursor: pointer; }
+    .brand-item input { accent-color: var(--purple); width: 15px; height: 15px; cursor: pointer; }
     .brand-item label { cursor: pointer; font-weight: 500; }
     .brand-item input:checked + label { color: var(--text); font-weight: 700; }
 
@@ -120,7 +122,7 @@
       width: 100%; padding: 11px; border-radius: 12px; font-size: .85rem; font-weight: 700;
       color: var(--muted); border: 1.5px solid var(--border); background: #fff; transition: .2s; cursor: pointer;
     }
-    .btn-reset-filters:hover { border-color: var(--accent); color: var(--accent); background: #fff5f5; }
+    .btn-reset-filters:hover { border-color: var(--purple); color: var(--purple); background: #f5f0ff; }
 
     .active-filters-bar { display: none; align-items: center; gap: 8px; flex-wrap: wrap; padding: 0 0 14px; }
     .active-filters-bar.visible { display: flex; }
@@ -133,9 +135,7 @@
 
     .products-area { flex: 1; min-width: 0; }
     .products-grid { display: grid; grid-template-columns: repeat(4,minmax(0,1fr)); gap: 18px; }
-    .pagination-bar {
-      grid-column: 1 / -1; display: flex; justify-content: space-between; align-items: center; padding: 6px 0 10px; flex-wrap: wrap; gap: 12px;
-    }
+    .pagination-bar { grid-column: 1 / -1; display: flex; justify-content: space-between; align-items: center; padding: 6px 0 10px; flex-wrap: wrap; gap: 12px; }
     .page-info { color: var(--muted); font-size: .85rem; font-weight: 600; }
     .page-btns { display: flex; align-items: center; gap: 8px; }
     .arrow-btn {
@@ -143,65 +143,70 @@
       color: var(--text); font-size: 1.3rem; font-weight: 800; box-shadow: var(--shadow);
       display: flex; align-items: center; justify-content: center; transition: .2s;
     }
-    .arrow-btn:hover:not(:disabled) { background: var(--accent); color: #fff; border-color: var(--accent); }
+    .arrow-btn:hover:not(:disabled) { background: var(--purple); color: #fff; border-color: var(--purple); }
     .arrow-btn:disabled { opacity: .3; cursor: not-allowed; }
 
-    .sony-card {
+    .ropa-card {
       background: #fff; display: flex; flex-direction: column; cursor: pointer; position: relative; padding-bottom: 18px;
       border: 1px solid var(--border); border-radius: 20px; overflow: hidden; transition: .25s; box-shadow: 0 2px 10px rgba(16,24,40,.04);
     }
-    .sony-card:hover { box-shadow: 0 18px 36px rgba(16,24,40,.12); transform: translateY(-4px); z-index: 10; }
+    .ropa-card:hover { box-shadow: 0 18px 36px rgba(16,24,40,.12); transform: translateY(-4px); z-index: 10; }
     .card-badges { position: absolute; top: 12px; left: 12px; z-index: 2; display: flex; flex-direction: column; gap: 6px; }
-    .badge-alpha {
-      background: linear-gradient(135deg,var(--orange),#e35d12); color: #fff; text-align: center; font-size: .7rem;
-      font-weight: 800; padding: 4px 8px; border-radius: 999px; letter-spacing: .4px;
+    .badge-ropa { color: #fff; text-align: center; font-size: .7rem; font-weight: 800; padding: 4px 8px; border-radius: 999px; letter-spacing: .4px; }
+    .badge-ropa.polera { background: linear-gradient(135deg, var(--blue), #1d4ed8); }
+    .badge-ropa.pantalon { background: linear-gradient(135deg, #374151, #111827); }
+    .badge-ropa.zapatilla { background: linear-gradient(135deg, var(--orange), #e35d12); }
+    .badge-ropa.accesorio { background: linear-gradient(135deg, var(--green), #047857); }
+    .badge-ropa.ropa { background: linear-gradient(135deg, var(--purple), #6d28d9); }
+
+    .ropa-img-box {
+      width: 100%; height: 260px; display: flex; justify-content: center; align-items: center; padding: 20px;
+      background: linear-gradient(180deg, #fafbfc, #fff);
+      overflow: hidden;
     }
-    .badge-alpha.television { background: linear-gradient(135deg,var(--blue),#1d4ed8); }
-    .badge-alpha.video { background: linear-gradient(135deg,var(--green),#047857); }
+    .ropa-img-box img { max-width: 100%; max-height: 100%; object-fit: contain; transition: .3s; }
+    .ropa-card:hover .ropa-img-box img { transform: scale(1.06); }
 
-    .sony-img-box {
-      width: 100%; height: 250px; display: flex; justify-content: center; align-items: center; padding: 24px;
-      background: linear-gradient(180deg,#fff,#f8fafc);
-    }
-    .sony-img-box img { max-width: 100%; max-height: 100%; object-fit: contain; mix-blend-mode: multiply; transition: .3s; }
-    .sony-card:hover .sony-img-box img { transform: scale(1.05); }
+    .ropa-info { padding: 0 18px; flex: 1; display: flex; flex-direction: column; pointer-events: none; }
+    .ropa-type { font-size: .68rem; color: var(--purple); font-weight: 800; text-transform: uppercase; letter-spacing: .7px; margin-bottom: 6px; }
+    .ropa-title { font-size: .98rem; font-weight: 700; line-height: 1.35; margin-bottom: 6px; color: var(--text); }
+    .ropa-sku { font-size: .72rem; color: #98a2b3; font-family: monospace; }
+    .ropa-tallas { display: flex; gap: 5px; flex-wrap: wrap; margin-top: 8px; }
+    .talla-tag { font-size: .7rem; font-weight: 700; padding: 2px 7px; border-radius: 6px; background: #f3f4f6; color: var(--muted); }
 
-    .sony-info { padding: 0 18px; flex: 1; display: flex; flex-direction: column; pointer-events: none; }
-    .sony-type { font-size: .68rem; color: var(--blue); font-weight: 800; text-transform: uppercase; letter-spacing: .7px; margin-bottom: 6px; }
-    .sony-title { font-size: 1rem; font-weight: 700; line-height: 1.35; margin-bottom: 8px; color: var(--text); }
-    .sony-sku { font-size: .72rem; color: #98a2b3; font-family: monospace; }
-
-    .sony-price-box { padding: 0 18px; margin-top: auto; border-top: 1px solid #eef2f7; padding-top: 14px; }
+    .ropa-price-box { padding: 0 18px; margin-top: auto; border-top: 1px solid #eef2f7; padding-top: 14px; }
     .price-now { font-size: 1.45rem; font-weight: 900; color: var(--text); letter-spacing: -.03em; }
-    .sony-btn-add {
-      background: linear-gradient(135deg,var(--text),#1f2937); color: #fff; padding: 12px; font-size: .88rem; font-weight: 800;
+
+    .ropa-btn-add {
+      background: linear-gradient(135deg, var(--purple), #6d28d9); color: #fff; padding: 12px; font-size: .88rem; font-weight: 800;
       margin: 14px 18px 0; border-radius: 12px; opacity: 0; transition: .25s; text-align: center;
     }
-    .sony-card:hover .sony-btn-add { opacity: 1; }
-    .sony-btn-add:hover { background: linear-gradient(135deg,var(--accent),var(--accent2)); }
+    .ropa-card:hover .ropa-btn-add { opacity: 1; }
+    .ropa-btn-add:hover { background: linear-gradient(135deg, var(--accent), var(--accent2)); }
 
     .modal-overlay { position: fixed; inset: 0; background: rgba(0,0,0,.72); z-index: 4000; display: none; align-items: center; justify-content: center; opacity: 0; transition: opacity .25s; }
     .modal-overlay.active { display: flex; opacity: 1; }
     .quick-view-box {
-      background: #fff; width: 960px; max-width: 92%; min-height: 520px; display: flex; position: relative;
-      border-radius: 24px; overflow: hidden; transform: scale(.95); transition: transform .25s; box-shadow: 0 25px 60px rgba(0,0,0,.4);
+      background: #fff; width: 960px; max-width: 92%; min-height: 520px; display: flex;
+      position: relative; border-radius: 24px; overflow: hidden;
+      transform: scale(.95); transition: transform .25s; box-shadow: 0 25px 60px rgba(0,0,0,.4);
     }
     .modal-overlay.active .quick-view-box { transform: scale(1); }
     .qv-close { position: absolute; top: 14px; right: 18px; font-size: 2rem; cursor: pointer; color: #98a2b3; z-index: 10; line-height: 1; }
     .qv-close:hover { color: var(--text); }
-    .qv-img-section { width: 50%; background: linear-gradient(180deg,#f8fafc,#fff); display: flex; justify-content: center; align-items: center; padding: 42px; }
-    .qv-img-section img { max-width: 100%; max-height: 100%; object-fit: contain; mix-blend-mode: multiply; }
+    .qv-img-section { width: 50%; background: linear-gradient(180deg, #f8fafc, #fff); display: flex; justify-content: center; align-items: center; padding: 42px; }
+    .qv-img-section img { max-width: 100%; max-height: 100%; object-fit: contain; }
     .qv-info-section { width: 50%; padding: 44px 38px; display: flex; flex-direction: column; overflow-y: auto; }
-    .qv-category { color: var(--blue); font-size: .78rem; font-weight: 800; letter-spacing: 1px; margin-bottom: 10px; text-transform: uppercase; }
+    .qv-category { color: var(--purple); font-size: .78rem; font-weight: 800; letter-spacing: 1px; margin-bottom: 10px; text-transform: uppercase; }
     .qv-title { font-size: 1.9rem; font-weight: 900; color: var(--text); margin-bottom: 10px; line-height: 1.15; }
     .qv-sku { font-size: .8rem; color: #98a2b3; margin-bottom: 22px; padding-bottom: 22px; border-bottom: 1px solid var(--border); }
     .qv-price { font-size: 2.2rem; font-weight: 900; color: #b73218; margin-bottom: 16px; }
     .qv-desc { font-size: .96rem; color: var(--muted); line-height: 1.7; margin-bottom: 28px; flex: 1; }
     .qv-btn-cart {
-      background: linear-gradient(135deg,var(--orange),#ff8a00); color: #fff; padding: 15px; font-size: 1rem;
+      background: linear-gradient(135deg, var(--purple), #6d28d9); color: #fff; padding: 15px; font-size: 1rem;
       font-weight: 800; text-align: center; width: 100%; border-radius: 14px; transition: .2s;
     }
-    .qv-btn-cart:hover { transform: translateY(-1px); box-shadow: 0 16px 28px rgba(255,122,0,.24); }
+    .qv-btn-cart:hover { transform: translateY(-1px); box-shadow: 0 16px 28px rgba(124,58,237,.24); }
 
     .cart-drawer {
       position: fixed; top: 0; right: -420px; width: 100%; max-width: 400px; height: 100vh; background: #fff;
@@ -223,7 +228,7 @@
       .products-grid { grid-template-columns: repeat(2,minmax(0,1fr)); }
       .quick-view-box { flex-direction: column; min-height: auto; }
       .qv-img-section, .qv-info-section { width: 100%; }
-      .qv-img-section { height: 300px; }
+      .qv-img-section { height: 280px; }
       .nav-links { display: none; }
     }
     @media (max-width: 620px) {
@@ -231,25 +236,25 @@
       .category-header, .breadcrumb-bar, .store-layout { padding-left: 16px; padding-right: 16px; }
       .products-grid { grid-template-columns: 1fr; }
       .header-logo { font-size: 1.2rem; }
-      .quick-view-box { max-width: 96%; }
       .qv-title { font-size: 1.5rem; }
     }
   </style>
 </head>
 <body>
+
   <header class="main-header">
     <div class="header-left">
       <button class="hamburger-btn" onclick="abrirMenu()"><span></span><span></span><span></span></button>
       <a href="index.html" class="header-logo">SVR<span>.</span></a>
     </div>
     <nav class="nav-links">
-     <a href="tiendaSVR.html">inicio</a>
-    <a href="todos los productosSVR.html">🔥 Ofertas</a>
-    <a href="tecnologia.html">Tecnología</a>
-    <a href="camaras.html">Cámaras</a>
-    <a href="audio.html">Audio</a>
-    <a href="television.html"style="color: var(--accent);">TV y Video</a>
-    <a href="ropa.html">Ropa</a>
+      <a href="tiendaSVR.html">Inicio</a>
+      <a href="todos los productosSVR.html">🔥 Ofertas</a>
+      <a href="tecnologia.html">Tecnología</a>
+      <a href="camaras.html">Cámaras</a>
+      <a href="audio.html">Audio</a>
+      <a href="television.html">TV y Video</a>
+      <a href="ropa.html"style="color: var(--accent);">Ropa</a>
     </nav>
     <div class="header-icons">
       <div class="icon-cart" onclick="abrirCarrito()">
@@ -270,22 +275,24 @@
     </div>
     <ul class="sidebar-menu">
       <li class="highlight"><a href="tiendaSVR.html">🏠 Volver al Inicio</a></li>
-    <li><a href="tecnologia.html">💻 Tecnología</a></li>
+      <li><a href="tecnologia.html">💻 Tecnología</a></li>
       <li><a href="camaras.html">📷 Camaras y lentes</a></li>
       <li><a href="audio.html">🎧 Audio y Audífonos</a></li>
-      <li><a href="television.html"style="color: var(--accent); font-weight: bold;">📺 TV y video</a></li>
-      <li><a href="ropa.html">👕 Ropa y Accesorios</a></li>
+      <li><a href="television.html">📺 TV y video</a></li>
+      <li><a href="ropa.html"style="color: var(--accent); font-weight: bold;">👕 Ropa y Accesorios</a></li>
       <li><a href="todos los productosSVR.html">🔥 Todas las Ofertas</a></li>
       <li style="margin-top:20px;border-top:1px solid #333;"><a href="perfil.html">👤 Mi Cuenta SVR</a></li>
     </ul>
   </nav>
 
-  <div class="breadcrumb-bar"><a href="index.html">Inicio</a> <span>></span> <strong style="color:var(--text);">TV y Video</strong></div>
+  <div class="breadcrumb-bar">
+    <a href="index.html">Inicio</a> <span>></span> <strong style="color:var(--text);">Ropa y Accesorios</strong>
+  </div>
 
   <div class="category-header">
     <div>
-      <h1>TV y Video SVR</h1>
-      <p>Televisores, barras de sonido y equipos de video cargados desde Firestore para esta categoría.</p>
+      <h1>Ropa y Accesorios SVR</h1>
+      <p>Poleras, pantalones, zapatillas y accesorios cargados desde Firestore.</p>
     </div>
     <div class="sort-box">
       <select id="ordenar" onchange="aplicarFiltros()">
@@ -299,21 +306,37 @@
 
   <main class="store-layout">
     <aside class="sidebar-filters">
+
       <div class="filter-group">
         <div class="filter-title">Tipo de producto</div>
         <div class="filter-chips">
           <button class="chip-btn active" data-tipo="todos" onclick="seleccionarTipo(this)"><span class="chip-dot"></span>Todos</button>
-          <button class="chip-btn" data-tipo="television" onclick="seleccionarTipo(this)"><span class="chip-dot"></span>Televisores</button>
-          <button class="chip-btn" data-tipo="video" onclick="seleccionarTipo(this)"><span class="chip-dot"></span>Video / Home Theater</button>
+          <button class="chip-btn" data-tipo="polera" onclick="seleccionarTipo(this)"><span class="chip-dot"></span>Poleras / Camisas</button>
+          <button class="chip-btn" data-tipo="pantalon" onclick="seleccionarTipo(this)"><span class="chip-dot"></span>Pantalones / Shorts</button>
+          <button class="chip-btn" data-tipo="zapatilla" onclick="seleccionarTipo(this)"><span class="chip-dot"></span>Zapatillas</button>
           <button class="chip-btn" data-tipo="accesorio" onclick="seleccionarTipo(this)"><span class="chip-dot"></span>Accesorios</button>
         </div>
       </div>
 
       <div class="filter-group">
+        <div class="filter-title">Talla</div>
+        <div class="talla-grid" id="talla-grid">
+          <button class="talla-btn active" data-talla="todas" onclick="seleccionarTalla(this)">Todas</button>
+          <button class="talla-btn" data-talla="XS" onclick="seleccionarTalla(this)">XS</button>
+          <button class="talla-btn" data-talla="S" onclick="seleccionarTalla(this)">S</button>
+          <button class="talla-btn" data-talla="M" onclick="seleccionarTalla(this)">M</button>
+          <button class="talla-btn" data-talla="L" onclick="seleccionarTalla(this)">L</button>
+          <button class="talla-btn" data-talla="XL" onclick="seleccionarTalla(this)">XL</button>
+          <button class="talla-btn" data-talla="XXL" onclick="seleccionarTalla(this)">XXL</button>
+          <button class="talla-btn" data-talla="Único" onclick="seleccionarTalla(this)">Único</button>
+        </div>
+      </div>
+
+      <div class="filter-group">
         <div class="filter-title">Precio máximo</div>
-        <div class="price-range-labels"><span>$0</span><span>$6.000.000</span></div>
-        <input type="range" class="price-slider" id="precio-slider" min="0" max="6000000" step="50000" value="6000000" oninput="actualizarSlider(this.value)">
-        <div class="price-display" id="precio-display">Hasta $6.000.000</div>
+        <div class="price-range-labels"><span>$0</span><span>$500.000</span></div>
+        <input type="range" class="price-slider" id="precio-slider" min="0" max="500000" step="5000" value="500000" oninput="actualizarSlider(this.value)">
+        <div class="price-display" id="precio-display">Hasta $500.000</div>
       </div>
 
       <div class="filter-group">
@@ -326,20 +349,20 @@
 
     <div class="products-area">
       <div class="active-filters-bar" id="active-filters-bar"></div>
-      <div class="products-grid" id="grid-tv"></div>
+      <div class="products-grid" id="grid-ropa"></div>
     </div>
   </main>
 
   <div class="modal-overlay" id="quick-view-modal">
     <div class="quick-view-box">
       <div class="qv-close" onclick="cerrarModal()">×</div>
-      <div class="qv-img-section"><img id="modal-img" src="" alt="Producto TV"></div>
+      <div class="qv-img-section"><img id="modal-img" src="" alt="Producto Ropa"></div>
       <div class="qv-info-section">
         <div class="qv-category" id="modal-cat">CATEGORÍA</div>
-        <h2 class="qv-title" id="modal-title">Nombre del Televisor</h2>
+        <h2 class="qv-title" id="modal-title">Nombre del Producto</h2>
         <div class="qv-sku" id="modal-sku">SKU: 000000</div>
         <div class="qv-price" id="modal-price">$0</div>
-        <div class="qv-desc" id="modal-desc">Resolución y contraste sin igual para una experiencia de cine en casa.</div>
+        <div class="qv-desc" id="modal-desc">Estilo y calidad en cada prenda.</div>
         <button class="qv-btn-cart" id="modal-btn-add">AGREGAR AL CARRITO</button>
       </div>
     </div>
@@ -376,41 +399,18 @@
     const app = initializeApp(firebaseConfig);
     const db = getFirestore(app);
 
-    const tvDemo = [
-      {
-        id: "XR-65A80L",
-        nombre: "Smart TV 65\" OLED 4K UHD BRAVIA XR",
-        precio: 1599990,
-        categoria: "television",
-        marca: "sony",
-        descripcion: "Procesador Cognitivo XR. Colores puros y negros absolutos en una pantalla OLED espectacular.",
-        imagen: "https://www.sony.cl/image/0b919d3bdf86714cf852dd3d2a02422d?fmt=pjpeg&wid=330&bgcolor=FFFFFF&bgc=FFFFFF"
-      },
-      {
-        id: "HT-A9000",
-        nombre: "Barra de Sonido Premium BRAVIA Theater Bar 9",
-        precio: 899990,
-        categoria: "video",
-        marca: "sony",
-        descripcion: "Sonido envolvente Dolby Atmos y 360 Spatial Sound Mapping.",
-        imagen: "https://www.sony.cl/image/74fb44c20d7ee85cc4ec2bdfbd6f2122?fmt=pjpeg&wid=330&bgcolor=FFFFFF&bgc=FFFFFF"
-      },
-      {
-        id: "KD-55X85L",
-        nombre: "Smart TV 55\" Full Array LED 4K UHD",
-        precio: 749990,
-        categoria: "television",
-        marca: "sony",
-        descripcion: "Contraste realista con tecnología Full Array LED y colores vibrantes.",
-        imagen: "https://www.sony.cl/image/1bc4ec9aeb2405cb6b38c20847b2c589?fmt=pjpeg&wid=330&bgcolor=FFFFFF&bgc=FFFFFF"
-      }
+    const ropaDemo = [
+      { id: "PLR-001", nombre: "Polera Oversize Negra", precio: 19990, categoria: "polera", marca: "basic", tallas: ["S","M","L","XL"], descripcion: "Polera de algodón 100% oversize, perfecta para el día a día.", imagen: "https://via.placeholder.com/300x350/1f2937/ffffff?text=Polera" },
+      { id: "PNT-002", nombre: "Pantalón Jogger Gris", precio: 34990, categoria: "pantalon", marca: "urban", tallas: ["S","M","L"], descripcion: "Pantalón jogger cómodo con cintura elástica y bolsillos laterales.", imagen: "https://via.placeholder.com/300x350/6b7280/ffffff?text=Pantalon" },
+      { id: "ZAP-003", nombre: "Zapatillas Running Air", precio: 79990, categoria: "zapatilla", marca: "run", tallas: ["38","39","40","41","42","43"], descripcion: "Zapatillas livianas con amortiguación premium para running diario.", imagen: "https://via.placeholder.com/300x350/3b82f6/ffffff?text=Zapatilla" },
+      { id: "ACC-004", nombre: "Gorro Beanie Lana", precio: 9990, categoria: "accesorio", marca: "basic", tallas: ["Único"], descripcion: "Gorro de lana suave ideal para días fríos.", imagen: "https://via.placeholder.com/300x350/7c3aed/ffffff?text=Gorro" }
     ];
 
     let todosLosProductos = [];
     let pageStart = 0;
     const PAGE_SIZE = 8;
-    const MARCAS = ["sony","lg","samsung","philips","panasonic","hisense","tcl","xgimi","xiaomi","bose","jbl","otra"];
-    const filtros = { tipo: "todos", precioMax: 6000000, marcas: [...MARCAS] };
+    const MARCAS = ["nike","adidas","puma","new balance","converse","fila","levi's","h&m","zara","basic","urban","run","otra"];
+    const filtros = { tipo: "todos", talla: "todas", precioMax: 500000, marcas: [...MARCAS] };
 
     function formatP(n) { return Number(n || 0).toLocaleString("es-CL"); }
     function norm(v) { return String(v || "").toLowerCase().normalize("NFD").replace(/[\u0300-\u036f]/g, ""); }
@@ -419,28 +419,34 @@
       const wrap = document.getElementById("brand-list");
       wrap.innerHTML = MARCAS.map(m => `
         <div class="brand-item">
-          <input type="checkbox" id="brand-${m.replace(/[^a-z0-9]/g, "-")}" value="${m}" ${m !== "otra" ? "checked" : ""} onchange="aplicarFiltros()">
-          <label for="brand-${m.replace(/[^a-z0-9]/g, "-")}">${m === "otra" ? "Otra / Sin marca" : m.charAt(0).toUpperCase() + m.slice(1)}</label>
+          <input type="checkbox" id="brand-${m.replace(/[^a-z0-9]/g,"-")}" value="${m}" ${m !== "otra" ? "checked" : ""} onchange="aplicarFiltros()">
+          <label for="brand-${m.replace(/[^a-z0-9]/g,"-")}">${m === "otra" ? "Otra / Sin marca" : m.charAt(0).toUpperCase() + m.slice(1)}</label>
         </div>
       `).join("");
       filtros.marcas = [...document.querySelectorAll("#brand-list input:checked")].map(i => i.value);
     }
 
-    function esTV(prod) {
+    function esRopa(prod) {
       const c = norm(prod.categoria);
-      const n = norm(prod.nombre);
-      return c.includes("tv") || c.includes("television") || c.includes("video") || c.includes("pantalla") || c.includes("home") || n.includes("tv") || n.includes("televisor") || n.includes("barra de sonido") || n.includes("soundbar") || n.includes("home theater");
+      return c.includes("ropa") || c.includes("polera") || c.includes("camisa") || c.includes("pantalon") || c.includes("short") || c.includes("zapatilla") || c.includes("zapato") || c.includes("accesorio") || c.includes("gorro") || c.includes("moda") || c.includes("vestimenta");
     }
 
-    function tipoTV(prod) {
+    function tipoRopa(prod) {
       const c = norm(prod.categoria);
       const n = norm(prod.nombre);
-      if (c.includes("video") || n.includes("barra de sonido") || n.includes("soundbar") || n.includes("home theater")) return "video";
-      if (c.includes("accesorio")) return "accesorio";
-      return "television";
+      if (c.includes("polera") || c.includes("camisa") || n.includes("polera") || n.includes("camisa") || n.includes("remera")) return "polera";
+      if (c.includes("pantalon") || c.includes("short") || c.includes("jeans") || n.includes("pantalon") || n.includes("short") || n.includes("jogger")) return "pantalon";
+      if (c.includes("zapatilla") || c.includes("zapato") || n.includes("zapatilla") || n.includes("sneaker") || n.includes("running")) return "zapatilla";
+      return "accesorio";
     }
 
-    function marcaTV(prod) { return norm(prod.marca); }
+    function marcaRopa(prod) { return norm(prod.marca); }
+
+    function tieneTalla(prod, talla) {
+      if (talla === "todas") return true;
+      const tallas = prod.tallas || [];
+      return tallas.some(t => String(t).toUpperCase() === talla.toUpperCase());
+    }
 
     function ordenarLista(lista) {
       const orden = document.getElementById("ordenar").value;
@@ -455,14 +461,14 @@
       try {
         onSnapshot(collection(db, "productos"), snap => {
           const docs = snap.docs.map(d => ({ firestoreId: d.id, ...d.data() }));
-          const filtrados = docs.filter(esTV);
-          todosLosProductos = filtrados.length ? filtrados : tvDemo;
+          const filtrados = docs.filter(esRopa);
+          todosLosProductos = filtrados.length ? filtrados : ropaDemo;
           pageStart = 0;
           aplicarFiltros();
           actualizarSideCart();
         });
       } catch (e) {
-        todosLosProductos = tvDemo;
+        todosLosProductos = ropaDemo;
         aplicarFiltros();
         actualizarSideCart();
       }
@@ -472,6 +478,14 @@
       document.querySelectorAll(".chip-btn").forEach(b => b.classList.remove("active"));
       btn.classList.add("active");
       filtros.tipo = btn.dataset.tipo;
+      pageStart = 0;
+      aplicarFiltros();
+    };
+
+    window.seleccionarTalla = function(btn) {
+      document.querySelectorAll(".talla-btn").forEach(b => b.classList.remove("active"));
+      btn.classList.add("active");
+      filtros.talla = btn.dataset.talla;
       pageStart = 0;
       aplicarFiltros();
     };
@@ -487,15 +501,13 @@
       filtros.marcas = [...document.querySelectorAll("#brand-list input:checked")].map(i => i.value);
       let lista = [...todosLosProductos];
 
-      if (filtros.tipo !== "todos") {
-        lista = lista.filter(p => tipoTV(p).includes(filtros.tipo));
-      }
-
+      if (filtros.tipo !== "todos") lista = lista.filter(p => tipoRopa(p) === filtros.tipo);
+      if (filtros.talla !== "todas") lista = lista.filter(p => tieneTalla(p, filtros.talla));
       lista = lista.filter(p => (Number(p.precio) || 0) <= filtros.precioMax);
 
       if (filtros.marcas.length > 0) {
         lista = lista.filter(p => {
-          const m = marcaTV(p);
+          const m = marcaRopa(p);
           return filtros.marcas.some(marca => marca === "otra"
             ? !MARCAS.filter(x => x !== "otra").some(x => m.includes(x))
             : m.includes(marca)
@@ -509,12 +521,11 @@
     };
 
     window.resetFiltros = function() {
-      filtros.tipo = "todos";
-      filtros.precioMax = 6000000;
-      filtros.marcas = [...MARCAS];
+      filtros.tipo = "todos"; filtros.talla = "todas"; filtros.precioMax = 500000; filtros.marcas = [...MARCAS];
       document.querySelectorAll(".chip-btn").forEach(b => b.classList.toggle("active", b.dataset.tipo === "todos"));
-      document.getElementById("precio-slider").value = 6000000;
-      document.getElementById("precio-display").textContent = "Hasta $6.000.000";
+      document.querySelectorAll(".talla-btn").forEach(b => b.classList.toggle("active", b.dataset.talla === "todas"));
+      document.getElementById("precio-slider").value = 500000;
+      document.getElementById("precio-display").textContent = "Hasta $500.000";
       document.querySelectorAll("#brand-list input").forEach(i => i.checked = i.value !== "otra");
       document.getElementById("ordenar").value = "destacados";
       pageStart = 0;
@@ -525,54 +536,29 @@
       const bar = document.getElementById("active-filters-bar");
       const tags = [];
 
-      if (filtros.tipo !== "todos") {
-        tags.push({
-          label: filtros.tipo.charAt(0).toUpperCase() + filtros.tipo.slice(1) + "s",
-          fn: `filtros.tipo='todos';document.querySelectorAll('.chip-btn').forEach(b=>b.classList.toggle('active',b.dataset.tipo==='todos'));pageStart=0;aplicarFiltros()`
-        });
-      }
-
-      if (filtros.precioMax < 6000000) {
-        tags.push({
-          label: "Hasta $" + formatP(filtros.precioMax),
-          fn: `filtros.precioMax=6000000;document.getElementById('precio-slider').value=6000000;document.getElementById('precio-display').textContent='Hasta $6.000.000';pageStart=0;aplicarFiltros()`
-        });
-      }
+      if (filtros.tipo !== "todos") tags.push({ label: filtros.tipo.charAt(0).toUpperCase() + filtros.tipo.slice(1), fn: `filtros.tipo='todos';document.querySelectorAll('.chip-btn').forEach(b=>b.classList.toggle('active',b.dataset.tipo==='todos'));pageStart=0;aplicarFiltros()` });
+      if (filtros.talla !== "todas") tags.push({ label: "Talla: " + filtros.talla, fn: `filtros.talla='todas';document.querySelectorAll('.talla-btn').forEach(b=>b.classList.toggle('active',b.dataset.talla==='todas'));pageStart=0;aplicarFiltros()` });
+      if (filtros.precioMax < 500000) tags.push({ label: "Hasta $" + formatP(filtros.precioMax), fn: `filtros.precioMax=500000;document.getElementById('precio-slider').value=500000;document.getElementById('precio-display').textContent='Hasta $500.000';pageStart=0;aplicarFiltros()` });
 
       const selected = [...document.querySelectorAll("#brand-list input:checked")].map(i => i.value);
-      if (selected.length !== MARCAS.length) {
-        tags.push({
-          label: "Marcas: " + selected.length,
-          fn: `document.querySelectorAll('#brand-list input').forEach(i=>i.checked=i.value!=='otra');filtros.marcas=[...document.querySelectorAll('#brand-list input:checked')].map(i=>i.value);pageStart=0;aplicarFiltros()`
-        });
-      }
+      if (selected.length !== MARCAS.length) tags.push({ label: "Marcas: " + selected.length, fn: `document.querySelectorAll('#brand-list input').forEach(i=>i.checked=i.value!=='otra');filtros.marcas=[...document.querySelectorAll('#brand-list input:checked')].map(i=>i.value);pageStart=0;aplicarFiltros()` });
 
-      if (tags.length === 0) {
-        bar.classList.remove("visible");
-        bar.innerHTML = "";
-        return;
-      }
-
+      if (tags.length === 0) { bar.classList.remove("visible"); bar.innerHTML = ""; return; }
       bar.classList.add("visible");
       bar.innerHTML = tags.map(t => `<div class="filter-tag">${t.label}<button onclick="${t.fn}">×</button></div>`).join("");
     }
 
-    function getBadgeClass(prod) {
-      const t = tipoTV(prod);
-      if (t === "video") return "video";
-      if (t === "accesorio") return "television";
-      return "television";
-    }
-
+    function getBadgeClass(prod) { return tipoRopa(prod); }
     function getBadgeLabel(prod) {
-      const t = tipoTV(prod);
-      if (t === "video") return "VIDEO";
-      if (t === "accesorio") return "ACC";
-      return "TV";
+      const t = tipoRopa(prod);
+      if (t === "polera") return "POLERA";
+      if (t === "pantalon") return "PANT.";
+      if (t === "zapatilla") return "ZAP.";
+      return "ACC.";
     }
 
     function renderizarGrid(lista) {
-      const grid = document.getElementById("grid-tv");
+      const grid = document.getElementById("grid-ropa");
       if (!lista || lista.length === 0) {
         grid.innerHTML = `<div style="padding:50px;grid-column:1/-1;text-align:center;color:var(--muted)"><h3 style="font-size:1.15rem;color:var(--text);margin-bottom:8px;">Sin resultados</h3><p>Prueba ajustando filtros o el rango de precio.</p></div>`;
         return;
@@ -587,29 +573,29 @@
         <div class="pagination-bar">
           <div class="page-info">Mostrando <strong>${slice.length}</strong> de <strong>${lista.length}</strong> productos</div>
           <div class="page-btns">
-            <button class="arrow-btn" onclick="moverPagina(-1)" ${start===0?'disabled':''}>‹</button>
+            <button class="arrow-btn" onclick="moverPagina(-1)" ${start===0?"disabled":""}>‹</button>
             <span style="font-size:.84rem;color:var(--muted);font-weight:700;padding:0 4px;">${currentPage}/${totalPages}</span>
-            <button class="arrow-btn" onclick="moverPagina(1)" ${start+PAGE_SIZE>=lista.length?'disabled':''}>›</button>
+            <button class="arrow-btn" onclick="moverPagina(1)" ${start+PAGE_SIZE>=lista.length?"disabled":""}>›</button>
           </div>
         </div>`;
 
       slice.forEach(prod => {
         const json = encodeURIComponent(JSON.stringify(prod));
+        const tallasHtml = (prod.tallas || []).map(t => `<span class="talla-tag">${t}</span>`).join("");
         html += `
-          <div class="sony-card" onclick="abrirModalDetalle('${json}')">
-            <div class="card-badges">
-              <div class="badge-alpha ${getBadgeClass(prod)}">${getBadgeLabel(prod)}</div>
+          <div class="ropa-card" onclick="abrirModalDetalle('${json}')">
+            <div class="card-badges"><div class="badge-ropa ${getBadgeClass(prod)}">${getBadgeLabel(prod)}</div></div>
+            <div class="ropa-img-box">
+              <img src="${prod.imagen || ""}" onerror="this.src='https://via.placeholder.com/300x350/e5e7eb/9ca3af?text=Sin+imagen'" alt="${prod.nombre || ""}">
             </div>
-            <div class="sony-img-box">
-              <img src="${prod.imagen || ''}" onerror="this.src='https://via.placeholder.com/300'" alt="${prod.nombre || ''}">
+            <div class="ropa-info">
+              <div class="ropa-type">${String(prod.categoria || "ROPA").toUpperCase()}</div>
+              <h3 class="ropa-title">${prod.nombre || "Producto"}</h3>
+              <div class="ropa-sku">SKU: ${prod.id || prod.firestoreId || "SVR"}</div>
+              <div class="ropa-tallas">${tallasHtml}</div>
             </div>
-            <div class="sony-info">
-              <div class="sony-type">${String(prod.categoria || 'TV').toUpperCase()}</div>
-              <h3 class="sony-title">${prod.nombre || 'Producto'}</h3>
-              <div class="sony-sku">SKU: ${prod.id || prod.firestoreId || 'SVR'}</div>
-            </div>
-            <div class="sony-price-box"><div class="price-now">$${formatP(prod.precio || 0)}</div></div>
-            <button class="sony-btn-add" onclick="event.stopPropagation();agregarAlCarritoLocal('${prod.id || prod.firestoreId}','${String(prod.nombre || '').replace(/'/g,"\\'")}',${Number(prod.precio || 0)},'${prod.imagen || ''}')">AGREGAR RÁPIDO</button>
+            <div class="ropa-price-box"><div class="price-now">$${formatP(prod.precio || 0)}</div></div>
+            <button class="ropa-btn-add" onclick="event.stopPropagation();agregarAlCarritoLocal('${prod.id || prod.firestoreId}','${String(prod.nombre || "").replace(/'/g,"\\'")}',${Number(prod.precio || 0)},'${prod.imagen || ""}')">AGREGAR RÁPIDO</button>
           </div>`;
       });
 
@@ -643,8 +629,7 @@
         return;
       }
 
-      let html = "";
-      let subtotal = 0;
+      let html = ""; let subtotal = 0;
       carrito.forEach((item, i) => {
         subtotal += parseInt(item.precio || 0);
         html += `<div style="display:flex;gap:15px;margin-bottom:15px;border-bottom:1px solid #eee;padding-bottom:15px;"><img src="${item.imagen}" style="width:60px;height:60px;object-fit:contain;background:#f5f5f5;border-radius:8px;"><div style="flex:1;"><div style="font-size:.9rem;margin-bottom:5px;font-weight:600;color:#000;">${item.nombre}</div><div style="font-weight:800;color:var(--blue);">$${formatP(item.precio)}</div><span style="color:red;font-size:.8rem;cursor:pointer;" onclick="eliminarDelCarrito(${i})">Quitar</span></div></div>`;
@@ -661,31 +646,18 @@
       actualizarSideCart();
     };
 
-    window.abrirMenu = function() {
-      document.getElementById("global-overlay").classList.add("active");
-      document.getElementById("side-menu").classList.add("open");
-    };
-
-    window.abrirCarrito = function() {
-      actualizarSideCart();
-      document.getElementById("global-overlay").classList.add("active");
-      document.getElementById("side-cart").classList.add("open");
-    };
-
-    window.cerrarPaneles = function() {
-      document.getElementById("global-overlay").classList.remove("active");
-      document.getElementById("side-cart").classList.remove("open");
-      document.getElementById("side-menu").classList.remove("open");
-    };
+    window.abrirMenu = function() { document.getElementById("global-overlay").classList.add("active"); document.getElementById("side-menu").classList.add("open"); };
+    window.abrirCarrito = function() { actualizarSideCart(); document.getElementById("global-overlay").classList.add("active"); document.getElementById("side-cart").classList.add("open"); };
+    window.cerrarPaneles = function() { document.getElementById("global-overlay").classList.remove("active"); document.getElementById("side-cart").classList.remove("open"); document.getElementById("side-menu").classList.remove("open"); };
 
     window.abrirModalDetalle = function(prodString) {
       const prod = JSON.parse(decodeURIComponent(prodString));
       document.getElementById("modal-img").src = prod.imagen || "";
       document.getElementById("modal-title").innerText = prod.nombre || "Producto";
       document.getElementById("modal-sku").innerText = "SKU: " + (prod.id || prod.firestoreId || "SVR");
-      document.getElementById("modal-cat").innerText = String(prod.categoria || "TV").toUpperCase();
+      document.getElementById("modal-cat").innerText = String(prod.categoria || "ROPA").toUpperCase();
       document.getElementById("modal-price").innerText = "$" + formatP(prod.precio || 0);
-      document.getElementById("modal-desc").innerText = prod.descripcion || "Resolución y contraste sin igual para una experiencia de cine en casa con SVR Store.";
+      document.getElementById("modal-desc").innerText = prod.descripcion || "Prenda de calidad garantizada por SVR Store.";
       document.getElementById("modal-btn-add").onclick = () => { agregarAlCarritoLocal(prod.id || prod.firestoreId, prod.nombre || "Producto", prod.precio || 0, prod.imagen || ""); cerrarModal(); };
       document.getElementById("quick-view-modal").classList.add("active");
     };

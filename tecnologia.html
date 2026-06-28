@@ -1,0 +1,528 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Tecnología | SVR Store</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800;900&display=swap" rel="stylesheet">
+  <style>
+    :root{--bg:#f6f7fb;--surface:#fff;--surface2:#fafbfc;--text:#101828;--muted:#667085;--border:rgba(16,24,40,.08);--accent:#e30613;--accent2:#b7040f;--blue:#2563eb;--orange:#ff7a00;--shadow:0 16px 40px rgba(16,24,40,.08);--radius:22px}
+    *{margin:0;padding:0;box-sizing:border-box;font-family:'Inter',sans-serif} html{-webkit-font-smoothing:antialiased} body{background:radial-gradient(circle at top left, rgba(227,6,19,.08), transparent 28%), radial-gradient(circle at top right, rgba(37,99,235,.10), transparent 26%), var(--bg);color:var(--text);overflow-x:hidden;line-height:1.6} a{text-decoration:none;color:inherit} button{font-family:inherit;border:none;background:none;cursor:pointer}
+
+    .main-header{position:sticky;top:0;z-index:1000;background:rgba(9,11,15,.84);backdrop-filter:blur(16px);border-bottom:1px solid rgba(255,255,255,.08);padding:0 24px;height:68px;display:flex;align-items:center;justify-content:space-between;gap:16px}
+    .header-left{display:flex;align-items:center;gap:16px}
+    .hamburger-btn{display:flex;flex-direction:column;gap:5px;padding:8px;border-radius:12px;background:rgba(255,255,255,.05)}
+    .hamburger-btn span{display:block;width:22px;height:2px;background:#fff;border-radius:2px}
+    .header-logo{font-size:1.45rem;font-weight:900;letter-spacing:1px;color:#fff}
+    .header-logo span{color:var(--accent)}
+    .nav-links{display:flex;align-items:center;gap:18px;color:rgba(255,255,255,.78);font-size:.86rem;font-weight:600}
+    .nav-links a:hover{color:#fff}
+    .header-icons{display:flex;align-items:center;gap:12px;color:#fff}
+    .icon-cart{position:relative;font-size:1.2rem;cursor:pointer}
+    .cart-counter{position:absolute;top:-8px;right:-10px;border-radius:999px;min-width:18px;height:18px;padding:0 5px;font-size:.65rem;display:flex;align-items:center;justify-content:center;font-weight:800;background:var(--accent);color:#fff}
+
+    .nav-sidebar{position:fixed;top:0;left:-320px;width:320px;height:100vh;background:#111827;color:#fff;z-index:5000;transition:left .35s cubic-bezier(.16,1,.3,1);box-shadow:5px 0 25px rgba(0,0,0,.35);display:flex;flex-direction:column}
+    .nav-sidebar.open{left:0}
+    .sidebar-header{padding:20px;border-bottom:1px solid #243041;display:flex;justify-content:space-between;align-items:center;background:#0b0f19}
+    .sidebar-header h2{font-size:1.05rem;font-weight:800;letter-spacing:1px}
+    .btn-close-sidebar{color:#fff;font-size:2rem;line-height:1}
+    .sidebar-menu{padding:10px 0;overflow-y:auto}
+    .sidebar-menu li a{display:block;padding:15px 22px;font-size:.95rem;font-weight:500;border-bottom:1px solid #1f2937;transition:.2s}
+    .sidebar-menu li a:hover{background:#1f2937;padding-left:28px;color:#fff}
+    .sidebar-menu li.highlight a{color:var(--orange);font-weight:800}
+
+    .breadcrumb-bar{background:#fff;padding:14px 24px;font-size:.84rem;color:var(--muted);border-bottom:1px solid var(--border)}
+    .category-header{max-width:1400px;margin:0 auto;padding:26px 24px 18px;display:flex;justify-content:space-between;align-items:end;gap:16px;flex-wrap:wrap}
+    .category-header h1{font-size:clamp(1.9rem,3vw,2.8rem);font-weight:900;letter-spacing:-.04em;color:var(--text)}
+    .category-header p{color:var(--muted);max-width:62ch}
+    .sort-box select{padding:11px 12px;border:1px solid var(--border);outline:none;font-size:.9rem;border-radius:12px;background:#fff;box-shadow:var(--shadow)}
+
+    .store-layout{display:flex;max-width:1400px;margin:0 auto;padding:16px 24px 42px;gap:28px;align-items:flex-start}
+    .sidebar-filters{width:260px;flex-shrink:0;position:sticky;top:88px;display:flex;flex-direction:column;gap:14px}
+
+    .filter-group{background:var(--surface);border:1px solid var(--border);border-radius:18px;padding:20px 18px;box-shadow:var(--shadow)}
+    .filter-title{font-size:.82rem;font-weight:800;margin-bottom:14px;text-transform:uppercase;letter-spacing:.8px;color:var(--text);display:flex;align-items:center;gap:8px}
+
+    .filter-chips{display:flex;flex-direction:column;gap:8px}
+    .chip-btn{display:flex;align-items:center;gap:10px;padding:10px 14px;border-radius:12px;font-size:.875rem;font-weight:600;color:var(--muted);border:1.5px solid var(--border);transition:.2s;background:#fafbfc;cursor:pointer;width:100%;text-align:left}
+    .chip-btn:hover{border-color:var(--accent);color:var(--accent);background:#fff5f5}
+    .chip-btn.active{border-color:var(--accent);color:var(--accent);background:#fff5f5;font-weight:800}
+    .chip-dot{width:9px;height:9px;border-radius:50%;background:currentColor;flex-shrink:0}
+
+    .price-range-labels{display:flex;justify-content:space-between;font-size:.78rem;color:var(--muted);margin-bottom:6px}
+    .price-slider{width:100%;accent-color:var(--accent);cursor:pointer}
+    .price-display{text-align:center;font-size:.88rem;font-weight:700;color:var(--text);margin-top:10px;background:#f6f7fb;padding:8px;border-radius:10px}
+
+    .brand-list{display:flex;flex-direction:column;gap:8px}
+    .brand-item{display:flex;align-items:center;gap:10px;font-size:.875rem;color:var(--muted);cursor:pointer;padding:4px 0}
+    .brand-item input{accent-color:var(--accent);width:15px;height:15px;cursor:pointer}
+    .brand-item label{cursor:pointer;font-weight:500}
+    .brand-item input:checked + label{color:var(--text);font-weight:700}
+
+    .btn-reset-filters{width:100%;padding:11px;border-radius:12px;font-size:.85rem;font-weight:700;color:var(--muted);border:1.5px solid var(--border);background:#fff;transition:.2s;cursor:pointer}
+    .btn-reset-filters:hover{border-color:var(--accent);color:var(--accent);background:#fff5f5}
+
+    .active-filters-bar{display:none;align-items:center;gap:8px;flex-wrap:wrap;padding:0 0 14px}
+    .active-filters-bar.visible{display:flex}
+    .filter-tag{display:flex;align-items:center;gap:6px;background:#fff;border:1px solid var(--border);padding:5px 10px;border-radius:999px;font-size:.78rem;font-weight:700;color:var(--text)}
+    .filter-tag button{color:#aaa;font-size:.9rem;line-height:1;padding:0 2px}
+    .filter-tag button:hover{color:var(--accent)}
+
+    .products-area{flex:1;min-width:0}
+    .products-grid{display:grid;grid-template-columns:repeat(4,minmax(0,1fr));gap:18px}
+
+    .sony-card{background:#fff;display:flex;flex-direction:column;cursor:pointer;position:relative;padding-bottom:18px;border:1px solid var(--border);border-radius:20px;overflow:hidden;transition:.25s;box-shadow:0 2px 10px rgba(16,24,40,.04)}
+    .sony-card:hover{box-shadow:0 18px 36px rgba(16,24,40,.12);transform:translateY(-4px);z-index:10}
+    .card-badges{position:absolute;top:12px;left:12px;z-index:2;display:flex;flex-direction:column;gap:6px}
+    .badge-tag{color:#fff;text-align:center;font-size:.7rem;font-weight:800;padding:4px 8px;border-radius:999px;letter-spacing:.4px;background:linear-gradient(135deg,var(--blue),#1d4ed8)}
+    .badge-tag.celular{background:linear-gradient(135deg,#7c3aed,#5b21b6)}
+    .badge-tag.laptop{background:linear-gradient(135deg,var(--blue),#1d4ed8)}
+    .badge-tag.tablet{background:linear-gradient(135deg,#0891b2,#0e7490)}
+    .badge-tag.smartwatch{background:linear-gradient(135deg,#059669,#047857)}
+    .badge-tag.accesorio{background:linear-gradient(135deg,var(--orange),#e35d12)}
+    .badge-tag.otro{background:linear-gradient(135deg,#475569,#334155)}
+    .sony-img-box{width:100%;height:220px;display:flex;justify-content:center;align-items:center;padding:24px;background:linear-gradient(180deg,#fff,#f8fafc)}
+    .sony-img-box img{max-width:100%;max-height:100%;object-fit:contain;mix-blend-mode:multiply;transition:.3s}
+    .sony-card:hover .sony-img-box img{transform:scale(1.05)}
+    .sony-info{padding:0 18px;flex:1;display:flex;flex-direction:column;pointer-events:none}
+    .sony-type{font-size:.68rem;color:var(--blue);font-weight:800;text-transform:uppercase;letter-spacing:.7px;margin-bottom:6px}
+    .sony-title{font-size:.95rem;font-weight:700;line-height:1.35;margin-bottom:8px;color:var(--text)}
+    .sony-sku{font-size:.72rem;color:#98a2b3;font-family:monospace}
+    .sony-price-box{padding:0 18px;margin-top:auto;border-top:1px solid #eef2f7;padding-top:14px}
+    .price-now{font-size:1.35rem;font-weight:900;color:var(--text);letter-spacing:-.03em}
+    .sony-btn-add{background:linear-gradient(135deg,var(--text),#1f2937);color:#fff;padding:12px;font-size:.88rem;font-weight:800;margin:14px 18px 0;border-radius:12px;opacity:0;transition:.25s;text-align:center}
+    .sony-card:hover .sony-btn-add{opacity:1}
+    .sony-btn-add:hover{background:linear-gradient(135deg,var(--accent),var(--accent2))}
+
+    .empty-state{grid-column:1/-1;text-align:center;padding:70px 20px;color:var(--muted)}
+    .empty-state svg{opacity:.25;margin-bottom:18px}
+    .empty-state h3{font-size:1.2rem;font-weight:800;color:var(--text);margin-bottom:8px}
+
+    .pagination-bar{grid-column:1/-1;display:flex;justify-content:space-between;align-items:center;padding:6px 0 10px;flex-wrap:wrap;gap:12px}
+    .page-info{color:var(--muted);font-size:.85rem;font-weight:600}
+    .page-btns{display:flex;align-items:center;gap:8px}
+    .arrow-btn{width:40px;height:40px;border-radius:50%;background:#fff;border:1px solid var(--border);color:var(--text);font-size:1.3rem;font-weight:800;box-shadow:var(--shadow);display:flex;align-items:center;justify-content:center;transition:.2s}
+    .arrow-btn:hover:not(:disabled){background:var(--accent);color:#fff;border-color:var(--accent)}
+    .arrow-btn:disabled{opacity:.3;cursor:not-allowed}
+
+    .modal-overlay{position:fixed;inset:0;background:rgba(0,0,0,.72);z-index:4000;display:none;align-items:center;justify-content:center;opacity:0;transition:opacity .25s}
+    .modal-overlay.active{display:flex;opacity:1}
+    .quick-view-box{background:#fff;width:960px;max-width:92%;min-height:520px;display:flex;position:relative;border-radius:24px;overflow:hidden;transform:scale(.95);transition:transform .25s;box-shadow:0 25px 60px rgba(0,0,0,.4)}
+    .modal-overlay.active .quick-view-box{transform:scale(1)}
+    .qv-close{position:absolute;top:14px;right:18px;font-size:2rem;cursor:pointer;color:#98a2b3;z-index:10;line-height:1}
+    .qv-close:hover{color:var(--text)}
+    .qv-img-section{width:50%;background:linear-gradient(180deg,#f8fafc,#fff);display:flex;justify-content:center;align-items:center;padding:42px}
+    .qv-img-section img{max-width:100%;max-height:100%;object-fit:contain;mix-blend-mode:multiply}
+    .qv-info-section{width:50%;padding:44px 38px;display:flex;flex-direction:column;overflow-y:auto}
+    .qv-category{color:var(--blue);font-size:.78rem;font-weight:800;letter-spacing:1px;margin-bottom:10px;text-transform:uppercase}
+    .qv-title{font-size:1.9rem;font-weight:900;color:var(--text);margin-bottom:10px;line-height:1.15}
+    .qv-sku{font-size:.8rem;color:#98a2b3;margin-bottom:22px;padding-bottom:22px;border-bottom:1px solid var(--border)}
+    .qv-price{font-size:2.2rem;font-weight:900;color:#b73218;margin-bottom:16px}
+    .qv-desc{font-size:.96rem;color:var(--muted);line-height:1.7;margin-bottom:28px;flex:1}
+    .qv-btn-cart{background:linear-gradient(135deg,var(--orange),#ff8a00);color:#fff;padding:15px;font-size:1rem;font-weight:800;text-align:center;width:100%;border-radius:14px;transition:.2s}
+    .qv-btn-cart:hover{transform:translateY(-1px);box-shadow:0 16px 28px rgba(255,122,0,.24)}
+
+    .cart-drawer{position:fixed;top:0;right:-420px;width:100%;max-width:400px;height:100vh;background:#fff;z-index:5000;transition:right .35s cubic-bezier(.16,1,.3,1);display:flex;flex-direction:column;box-shadow:-10px 0 36px rgba(0,0,0,.16)}
+    .cart-drawer.open{right:0}
+    .global-overlay{position:fixed;inset:0;background:rgba(0,0,0,.58);z-index:4500;display:none}
+    .global-overlay.active{display:block}
+    .cart-header{padding:18px 20px;background:#0b0f19;color:#fff;display:flex;justify-content:space-between;align-items:center}
+    .cart-items{flex:1;padding:20px;overflow-y:auto;color:#000}
+    .cart-footer-btn{padding:20px;background:#f8fafc;border-top:1px solid var(--border)}
+    .btn-checkout{background:var(--accent);color:#fff;width:100%;padding:14px;text-align:center;display:block;font-weight:900;border-radius:12px}
+    .btn-checkout:hover{background:var(--accent2)}
+
+    @media(max-width:1200px){.products-grid{grid-template-columns:repeat(3,minmax(0,1fr))}.sidebar-filters{width:230px}}
+    @media(max-width:900px){.store-layout{flex-direction:column}.sidebar-filters{width:100%;position:static}.products-grid{grid-template-columns:repeat(2,minmax(0,1fr))}.quick-view-box{flex-direction:column;min-height:auto}.qv-img-section,.qv-info-section{width:100%}.qv-img-section{height:280px}.nav-links{display:none}}
+    @media(max-width:620px){.main-header{padding:0 16px}.category-header,.breadcrumb-bar,.store-layout{padding-left:16px;padding-right:16px}.products-grid{grid-template-columns:1fr}.header-logo{font-size:1.2rem}.qv-title{font-size:1.5rem}}
+  </style>
+</head>
+<body>
+
+  <!-- HEADER -->
+  <header class="main-header">
+    <div class="header-left">
+      <button class="hamburger-btn" onclick="abrirMenu()"><span></span><span></span><span></span></button>
+      <a href="tiendaSVR.html" class="header-logo">SVR<span>.</span></a>
+    </div>
+    <nav class="nav-links">
+     <a href="tiendaSVR.html">Inicio</a>
+      <a href="todos los productosSVR.html">🔥 Ofertas</a>
+      <a href="#"style="color: var(--accent);">Tecnología</a>
+      <a href="camaras.html">Cámaras</a>
+      <a href="audio.html">Audio</a>
+      <a href="television.html">TV y Video</a>
+      <a href="ropa.html">Ropa</a>
+    </nav>
+    <div class="header-icons">
+      <div class="icon-cart" onclick="abrirCarrito()">
+        <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="9" cy="21" r="1"/><circle cx="20" cy="21" r="1"/><path d="M1 1h4l2.68 13.39a2 2 0 0 0 2 1.61h9.72a2 2 0 0 0 2-1.61L23 6H6"/></svg>
+        <div class="cart-counter" id="cart-count">0</div>
+      </div>
+    </div>
+  </header>
+
+  <!-- SIDEBAR MENÚ -->
+  <nav class="nav-sidebar" id="side-menu">
+    <div class="sidebar-header"><h2>MENÚ SVR</h2><button class="btn-close-sidebar" onclick="cerrarPaneles()">×</button></div>
+    <ul class="sidebar-menu">
+      <li class="highlight"><a href="tiendaSVR.html">🏠 Volver al Inicio</a></li>
+      <li><a href="tecnologia.html"style="color: var(--accent); font-weight: bold;">💻 Tecnología</a></li>
+      <li><a href="camaras.html">📷 Camaras y lentes</a></li>
+      <li><a href="audio.html">🎧 Audio y Audífonos</a></li>
+      <li><a href="television.html">📺 TV y video</a></li>
+      <li><a href="ropa.html">👕 Ropa y Accesorios</a></li>
+      <li><a href="todos los productosSVR.html">🔥 Todas las Ofertas</a></li>
+      <li style="margin-top:20px;border-top:1px solid #333;"><a href="perfil.html">👤 Mi Cuenta SVR</a></li>
+    </ul>
+  </nav>
+
+  <!-- BREADCRUMB -->
+  <div class="breadcrumb-bar">
+    <a href="tiendaSVR.html">Inicio</a> <span> > </span> <strong style="color:var(--text);">Tecnología</strong>
+  </div>
+
+  <!-- TÍTULO CATEGORÍA -->
+  <div class="category-header">
+    <div>
+      <h1>Tecnología SVR</h1>
+      <p>Celulares, laptops, tablets, smartwatches y más. Filtra por tipo, precio o marca.</p>
+    </div>
+    <div class="sort-box">
+      <select id="ordenar" onchange="aplicarFiltros()">
+        <option value="destacados">Ordenar por: Destacados</option>
+        <option value="menor">Precio: Menor a Mayor</option>
+        <option value="mayor">Precio: Mayor a Menor</option>
+        <option value="nombre">Nombre: A → Z</option>
+      </select>
+    </div>
+  </div>
+
+  <!-- LAYOUT PRINCIPAL -->
+  <main class="store-layout">
+
+    <!-- SIDEBAR FILTROS -->
+    <aside class="sidebar-filters">
+
+      <!-- Tipo -->
+      <div class="filter-group">
+        <div class="filter-title">
+          <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><polygon points="22 3 2 3 10 12.46 10 19 14 21 14 12.46 22 3"/></svg>
+          Tipo de producto
+        </div>
+        <div class="filter-chips">
+          <button class="chip-btn active" data-tipo="todos"       onclick="seleccionarTipo(this)"><span class="chip-dot"></span>Todos</button>
+          <button class="chip-btn"        data-tipo="celular"     onclick="seleccionarTipo(this)"><span class="chip-dot"></span>Celulares</button>
+          <button class="chip-btn"        data-tipo="laptop"      onclick="seleccionarTipo(this)"><span class="chip-dot"></span>Laptops</button>
+          <button class="chip-btn"        data-tipo="tablet"      onclick="seleccionarTipo(this)"><span class="chip-dot"></span>Tablets</button>
+          <button class="chip-btn"        data-tipo="smartwatch"  onclick="seleccionarTipo(this)"><span class="chip-dot"></span>Smartwatches</button>
+          <button class="chip-btn"        data-tipo="accesorio"   onclick="seleccionarTipo(this)"><span class="chip-dot"></span>Accesorios</button>
+        </div>
+      </div>
+
+      <!-- Precio -->
+      <div class="filter-group">
+        <div class="filter-title">
+          <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><line x1="12" y1="1" x2="12" y2="23"/><path d="M17 5H9.5a3.5 3.5 0 0 0 0 7h5a3.5 3.5 0 0 1 0 7H6"/></svg>
+          Precio máximo
+        </div>
+        <div class="price-range-labels"><span>$0</span><span>$3.000.000</span></div>
+        <input type="range" class="price-slider" id="precio-slider" min="0" max="3000000" step="50000" value="3000000" oninput="actualizarSlider(this.value)">
+        <div class="price-display" id="precio-display">Hasta $3.000.000</div>
+      </div>
+
+      <!-- Marca -->
+      <div class="filter-group">
+        <div class="filter-title">
+          <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><rect x="3" y="3" width="7" height="7"/><rect x="14" y="3" width="7" height="7"/><rect x="14" y="14" width="7" height="7"/><rect x="3" y="14" width="7" height="7"/></svg>
+          Marca
+        </div>
+        <div class="brand-list">
+          <div class="brand-item"><input type="checkbox" id="marca-samsung" value="samsung" checked onchange="aplicarFiltros()"><label for="marca-samsung">Samsung</label></div>
+          <div class="brand-item"><input type="checkbox" id="marca-apple"   value="apple"   checked onchange="aplicarFiltros()"><label for="marca-apple">Apple</label></div>
+          <div class="brand-item"><input type="checkbox" id="marca-sony"    value="sony"    onchange="aplicarFiltros()"><label for="marca-sony">Sony</label></div>
+          <div class="brand-item"><input type="checkbox" id="marca-xiaomi"  value="xiaomi"  onchange="aplicarFiltros()"><label for="marca-xiaomi">Xiaomi</label></div>
+          <div class="brand-item"><input type="checkbox" id="marca-lg"      value="lg"      onchange="aplicarFiltros()"><label for="marca-lg">LG</label></div>
+          <div class="brand-item"><input type="checkbox" id="marca-otra"    value="otra"    onchange="aplicarFiltros()"><label for="marca-otra">Otra / Sin marca</label></div>
+        </div>
+      </div>
+
+      <button class="btn-reset-filters" onclick="resetFiltros()">↺ Limpiar filtros</button>
+    </aside>
+
+    <!-- ÁREA DE PRODUCTOS -->
+    <div class="products-area">
+      <div class="active-filters-bar" id="active-filters-bar"></div>
+      <div class="products-grid" id="grid-tecnologia"></div>
+    </div>
+
+  </main>
+
+  <!-- MODAL -->
+  <div class="modal-overlay" id="quick-view-modal">
+    <div class="quick-view-box">
+      <div class="qv-close" onclick="cerrarModal()">×</div>
+      <div class="qv-img-section"><img id="modal-img" src="" alt="Producto"></div>
+      <div class="qv-info-section">
+        <div class="qv-category" id="modal-cat"></div>
+        <h2 class="qv-title" id="modal-title"></h2>
+        <div class="qv-sku" id="modal-sku"></div>
+        <div class="qv-price" id="modal-price"></div>
+        <div class="qv-desc" id="modal-desc"></div>
+        <button class="qv-btn-cart" id="modal-btn-add">AGREGAR AL CARRITO</button>
+      </div>
+    </div>
+  </div>
+
+  <!-- CARRITO -->
+  <div class="cart-drawer" id="side-cart">
+    <div class="cart-header"><h2>Mi Carrito SVR</h2><button onclick="cerrarPaneles()" style="color:white;font-size:1.5rem;">×</button></div>
+    <div class="cart-items" id="drawer-items"></div>
+    <div class="cart-footer-btn">
+      <div style="display:flex;justify-content:space-between;font-weight:900;font-size:1.15rem;margin-bottom:15px;color:#000;"><span>Total:</span><span id="drawer-total">$0</span></div>
+      <a href="checkout.html" class="btn-checkout">IR A PAGAR</a>
+    </div>
+  </div>
+  <div class="global-overlay" id="global-overlay" onclick="cerrarPaneles()"></div>
+
+  <script type="module">
+    import { initializeApp } from "https://www.gstatic.com/firebasejs/12.15.0/firebase-app.js";
+    import { getFirestore, collection, onSnapshot } from "https://www.gstatic.com/firebasejs/12.15.0/firebase-firestore.js";
+
+    const firebaseConfig = {
+      apiKey: "AIzaSyB7IODeAnczMkBq8UoeqZkJWpw9wZbxYZk",
+      authDomain: "servicios-ramirez.firebaseapp.com",
+      projectId: "servicios-ramirez",
+      storageBucket: "servicios-ramirez.firebasestorage.app",
+      messagingSenderId: "540818066798",
+      appId: "1:540818066798:web:47bf4d3f68d6959f6fc57f"
+    };
+
+    const app = initializeApp(firebaseConfig);
+    const db  = getFirestore(app);
+
+    // Fallback de productos de tecnología
+    const FALLBACK = [
+      { id:"SM-S928B",   nombre:"Samsung Galaxy S25 Ultra",      precio:1499990, categoria:"celular",    marca:"samsung", descripcion:"Snapdragon 8 Elite, pantalla Dynamic AMOLED 6.9\", S Pen incluido y batería de 5000 mAh.", imagen:"https://via.placeholder.com/300x300?text=Galaxy+S25+Ultra" },
+      { id:"MBP-M4-14",  nombre:"MacBook Pro 14\" M4 Pro",       precio:2799990, categoria:"laptop",     marca:"apple",   descripcion:"Chip M4 Pro, pantalla Liquid Retina XDR, hasta 24 GB de RAM unificada y 18 horas de batería.", imagen:"https://via.placeholder.com/300x300?text=MacBook+Pro+M4" },
+      { id:"IPD-PRO-13", nombre:"iPad Pro 13\" M4",               precio:1899990, categoria:"tablet",     marca:"apple",   descripcion:"Pantalla Ultra Retina XDR OLED, chip M4 y diseño ultra delgado de 5.1 mm.", imagen:"https://via.placeholder.com/300x300?text=iPad+Pro+M4" },
+      { id:"AW-S10",     nombre:"Apple Watch Series 10",          precio:599990,  categoria:"smartwatch", marca:"apple",   descripcion:"La pantalla más grande de Apple Watch, sensor de apnea del sueño y carga rápida.", imagen:"https://via.placeholder.com/300x300?text=Apple+Watch+S10" },
+      { id:"XM13T-PRO",  nombre:"Xiaomi 13T Pro",                  precio:749990,  categoria:"celular",    marca:"xiaomi",  descripcion:"Cámara Leica de 50 MP, pantalla AMOLED 144 Hz y carga HyperCharge de 120W.", imagen:"https://via.placeholder.com/300x300?text=Xiaomi+13T+Pro" },
+      { id:"XPS-15-2025",nombre:"Dell XPS 15 2025",               precio:2199990, categoria:"laptop",     marca:"otra",    descripcion:"Intel Core Ultra 9, pantalla OLED 3.5K táctil y NVIDIA RTX 4070.", imagen:"https://via.placeholder.com/300x300?text=Dell+XPS+15" },
+      { id:"WH1000XM6",  nombre:"Sony Xperia 1 VI",               precio:1099990, categoria:"celular",    marca:"sony",    descripcion:"Zoom óptico Zeiss 3.5–7.1×, pantalla 4K HDR OLED y audio 3.5 mm.", imagen:"https://via.placeholder.com/300x300?text=Xperia+1+VI" },
+      { id:"TAB-S10P",   nombre:"Samsung Galaxy Tab S10+",        precio:1099990, categoria:"tablet",     marca:"samsung", descripcion:"Pantalla Dynamic AMOLED 12.4\", S Pen incluido y chip Snapdragon 8 Gen 3.", imagen:"https://via.placeholder.com/300x300?text=Tab+S10+" },
+      { id:"WATCH7-44",  nombre:"Samsung Galaxy Watch 7 44mm",    precio:329990,  categoria:"smartwatch", marca:"samsung", descripcion:"Chip Exynos W1000, análisis avanzado del sueño y batería de 590 mAh.", imagen:"https://via.placeholder.com/300x300?text=Galaxy+Watch+7" },
+      { id:"ACC-HUBSVR", nombre:"Hub USB-C 8 en 1 SVR",          precio:49990,   categoria:"accesorio",  marca:"otra",    descripcion:"HDMI 4K, 3× USB-A, USB-C PD 100W, SD, MicroSD y Ethernet.", imagen:"https://via.placeholder.com/300x300?text=Hub+USB-C+SVR" }
+    ];
+
+    let todosLosProductos = [];
+    let pageStart = 0;
+    const PAGE_SIZE = 8;
+    const filtros = { tipo:"todos", precioMax:3000000, marcas:["samsung","apple"] };
+
+    const MARCAS_CONOCIDAS = ["samsung","apple","sony","xiaomi","lg"];
+
+    function formatP(n){ return Number(n).toLocaleString('es-CL'); }
+    function normCat(v){ return String(v||'').toLowerCase().normalize('NFD').replace(/[\u0300-\u036f]/g,''); }
+
+    const CATS_TECS = ['celular','laptop','tablet','smartwatch','accesorio','tecnologia','tech','movil','computador','notebook'];
+
+    function cargarProductos(){
+      try {
+        onSnapshot(collection(db,'productos'), snap => {
+          const docs = snap.docs.map(d => ({ firestoreId:d.id, ...d.data() }));
+          const filtradosCat = docs.filter(p => {
+            const c = normCat(p.categoria);
+            return CATS_TECS.some(cat => c.includes(cat));
+          });
+          todosLosProductos = filtradosCat.length ? filtradosCat : FALLBACK;
+          pageStart = 0;
+          aplicarFiltros();
+          actualizarSideCart();
+        });
+      } catch(e){
+        todosLosProductos = FALLBACK;
+        aplicarFiltros();
+        actualizarSideCart();
+      }
+    }
+
+    window.seleccionarTipo = function(btn){
+      document.querySelectorAll('.chip-btn').forEach(b => b.classList.remove('active'));
+      btn.classList.add('active');
+      filtros.tipo = btn.dataset.tipo;
+      pageStart = 0;
+      aplicarFiltros();
+    };
+
+    window.actualizarSlider = function(val){
+      filtros.precioMax = parseInt(val);
+      document.getElementById('precio-display').textContent = 'Hasta $' + formatP(val);
+      pageStart = 0;
+      aplicarFiltros();
+    };
+
+    window.aplicarFiltros = function(){
+      filtros.marcas = [...document.querySelectorAll('.brand-list input:checked')].map(i => i.value);
+      let lista = [...todosLosProductos];
+
+      if(filtros.tipo !== 'todos'){
+        lista = lista.filter(p => normCat(p.categoria).includes(filtros.tipo));
+      }
+
+      lista = lista.filter(p => (Number(p.precio)||0) <= filtros.precioMax);
+
+      if(filtros.marcas.length > 0){
+        lista = lista.filter(p => {
+          const m = String(p.marca||'').toLowerCase();
+          return filtros.marcas.some(marca =>
+            marca === 'otra'
+              ? !MARCAS_CONOCIDAS.some(x => m.includes(x))
+              : m.includes(marca)
+          );
+        });
+      }
+
+      const orden = document.getElementById('ordenar').value;
+      if(orden === 'menor') lista.sort((a,b) => a.precio - b.precio);
+      if(orden === 'mayor') lista.sort((a,b) => b.precio - a.precio);
+      if(orden === 'nombre') lista.sort((a,b) => (a.nombre||'').localeCompare(b.nombre||''));
+
+      actualizarTagsFiltros();
+      renderizarGrid(lista);
+    };
+
+    window.resetFiltros = function(){
+      filtros.tipo = 'todos'; filtros.precioMax = 3000000; filtros.marcas = ['samsung','apple'];
+      document.querySelectorAll('.chip-btn').forEach(b => b.classList.toggle('active', b.dataset.tipo==='todos'));
+      document.getElementById('precio-slider').value = 3000000;
+      document.getElementById('precio-display').textContent = 'Hasta $3.000.000';
+      document.querySelectorAll('.brand-list input').forEach(i => { i.checked = ['samsung','apple'].includes(i.value); });
+      document.getElementById('ordenar').value = 'destacados';
+      pageStart = 0;
+      aplicarFiltros();
+    };
+
+    function actualizarTagsFiltros(){
+      const bar = document.getElementById('active-filters-bar');
+      const tags = [];
+      if(filtros.tipo !== 'todos') tags.push({ label: filtros.tipo.charAt(0).toUpperCase()+filtros.tipo.slice(1)+'s', fn:`filtros.tipo='todos';document.querySelectorAll('.chip-btn').forEach(b=>b.classList.toggle('active',b.dataset.tipo==='todos'));pageStart=0;aplicarFiltros()` });
+      if(filtros.precioMax < 3000000) tags.push({ label:'Hasta $'+formatP(filtros.precioMax), fn:`filtros.precioMax=3000000;document.getElementById('precio-slider').value=3000000;document.getElementById('precio-display').textContent='Hasta $3.000.000';pageStart=0;aplicarFiltros()` });
+      if(tags.length===0){ bar.classList.remove('visible'); bar.innerHTML=''; return; }
+      bar.classList.add('visible');
+      bar.innerHTML = tags.map(t => `<div class="filter-tag">${t.label}<button onclick="${t.fn}">×</button></div>`).join('');
+    }
+
+    function getBadgeClass(cat){
+      const c = normCat(cat);
+      if(c.includes('celular')||c.includes('movil')) return 'celular';
+      if(c.includes('laptop')||c.includes('notebook')||c.includes('computador')) return 'laptop';
+      if(c.includes('tablet')) return 'tablet';
+      if(c.includes('smartwatch')||c.includes('watch')) return 'smartwatch';
+      if(c.includes('accesorio')) return 'accesorio';
+      return 'otro';
+    }
+
+    function getBadgeLabel(cat){
+      const c = normCat(cat);
+      if(c.includes('celular')||c.includes('movil')) return 'CELULAR';
+      if(c.includes('laptop')||c.includes('notebook')||c.includes('computador')) return 'LAPTOP';
+      if(c.includes('tablet')) return 'TABLET';
+      if(c.includes('smartwatch')||c.includes('watch')) return 'WATCH';
+      if(c.includes('accesorio')) return 'ACC';
+      return 'TECH';
+    }
+
+    function renderizarGrid(lista){
+      const grid = document.getElementById('grid-tecnologia');
+      if(!lista||lista.length===0){
+        grid.innerHTML=`<div class="empty-state"><svg width="64" height="64" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5"><circle cx="11" cy="11" r="8"/><line x1="21" y1="21" x2="16.65" y2="16.65"/></svg><h3>Sin resultados</h3><p>Prueba ajustando los filtros o el rango de precio.</p></div>`;
+        return;
+      }
+      const totalPages = Math.max(1, Math.ceil(lista.length/PAGE_SIZE));
+      const currentPage = Math.floor(pageStart/PAGE_SIZE)+1;
+      const start = Math.min(pageStart, Math.max(0, lista.length-PAGE_SIZE));
+      const slice = lista.slice(start, start+PAGE_SIZE);
+
+      let html=`<div class="pagination-bar"><div class="page-info">Mostrando <strong>${slice.length}</strong> de <strong>${lista.length}</strong> productos</div><div class="page-btns"><button class="arrow-btn" onclick="moverPagina(-1,'${encodeURIComponent(JSON.stringify(lista))}')" ${start===0?'disabled':''}>‹</button><span style="font-size:.84rem;color:var(--muted);font-weight:700;padding:0 4px;">${currentPage}/${totalPages}</span><button class="arrow-btn" onclick="moverPagina(1,'${encodeURIComponent(JSON.stringify(lista))}')" ${start+PAGE_SIZE>=lista.length?'disabled':''}>›</button></div></div>`;
+
+      slice.forEach(prod => {
+        const bClass = getBadgeClass(prod.categoria||'');
+        const bLabel = getBadgeLabel(prod.categoria||'');
+        const json = encodeURIComponent(JSON.stringify(prod));
+        html+=`
+          <div class="sony-card" onclick="abrirModalDetalle('${json}')">
+            <div class="card-badges"><div class="badge-tag ${bClass}">${bLabel}</div></div>
+            <div class="sony-img-box"><img src="${prod.imagen||''}" onerror="this.src='https://via.placeholder.com/300'" alt="${prod.nombre||''}"></div>
+            <div class="sony-info">
+              <div class="sony-type">${String(prod.categoria||'TECNOLOGÍA').toUpperCase()}</div>
+              <h3 class="sony-title">${prod.nombre||'Producto'}</h3>
+              <div class="sony-sku">SKU: ${prod.id||prod.firestoreId||'SVR'}</div>
+            </div>
+            <div class="sony-price-box"><div class="price-now">$${formatP(prod.precio||0)}</div></div>
+            <button class="sony-btn-add" onclick="event.stopPropagation();agregarAlCarritoLocal('${prod.id||prod.firestoreId}','${String(prod.nombre||'').replace(/'/g,"\\'")}',${Number(prod.precio||0)},'${prod.imagen||''}')">AGREGAR RÁPIDO</button>
+          </div>`;
+      });
+
+      grid.innerHTML = html;
+    }
+
+    window.moverPagina = function(dir, listaStr){
+      const lista = JSON.parse(decodeURIComponent(listaStr));
+      pageStart = Math.max(0, Math.min(pageStart + dir*PAGE_SIZE, Math.max(0, lista.length-PAGE_SIZE)));
+      renderizarGrid(lista);
+      window.scrollTo({ top:0, behavior:'smooth' });
+    };
+
+    window.agregarAlCarritoLocal = function(id, nombre, precio, imagen){
+      let carrito = JSON.parse(localStorage.getItem('carritoSVR'))||[];
+      carrito.push({ id, nombre, precio, imagen });
+      localStorage.setItem('carritoSVR', JSON.stringify(carrito));
+      abrirCarrito();
+    };
+
+    function actualizarSideCart(){
+      let carrito = JSON.parse(localStorage.getItem('carritoSVR'))||[];
+      document.getElementById('cart-count').textContent = carrito.length;
+      const cont = document.getElementById('drawer-items');
+      if(!carrito.length){ cont.innerHTML='<p style="text-align:center;color:#888;margin-top:50px;">Tu carrito está vacío.</p>'; document.getElementById('drawer-total').textContent='$0'; return; }
+      let html='', subtotal=0;
+      carrito.forEach((item,i) => {
+        subtotal += parseInt(item.precio);
+        html+=`<div style="display:flex;gap:15px;margin-bottom:15px;border-bottom:1px solid #eee;padding-bottom:15px;"><img src="${item.imagen}" style="width:60px;height:60px;object-fit:contain;background:#f5f5f5;border-radius:8px;"><div style="flex:1;"><div style="font-size:.9rem;margin-bottom:5px;font-weight:600;color:#000;">${item.nombre}</div><div style="font-weight:800;color:var(--blue);">$${formatP(item.precio)}</div><span style="color:red;font-size:.8rem;cursor:pointer;" onclick="eliminarDelCarrito(${i})">Quitar</span></div></div>`;
+      });
+      cont.innerHTML=html;
+      document.getElementById('drawer-total').textContent='$'+formatP(subtotal);
+    }
+
+    window.eliminarDelCarrito = function(index){
+      let carrito = JSON.parse(localStorage.getItem('carritoSVR'))||[];
+      carrito.splice(index,1);
+      localStorage.setItem('carritoSVR', JSON.stringify(carrito));
+      actualizarSideCart();
+    };
+
+    window.abrirMenu    = () => { document.getElementById('global-overlay').classList.add('active'); document.getElementById('side-menu').classList.add('open'); };
+    window.abrirCarrito = () => { actualizarSideCart(); document.getElementById('global-overlay').classList.add('active'); document.getElementById('side-cart').classList.add('open'); };
+    window.cerrarPaneles= () => { document.getElementById('global-overlay').classList.remove('active'); document.getElementById('side-cart').classList.remove('open'); document.getElementById('side-menu').classList.remove('open'); };
+
+    window.abrirModalDetalle = function(prodString){
+      const prod = JSON.parse(decodeURIComponent(prodString));
+      document.getElementById('modal-img').src          = prod.imagen||'';
+      document.getElementById('modal-title').innerText  = prod.nombre||'Producto';
+      document.getElementById('modal-sku').innerText    = 'SKU: '+(prod.id||prod.firestoreId||'SVR');
+      document.getElementById('modal-cat').innerText    = String(prod.categoria||'TECNOLOGÍA').toUpperCase();
+      document.getElementById('modal-price').innerText  = '$'+formatP(prod.precio||0);
+      document.getElementById('modal-desc').innerText   = prod.descripcion||'Producto tecnológico garantizado por SVR Store. Despacho a todo Chile.';
+      document.getElementById('modal-btn-add').onclick  = () => { agregarAlCarritoLocal(prod.id||prod.firestoreId, prod.nombre||'Producto', prod.precio||0, prod.imagen||''); cerrarModal(); };
+      document.getElementById('quick-view-modal').classList.add('active');
+    };
+    window.cerrarModal = () => document.getElementById('quick-view-modal').classList.remove('active');
+    document.getElementById('quick-view-modal').addEventListener('click', e => { if(e.target===document.getElementById('quick-view-modal')) cerrarModal(); });
+
+    document.addEventListener('DOMContentLoaded', cargarProductos);
+  </script>
+</body>
+</html>

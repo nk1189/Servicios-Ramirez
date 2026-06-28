@@ -3,7 +3,7 @@
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>TV y Video | SVR Store</title>
+  <title>Ofertas | SVR Store</title>
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
   <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800;900&display=swap" rel="stylesheet">
@@ -19,29 +19,27 @@
       --blue: #2563eb;
       --orange: #ff7a00;
       --green: #059669;
+      --purple: #7c3aed;
       --shadow: 0 16px 40px rgba(16,24,40,.08);
     }
 
     * { margin: 0; padding: 0; box-sizing: border-box; font-family: 'Inter', sans-serif; }
     html { -webkit-font-smoothing: antialiased; }
     body {
-      background: radial-gradient(circle at top left, rgba(227,6,19,.08), transparent 28%),
-                  radial-gradient(circle at top right, rgba(37,99,235,.10), transparent 26%),
+      background: radial-gradient(circle at top left, rgba(227,6,19,.10), transparent 30%),
+                  radial-gradient(circle at top right, rgba(255,122,0,.08), transparent 28%),
                   var(--bg);
-      color: var(--text);
-      overflow-x: hidden;
-      line-height: 1.6;
+      color: var(--text); overflow-x: hidden; line-height: 1.6;
     }
     a { text-decoration: none; color: inherit; }
     button { font-family: inherit; border: none; background: none; cursor: pointer; }
 
+    /* ── HEADER ── */
     .main-header {
       position: sticky; top: 0; z-index: 1000;
-      background: rgba(9,11,15,.84);
-      backdrop-filter: blur(16px);
+      background: rgba(9,11,15,.88); backdrop-filter: blur(16px);
       border-bottom: 1px solid rgba(255,255,255,.08);
-      padding: 0 24px;
-      height: 68px;
+      padding: 0 24px; height: 68px;
       display: flex; align-items: center; justify-content: space-between; gap: 16px;
     }
     .header-left { display: flex; align-items: center; gap: 16px; }
@@ -52,49 +50,72 @@
     .nav-links { display: flex; align-items: center; gap: 18px; color: rgba(255,255,255,.78); font-size: .86rem; font-weight: 600; }
     .nav-links a:hover { color: #fff; }
     .header-icons { display: flex; align-items: center; gap: 12px; color: #fff; }
-    .icon-cart { position: relative; font-size: 1.2rem; cursor: pointer; }
+    .icon-cart { position: relative; cursor: pointer; }
     .cart-counter {
-      position: absolute; top: -8px; right: -10px;
-      border-radius: 999px; min-width: 18px; height: 18px; padding: 0 5px;
-      font-size: .65rem; display: flex; align-items: center; justify-content: center;
+      position: absolute; top: -8px; right: -10px; border-radius: 999px;
+      min-width: 18px; height: 18px; padding: 0 5px; font-size: .65rem;
+      display: flex; align-items: center; justify-content: center;
       font-weight: 800; background: var(--accent); color: #fff;
     }
 
+    /* ── SIDEBAR MENÚ ── */
     .nav-sidebar {
       position: fixed; top: 0; left: -320px; width: 320px; height: 100vh;
       background: #111827; color: #fff; z-index: 5000;
       transition: left .35s cubic-bezier(.16,1,.3,1);
-      box-shadow: 5px 0 25px rgba(0,0,0,.35);
-      display: flex; flex-direction: column;
+      box-shadow: 5px 0 25px rgba(0,0,0,.35); display: flex; flex-direction: column;
     }
     .nav-sidebar.open { left: 0; }
-    .sidebar-header {
-      padding: 20px; border-bottom: 1px solid #243041;
-      display: flex; justify-content: space-between; align-items: center; background: #0b0f19;
-    }
+    .sidebar-header { padding: 20px; border-bottom: 1px solid #243041; display: flex; justify-content: space-between; align-items: center; background: #0b0f19; }
     .sidebar-header h2 { font-size: 1.05rem; font-weight: 800; letter-spacing: 1px; }
     .btn-close-sidebar { color: #fff; font-size: 2rem; line-height: 1; }
     .sidebar-menu { padding: 10px 0; overflow-y: auto; }
-    .sidebar-menu li a {
-      display: block; padding: 15px 22px; font-size: .95rem; font-weight: 500;
-      border-bottom: 1px solid #1f2937; transition: .2s;
-    }
+    .sidebar-menu li a { display: block; padding: 15px 22px; font-size: .95rem; font-weight: 500; border-bottom: 1px solid #1f2937; transition: .2s; }
     .sidebar-menu li a:hover { background: #1f2937; padding-left: 28px; color: #fff; }
     .sidebar-menu li.highlight a { color: var(--orange); font-weight: 800; }
 
-    .breadcrumb-bar { background: #fff; padding: 14px 24px; font-size: .84rem; color: var(--muted); border-bottom: 1px solid var(--border); }
-    .category-header {
-      max-width: 1400px; margin: 0 auto; padding: 26px 24px 18px;
-      display: flex; justify-content: space-between; align-items: end; gap: 16px; flex-wrap: wrap;
+    /* ── HERO BANNER ── */
+    .oferta-hero {
+      background: linear-gradient(135deg, #0b0f19 0%, #1f1035 50%, #0b0f19 100%);
+      padding: 52px 24px;
+      text-align: center;
+      position: relative;
+      overflow: hidden;
     }
-    .category-header h1 { font-size: clamp(1.9rem,3vw,2.8rem); font-weight: 900; letter-spacing: -.04em; color: var(--text); }
-    .category-header p { color: var(--muted); max-width: 62ch; }
+    .oferta-hero::before {
+      content: "";
+      position: absolute; inset: 0;
+      background: radial-gradient(circle at 30% 50%, rgba(227,6,19,.18), transparent 60%),
+                  radial-gradient(circle at 70% 50%, rgba(255,122,0,.12), transparent 60%);
+    }
+    .oferta-hero-inner { position: relative; z-index: 1; max-width: 700px; margin: 0 auto; }
+    .oferta-hero-tag {
+      display: inline-block; background: var(--accent); color: #fff;
+      font-size: .75rem; font-weight: 800; letter-spacing: 2px;
+      padding: 6px 16px; border-radius: 999px; margin-bottom: 18px;
+    }
+    .oferta-hero h1 { font-size: clamp(2.2rem,5vw,3.6rem); font-weight: 900; color: #fff; letter-spacing: -.04em; line-height: 1.1; margin-bottom: 14px; }
+    .oferta-hero h1 span { color: var(--accent); }
+    .oferta-hero p { color: rgba(255,255,255,.65); font-size: 1.05rem; max-width: 50ch; margin: 0 auto; }
+
+    /* ── BREADCRUMB ── */
+    .breadcrumb-bar { background: #fff; padding: 14px 24px; font-size: .84rem; color: var(--muted); border-bottom: 1px solid var(--border); }
+
+    /* ── CATEGORY HEADER ── */
+    .category-header {
+      max-width: 1400px; margin: 0 auto; padding: 22px 24px 14px;
+      display: flex; justify-content: space-between; align-items: center; gap: 16px; flex-wrap: wrap;
+    }
+    .results-count { font-size: .95rem; color: var(--muted); font-weight: 600; }
+    .results-count strong { color: var(--text); }
     .sort-box select { padding: 11px 12px; border: 1px solid var(--border); outline: none; font-size: .9rem; border-radius: 12px; background: #fff; box-shadow: var(--shadow); }
 
-    .store-layout { display: flex; max-width: 1400px; margin: 0 auto; padding: 16px 24px 42px; gap: 28px; align-items: flex-start; }
+    /* ── LAYOUT ── */
+    .store-layout { display: flex; max-width: 1400px; margin: 0 auto; padding: 16px 24px 52px; gap: 28px; align-items: flex-start; }
     .sidebar-filters { width: 260px; flex-shrink: 0; position: sticky; top: 88px; display: flex; flex-direction: column; gap: 14px; }
     .filter-group { background: var(--surface); border: 1px solid var(--border); border-radius: 18px; padding: 20px 18px; box-shadow: var(--shadow); }
     .filter-title { font-size: .82rem; font-weight: 800; margin-bottom: 14px; text-transform: uppercase; letter-spacing: .8px; color: var(--text); }
+
     .filter-chips { display: flex; flex-direction: column; gap: 8px; }
     .chip-btn {
       display: flex; align-items: center; gap: 10px; padding: 10px 14px; border-radius: 12px;
@@ -110,82 +131,70 @@
     .price-slider { width: 100%; accent-color: var(--accent); cursor: pointer; }
     .price-display { text-align: center; font-size: .88rem; font-weight: 700; color: var(--text); margin-top: 10px; background: #f6f7fb; padding: 8px; border-radius: 10px; }
 
-    .brand-list { display: flex; flex-direction: column; gap: 8px; }
-    .brand-item { display: flex; align-items: center; gap: 10px; font-size: .875rem; color: var(--muted); cursor: pointer; padding: 4px 0; }
-    .brand-item input { accent-color: var(--accent); width: 15px; height: 15px; cursor: pointer; }
-    .brand-item label { cursor: pointer; font-weight: 500; }
-    .brand-item input:checked + label { color: var(--text); font-weight: 700; }
-
-    .btn-reset-filters {
-      width: 100%; padding: 11px; border-radius: 12px; font-size: .85rem; font-weight: 700;
-      color: var(--muted); border: 1.5px solid var(--border); background: #fff; transition: .2s; cursor: pointer;
+    .search-input {
+      width: 100%; padding: 11px 14px; border: 1.5px solid var(--border); border-radius: 12px;
+      font-size: .9rem; outline: none; background: #fafbfc; color: var(--text); transition: .2s;
     }
+    .search-input:focus { border-color: var(--accent); background: #fff; }
+
+    .btn-reset-filters { width: 100%; padding: 11px; border-radius: 12px; font-size: .85rem; font-weight: 700; color: var(--muted); border: 1.5px solid var(--border); background: #fff; transition: .2s; cursor: pointer; }
     .btn-reset-filters:hover { border-color: var(--accent); color: var(--accent); background: #fff5f5; }
 
     .active-filters-bar { display: none; align-items: center; gap: 8px; flex-wrap: wrap; padding: 0 0 14px; }
     .active-filters-bar.visible { display: flex; }
-    .filter-tag {
-      display: flex; align-items: center; gap: 6px; background: #fff; border: 1px solid var(--border);
-      padding: 5px 10px; border-radius: 999px; font-size: .78rem; font-weight: 700; color: var(--text);
-    }
+    .filter-tag { display: flex; align-items: center; gap: 6px; background: #fff; border: 1px solid var(--border); padding: 5px 10px; border-radius: 999px; font-size: .78rem; font-weight: 700; color: var(--text); }
     .filter-tag button { color: #aaa; font-size: .9rem; line-height: 1; padding: 0 2px; }
     .filter-tag button:hover { color: var(--accent); }
 
+    /* ── GRID ── */
     .products-area { flex: 1; min-width: 0; }
     .products-grid { display: grid; grid-template-columns: repeat(4,minmax(0,1fr)); gap: 18px; }
-    .pagination-bar {
-      grid-column: 1 / -1; display: flex; justify-content: space-between; align-items: center; padding: 6px 0 10px; flex-wrap: wrap; gap: 12px;
-    }
+    .pagination-bar { grid-column: 1 / -1; display: flex; justify-content: space-between; align-items: center; padding: 6px 0 10px; flex-wrap: wrap; gap: 12px; }
     .page-info { color: var(--muted); font-size: .85rem; font-weight: 600; }
     .page-btns { display: flex; align-items: center; gap: 8px; }
-    .arrow-btn {
-      width: 40px; height: 40px; border-radius: 50%; background: #fff; border: 1px solid var(--border);
-      color: var(--text); font-size: 1.3rem; font-weight: 800; box-shadow: var(--shadow);
-      display: flex; align-items: center; justify-content: center; transition: .2s;
-    }
+    .arrow-btn { width: 40px; height: 40px; border-radius: 50%; background: #fff; border: 1px solid var(--border); color: var(--text); font-size: 1.3rem; box-shadow: var(--shadow); display: flex; align-items: center; justify-content: center; transition: .2s; }
     .arrow-btn:hover:not(:disabled) { background: var(--accent); color: #fff; border-color: var(--accent); }
     .arrow-btn:disabled { opacity: .3; cursor: not-allowed; }
 
-    .sony-card {
+    /* ── CARD ── */
+    .prod-card {
       background: #fff; display: flex; flex-direction: column; cursor: pointer; position: relative; padding-bottom: 18px;
       border: 1px solid var(--border); border-radius: 20px; overflow: hidden; transition: .25s; box-shadow: 0 2px 10px rgba(16,24,40,.04);
     }
-    .sony-card:hover { box-shadow: 0 18px 36px rgba(16,24,40,.12); transform: translateY(-4px); z-index: 10; }
+    .prod-card:hover { box-shadow: 0 18px 36px rgba(16,24,40,.12); transform: translateY(-4px); z-index: 10; }
     .card-badges { position: absolute; top: 12px; left: 12px; z-index: 2; display: flex; flex-direction: column; gap: 6px; }
-    .badge-alpha {
-      background: linear-gradient(135deg,var(--orange),#e35d12); color: #fff; text-align: center; font-size: .7rem;
-      font-weight: 800; padding: 4px 8px; border-radius: 999px; letter-spacing: .4px;
+    .badge { color: #fff; font-size: .68rem; font-weight: 800; padding: 4px 9px; border-radius: 999px; letter-spacing: .4px; }
+    .badge.oferta { background: linear-gradient(135deg, var(--accent), var(--accent2)); }
+    .badge.cat { background: linear-gradient(135deg, #374151, #111827); font-size: .62rem; }
+
+    .prod-img-box {
+      width: 100%; height: 240px; display: flex; justify-content: center; align-items: center; padding: 22px;
+      background: linear-gradient(180deg, #fff, #f8fafc);
     }
-    .badge-alpha.television { background: linear-gradient(135deg,var(--blue),#1d4ed8); }
-    .badge-alpha.video { background: linear-gradient(135deg,var(--green),#047857); }
+    .prod-img-box img { max-width: 100%; max-height: 100%; object-fit: contain; mix-blend-mode: multiply; transition: .3s; }
+    .prod-card:hover .prod-img-box img { transform: scale(1.06); }
 
-    .sony-img-box {
-      width: 100%; height: 250px; display: flex; justify-content: center; align-items: center; padding: 24px;
-      background: linear-gradient(180deg,#fff,#f8fafc);
+    .prod-info { padding: 0 16px; flex: 1; display: flex; flex-direction: column; pointer-events: none; }
+    .prod-cat { font-size: .67rem; color: var(--blue); font-weight: 800; text-transform: uppercase; letter-spacing: .7px; margin-bottom: 5px; }
+    .prod-title { font-size: .97rem; font-weight: 700; line-height: 1.35; margin-bottom: 6px; color: var(--text); }
+    .prod-sku { font-size: .7rem; color: #98a2b3; font-family: monospace; }
+
+    .prod-price-box { padding: 0 16px; margin-top: auto; border-top: 1px solid #eef2f7; padding-top: 12px; display: flex; align-items: baseline; gap: 10px; flex-wrap: wrap; }
+    .price-now { font-size: 1.4rem; font-weight: 900; color: var(--accent); letter-spacing: -.03em; }
+    .price-old { font-size: .88rem; color: #98a2b3; text-decoration: line-through; font-weight: 500; }
+    .price-pct { font-size: .75rem; font-weight: 800; color: var(--green); background: #d1fae5; padding: 2px 7px; border-radius: 999px; }
+
+    .prod-btn-add {
+      background: linear-gradient(135deg, var(--accent), var(--accent2)); color: #fff; padding: 12px; font-size: .88rem; font-weight: 800;
+      margin: 12px 16px 0; border-radius: 12px; opacity: 0; transition: .25s; text-align: center;
     }
-    .sony-img-box img { max-width: 100%; max-height: 100%; object-fit: contain; mix-blend-mode: multiply; transition: .3s; }
-    .sony-card:hover .sony-img-box img { transform: scale(1.05); }
+    .prod-card:hover .prod-btn-add { opacity: 1; }
+    .prod-btn-add:hover { background: linear-gradient(135deg, #c0000f, #900010); }
 
-    .sony-info { padding: 0 18px; flex: 1; display: flex; flex-direction: column; pointer-events: none; }
-    .sony-type { font-size: .68rem; color: var(--blue); font-weight: 800; text-transform: uppercase; letter-spacing: .7px; margin-bottom: 6px; }
-    .sony-title { font-size: 1rem; font-weight: 700; line-height: 1.35; margin-bottom: 8px; color: var(--text); }
-    .sony-sku { font-size: .72rem; color: #98a2b3; font-family: monospace; }
-
-    .sony-price-box { padding: 0 18px; margin-top: auto; border-top: 1px solid #eef2f7; padding-top: 14px; }
-    .price-now { font-size: 1.45rem; font-weight: 900; color: var(--text); letter-spacing: -.03em; }
-    .sony-btn-add {
-      background: linear-gradient(135deg,var(--text),#1f2937); color: #fff; padding: 12px; font-size: .88rem; font-weight: 800;
-      margin: 14px 18px 0; border-radius: 12px; opacity: 0; transition: .25s; text-align: center;
-    }
-    .sony-card:hover .sony-btn-add { opacity: 1; }
-    .sony-btn-add:hover { background: linear-gradient(135deg,var(--accent),var(--accent2)); }
-
+    /* ── MODAL ── */
     .modal-overlay { position: fixed; inset: 0; background: rgba(0,0,0,.72); z-index: 4000; display: none; align-items: center; justify-content: center; opacity: 0; transition: opacity .25s; }
     .modal-overlay.active { display: flex; opacity: 1; }
-    .quick-view-box {
-      background: #fff; width: 960px; max-width: 92%; min-height: 520px; display: flex; position: relative;
-      border-radius: 24px; overflow: hidden; transform: scale(.95); transition: transform .25s; box-shadow: 0 25px 60px rgba(0,0,0,.4);
-    }
+    .quick-view-box { background: #fff; width: 960px; max-width: 92%; min-height: 520px; display: flex; position: relative; border-radius: 24px; overflow: hidden; transform: scale(.95); transition: transform .25s; box-shadow: 0 25px 60px rgba(0,0,0,.4); }
     .modal-overlay.active .quick-view-box { transform: scale(1); }
     .qv-close { position: absolute; top: 14px; right: 18px; font-size: 2rem; cursor: pointer; color: #98a2b3; z-index: 10; line-height: 1; }
     .qv-close:hover { color: var(--text); }
@@ -195,18 +204,13 @@
     .qv-category { color: var(--blue); font-size: .78rem; font-weight: 800; letter-spacing: 1px; margin-bottom: 10px; text-transform: uppercase; }
     .qv-title { font-size: 1.9rem; font-weight: 900; color: var(--text); margin-bottom: 10px; line-height: 1.15; }
     .qv-sku { font-size: .8rem; color: #98a2b3; margin-bottom: 22px; padding-bottom: 22px; border-bottom: 1px solid var(--border); }
-    .qv-price { font-size: 2.2rem; font-weight: 900; color: #b73218; margin-bottom: 16px; }
+    .qv-price { font-size: 2.2rem; font-weight: 900; color: var(--accent); margin-bottom: 16px; }
     .qv-desc { font-size: .96rem; color: var(--muted); line-height: 1.7; margin-bottom: 28px; flex: 1; }
-    .qv-btn-cart {
-      background: linear-gradient(135deg,var(--orange),#ff8a00); color: #fff; padding: 15px; font-size: 1rem;
-      font-weight: 800; text-align: center; width: 100%; border-radius: 14px; transition: .2s;
-    }
-    .qv-btn-cart:hover { transform: translateY(-1px); box-shadow: 0 16px 28px rgba(255,122,0,.24); }
+    .qv-btn-cart { background: linear-gradient(135deg, var(--accent), var(--accent2)); color: #fff; padding: 15px; font-size: 1rem; font-weight: 800; text-align: center; width: 100%; border-radius: 14px; transition: .2s; }
+    .qv-btn-cart:hover { transform: translateY(-1px); box-shadow: 0 16px 28px rgba(227,6,19,.24); }
 
-    .cart-drawer {
-      position: fixed; top: 0; right: -420px; width: 100%; max-width: 400px; height: 100vh; background: #fff;
-      z-index: 5000; transition: right .35s cubic-bezier(.16,1,.3,1); display: flex; flex-direction: column; box-shadow: -10px 0 36px rgba(0,0,0,.16);
-    }
+    /* ── CART ── */
+    .cart-drawer { position: fixed; top: 0; right: -420px; width: 100%; max-width: 400px; height: 100vh; background: #fff; z-index: 5000; transition: right .35s cubic-bezier(.16,1,.3,1); display: flex; flex-direction: column; box-shadow: -10px 0 36px rgba(0,0,0,.16); }
     .cart-drawer.open { right: 0; }
     .global-overlay { position: fixed; inset: 0; background: rgba(0,0,0,.58); z-index: 4500; display: none; }
     .global-overlay.active { display: block; }
@@ -216,6 +220,12 @@
     .btn-checkout { background: var(--accent); color: #fff; width: 100%; padding: 14px; text-align: center; display: block; font-weight: 900; border-radius: 12px; }
     .btn-checkout:hover { background: var(--accent2); }
 
+    /* ── EMPTY STATE ── */
+    .empty-state { padding: 60px 20px; grid-column: 1/-1; text-align: center; }
+    .empty-state h3 { font-size: 1.2rem; font-weight: 800; margin-bottom: 8px; }
+    .empty-state p { color: var(--muted); }
+
+    /* ── RESPONSIVE ── */
     @media (max-width: 1100px) { .products-grid { grid-template-columns: repeat(3,minmax(0,1fr)); } .sidebar-filters { width: 220px; } }
     @media (max-width: 900px) {
       .store-layout { flex-direction: column; }
@@ -223,7 +233,7 @@
       .products-grid { grid-template-columns: repeat(2,minmax(0,1fr)); }
       .quick-view-box { flex-direction: column; min-height: auto; }
       .qv-img-section, .qv-info-section { width: 100%; }
-      .qv-img-section { height: 300px; }
+      .qv-img-section { height: 280px; }
       .nav-links { display: none; }
     }
     @media (max-width: 620px) {
@@ -231,31 +241,32 @@
       .category-header, .breadcrumb-bar, .store-layout { padding-left: 16px; padding-right: 16px; }
       .products-grid { grid-template-columns: 1fr; }
       .header-logo { font-size: 1.2rem; }
-      .quick-view-box { max-width: 96%; }
       .qv-title { font-size: 1.5rem; }
+      .oferta-hero { padding: 36px 16px; }
     }
   </style>
 </head>
 <body>
+
+  <!-- HEADER -->
   <header class="main-header">
     <div class="header-left">
       <button class="hamburger-btn" onclick="abrirMenu()"><span></span><span></span><span></span></button>
       <a href="index.html" class="header-logo">SVR<span>.</span></a>
     </div>
     <nav class="nav-links">
-     <a href="tiendaSVR.html">inicio</a>
-    <a href="todos los productosSVR.html">🔥 Ofertas</a>
-    <a href="tecnologia.html">Tecnología</a>
-    <a href="camaras.html">Cámaras</a>
-    <a href="audio.html">Audio</a>
-    <a href="television.html"style="color: var(--accent);">TV y Video</a>
-    <a href="ropa.html">Ropa</a>
+      <a href="tiendaSVR.html">Inicio</a>
+      <a href="#" style="color: var(--accent);">🔥 Ofertas</a>
+      <a href="tecnologia.html">Tecnología</a>
+      <a href="camaras.html">Cámaras</a>
+      <a href="audio.html">Audio</a>
+      <a href="television.html">TV y Video</a>
+      <a href="ropa.html">Ropa</a>
     </nav>
     <div class="header-icons">
       <div class="icon-cart" onclick="abrirCarrito()">
         <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
-          <circle cx="9" cy="21" r="1"></circle>
-          <circle cx="20" cy="21" r="1"></circle>
+          <circle cx="9" cy="21" r="1"></circle><circle cx="20" cy="21" r="1"></circle>
           <path d="M1 1h4l2.68 13.39a2 2 0 0 0 2 1.61h9.72a2 2 0 0 0 2-1.61L23 6H6"></path>
         </svg>
         <div class="cart-counter" id="cart-count">0</div>
@@ -263,6 +274,7 @@
     </div>
   </header>
 
+  <!-- SIDEBAR MENÚ -->
   <nav class="nav-sidebar" id="side-menu">
     <div class="sidebar-header">
       <h2>MENÚ SVR</h2>
@@ -270,23 +282,33 @@
     </div>
     <ul class="sidebar-menu">
       <li class="highlight"><a href="tiendaSVR.html">🏠 Volver al Inicio</a></li>
-    <li><a href="tecnologia.html">💻 Tecnología</a></li>
+      <li><a href="tecnologia.html">💻 Tecnología</a></li>
       <li><a href="camaras.html">📷 Camaras y lentes</a></li>
       <li><a href="audio.html">🎧 Audio y Audífonos</a></li>
-      <li><a href="television.html"style="color: var(--accent); font-weight: bold;">📺 TV y video</a></li>
+      <li><a href="television.html">📺 TV y video</a></li>
       <li><a href="ropa.html">👕 Ropa y Accesorios</a></li>
-      <li><a href="todos los productosSVR.html">🔥 Todas las Ofertas</a></li>
+      <li><a href="#" style="color: var(--accent); font-weight: bold;">🔥 Todas las Ofertas</a></li>
       <li style="margin-top:20px;border-top:1px solid #333;"><a href="perfil.html">👤 Mi Cuenta SVR</a></li>
     </ul>
   </nav>
 
-  <div class="breadcrumb-bar"><a href="index.html">Inicio</a> <span>></span> <strong style="color:var(--text);">TV y Video</strong></div>
-
-  <div class="category-header">
-    <div>
-      <h1>TV y Video SVR</h1>
-      <p>Televisores, barras de sonido y equipos de video cargados desde Firestore para esta categoría.</p>
+  <!-- HERO -->
+  <div class="oferta-hero">
+    <div class="oferta-hero-inner">
+      <div class="oferta-hero-tag">🔥 OFERTAS SVR</div>
+      <h1>Todos los productos<br><span>en un solo lugar</span></h1>
+      <p>Cámaras, televisores, audio, ropa y más — todo lo que está en la tienda, aquí y ahora.</p>
     </div>
+  </div>
+
+  <!-- BREADCRUMB -->
+  <div class="breadcrumb-bar">
+    <a href="index.html">Inicio</a> <span>></span> <strong style="color:var(--text);">Ofertas</strong>
+  </div>
+
+  <!-- SORT BAR -->
+  <div class="category-header">
+    <div class="results-count">Mostrando <strong id="total-count">0</strong> productos</div>
     <div class="sort-box">
       <select id="ordenar" onchange="aplicarFiltros()">
         <option value="destacados">Ordenar por: Destacados</option>
@@ -297,18 +319,31 @@
     </div>
   </div>
 
+  <!-- MAIN LAYOUT -->
   <main class="store-layout">
     <aside class="sidebar-filters">
+
+      <!-- BÚSQUEDA -->
       <div class="filter-group">
-        <div class="filter-title">Tipo de producto</div>
-        <div class="filter-chips">
-          <button class="chip-btn active" data-tipo="todos" onclick="seleccionarTipo(this)"><span class="chip-dot"></span>Todos</button>
-          <button class="chip-btn" data-tipo="television" onclick="seleccionarTipo(this)"><span class="chip-dot"></span>Televisores</button>
-          <button class="chip-btn" data-tipo="video" onclick="seleccionarTipo(this)"><span class="chip-dot"></span>Video / Home Theater</button>
-          <button class="chip-btn" data-tipo="accesorio" onclick="seleccionarTipo(this)"><span class="chip-dot"></span>Accesorios</button>
+        <div class="filter-title">Buscar</div>
+        <input type="text" class="search-input" id="buscador" placeholder="Ej: cámara, polera, tv..." oninput="aplicarFiltros()">
+      </div>
+
+      <!-- CATEGORÍA -->
+      <div class="filter-group">
+        <div class="filter-title">Categoría</div>
+        <div class="filter-chips" id="cat-chips">
+          <button class="chip-btn active" data-cat="todos" onclick="seleccionarCat(this)"><span class="chip-dot"></span>Todos</button>
+          <button class="chip-btn" data-cat="camara" onclick="seleccionarCat(this)"><span class="chip-dot"></span>📷 Cámaras</button>
+          <button class="chip-btn" data-cat="television" onclick="seleccionarCat(this)"><span class="chip-dot"></span>📺 TV y Video</button>
+          <button class="chip-btn" data-cat="audio" onclick="seleccionarCat(this)"><span class="chip-dot"></span>🎧 Audio</button>
+          <button class="chip-btn" data-cat="ropa" onclick="seleccionarCat(this)"><span class="chip-dot"></span>👕 Ropa</button>
+          <button class="chip-btn" data-cat="gaming" onclick="seleccionarCat(this)"><span class="chip-dot"></span>🎮 Gaming</button>
+          <button class="chip-btn" data-cat="otro" onclick="seleccionarCat(this)"><span class="chip-dot"></span>Otros</button>
         </div>
       </div>
 
+      <!-- PRECIO -->
       <div class="filter-group">
         <div class="filter-title">Precio máximo</div>
         <div class="price-range-labels"><span>$0</span><span>$6.000.000</span></div>
@@ -316,35 +351,32 @@
         <div class="price-display" id="precio-display">Hasta $6.000.000</div>
       </div>
 
-      <div class="filter-group">
-        <div class="filter-title">Marca</div>
-        <div class="brand-list" id="brand-list"></div>
-      </div>
-
       <button class="btn-reset-filters" onclick="resetFiltros()">↺ Limpiar filtros</button>
     </aside>
 
     <div class="products-area">
       <div class="active-filters-bar" id="active-filters-bar"></div>
-      <div class="products-grid" id="grid-tv"></div>
+      <div class="products-grid" id="grid-ofertas"></div>
     </div>
   </main>
 
+  <!-- MODAL -->
   <div class="modal-overlay" id="quick-view-modal">
     <div class="quick-view-box">
       <div class="qv-close" onclick="cerrarModal()">×</div>
-      <div class="qv-img-section"><img id="modal-img" src="" alt="Producto TV"></div>
+      <div class="qv-img-section"><img id="modal-img" src="" alt="Producto"></div>
       <div class="qv-info-section">
         <div class="qv-category" id="modal-cat">CATEGORÍA</div>
-        <h2 class="qv-title" id="modal-title">Nombre del Televisor</h2>
+        <h2 class="qv-title" id="modal-title">Nombre del Producto</h2>
         <div class="qv-sku" id="modal-sku">SKU: 000000</div>
         <div class="qv-price" id="modal-price">$0</div>
-        <div class="qv-desc" id="modal-desc">Resolución y contraste sin igual para una experiencia de cine en casa.</div>
+        <div class="qv-desc" id="modal-desc">Descripción del producto.</div>
         <button class="qv-btn-cart" id="modal-btn-add">AGREGAR AL CARRITO</button>
       </div>
     </div>
   </div>
 
+  <!-- CARRITO DRAWER -->
   <div class="cart-drawer" id="side-cart">
     <div class="cart-header">
       <h2>Mi Carrito SVR</h2>
@@ -376,71 +408,31 @@
     const app = initializeApp(firebaseConfig);
     const db = getFirestore(app);
 
-    const tvDemo = [
-      {
-        id: "XR-65A80L",
-        nombre: "Smart TV 65\" OLED 4K UHD BRAVIA XR",
-        precio: 1599990,
-        categoria: "television",
-        marca: "sony",
-        descripcion: "Procesador Cognitivo XR. Colores puros y negros absolutos en una pantalla OLED espectacular.",
-        imagen: "https://www.sony.cl/image/0b919d3bdf86714cf852dd3d2a02422d?fmt=pjpeg&wid=330&bgcolor=FFFFFF&bgc=FFFFFF"
-      },
-      {
-        id: "HT-A9000",
-        nombre: "Barra de Sonido Premium BRAVIA Theater Bar 9",
-        precio: 899990,
-        categoria: "video",
-        marca: "sony",
-        descripcion: "Sonido envolvente Dolby Atmos y 360 Spatial Sound Mapping.",
-        imagen: "https://www.sony.cl/image/74fb44c20d7ee85cc4ec2bdfbd6f2122?fmt=pjpeg&wid=330&bgcolor=FFFFFF&bgc=FFFFFF"
-      },
-      {
-        id: "KD-55X85L",
-        nombre: "Smart TV 55\" Full Array LED 4K UHD",
-        precio: 749990,
-        categoria: "television",
-        marca: "sony",
-        descripcion: "Contraste realista con tecnología Full Array LED y colores vibrantes.",
-        imagen: "https://www.sony.cl/image/1bc4ec9aeb2405cb6b38c20847b2c589?fmt=pjpeg&wid=330&bgcolor=FFFFFF&bgc=FFFFFF"
-      }
-    ];
-
     let todosLosProductos = [];
     let pageStart = 0;
-    const PAGE_SIZE = 8;
-    const MARCAS = ["sony","lg","samsung","philips","panasonic","hisense","tcl","xgimi","xiaomi","bose","jbl","otra"];
-    const filtros = { tipo: "todos", precioMax: 6000000, marcas: [...MARCAS] };
+    const PAGE_SIZE = 12;
+    const filtros = { cat: "todos", precioMax: 6000000, busqueda: "" };
 
     function formatP(n) { return Number(n || 0).toLocaleString("es-CL"); }
     function norm(v) { return String(v || "").toLowerCase().normalize("NFD").replace(/[\u0300-\u036f]/g, ""); }
 
-    function renderBrandFilters() {
-      const wrap = document.getElementById("brand-list");
-      wrap.innerHTML = MARCAS.map(m => `
-        <div class="brand-item">
-          <input type="checkbox" id="brand-${m.replace(/[^a-z0-9]/g, "-")}" value="${m}" ${m !== "otra" ? "checked" : ""} onchange="aplicarFiltros()">
-          <label for="brand-${m.replace(/[^a-z0-9]/g, "-")}">${m === "otra" ? "Otra / Sin marca" : m.charAt(0).toUpperCase() + m.slice(1)}</label>
-        </div>
-      `).join("");
-      filtros.marcas = [...document.querySelectorAll("#brand-list input:checked")].map(i => i.value);
-    }
-
-    function esTV(prod) {
+    // Detecta la categoría de cualquier producto automáticamente
+    function detectarCat(prod) {
       const c = norm(prod.categoria);
       const n = norm(prod.nombre);
-      return c.includes("tv") || c.includes("television") || c.includes("video") || c.includes("pantalla") || c.includes("home") || n.includes("tv") || n.includes("televisor") || n.includes("barra de sonido") || n.includes("soundbar") || n.includes("home theater");
+      if (c.includes("camara") || c.includes("lente") || c.includes("foto") || n.includes("camara") || n.includes("lente")) return "camara";
+      if (c.includes("tv") || c.includes("television") || c.includes("video") || c.includes("pantalla") || n.includes("televisor") || n.includes("smart tv")) return "television";
+      if (c.includes("audio") || c.includes("audifono") || c.includes("parlante") || c.includes("headphone") || n.includes("audifono") || n.includes("parlante") || n.includes("speaker")) return "audio";
+      if (c.includes("ropa") || c.includes("polera") || c.includes("pantalon") || c.includes("zapatilla") || c.includes("moda") || n.includes("polera") || n.includes("zapatilla")) return "ropa";
+      if (c.includes("gaming") || c.includes("playstation") || c.includes("juego") || c.includes("consola") || n.includes("ps5") || n.includes("gaming")) return "gaming";
+      return "otro";
     }
 
-    function tipoTV(prod) {
-      const c = norm(prod.categoria);
-      const n = norm(prod.nombre);
-      if (c.includes("video") || n.includes("barra de sonido") || n.includes("soundbar") || n.includes("home theater")) return "video";
-      if (c.includes("accesorio")) return "accesorio";
-      return "television";
+    // Etiqueta visual de categoría para la badge
+    function labelCat(cat) {
+      const map = { camara: "📷 CÁMARA", television: "📺 TV", audio: "🎧 AUDIO", ropa: "👕 ROPA", gaming: "🎮 GAMING", otro: "SVR" };
+      return map[cat] || "SVR";
     }
-
-    function marcaTV(prod) { return norm(prod.marca); }
 
     function ordenarLista(lista) {
       const orden = document.getElementById("ordenar").value;
@@ -452,26 +444,19 @@
     }
 
     function cargarProductos() {
-      try {
-        onSnapshot(collection(db, "productos"), snap => {
-          const docs = snap.docs.map(d => ({ firestoreId: d.id, ...d.data() }));
-          const filtrados = docs.filter(esTV);
-          todosLosProductos = filtrados.length ? filtrados : tvDemo;
-          pageStart = 0;
-          aplicarFiltros();
-          actualizarSideCart();
-        });
-      } catch (e) {
-        todosLosProductos = tvDemo;
+      onSnapshot(collection(db, "productos"), snap => {
+        // Carga TODOS los productos sin filtrar por categoría
+        todosLosProductos = snap.docs.map(d => ({ firestoreId: d.id, ...d.data() }));
+        pageStart = 0;
         aplicarFiltros();
         actualizarSideCart();
-      }
+      });
     }
 
-    window.seleccionarTipo = function(btn) {
-      document.querySelectorAll(".chip-btn").forEach(b => b.classList.remove("active"));
+    window.seleccionarCat = function(btn) {
+      document.querySelectorAll("#cat-chips .chip-btn").forEach(b => b.classList.remove("active"));
       btn.classList.add("active");
-      filtros.tipo = btn.dataset.tipo;
+      filtros.cat = btn.dataset.cat;
       pageStart = 0;
       aplicarFiltros();
     };
@@ -484,38 +469,39 @@
     };
 
     window.aplicarFiltros = function() {
-      filtros.marcas = [...document.querySelectorAll("#brand-list input:checked")].map(i => i.value);
+      filtros.busqueda = norm(document.getElementById("buscador").value);
       let lista = [...todosLosProductos];
 
-      if (filtros.tipo !== "todos") {
-        lista = lista.filter(p => tipoTV(p).includes(filtros.tipo));
+      // Filtro categoría
+      if (filtros.cat !== "todos") {
+        lista = lista.filter(p => detectarCat(p) === filtros.cat);
       }
 
+      // Filtro precio
       lista = lista.filter(p => (Number(p.precio) || 0) <= filtros.precioMax);
 
-      if (filtros.marcas.length > 0) {
-        lista = lista.filter(p => {
-          const m = marcaTV(p);
-          return filtros.marcas.some(marca => marca === "otra"
-            ? !MARCAS.filter(x => x !== "otra").some(x => m.includes(x))
-            : m.includes(marca)
-          );
-        });
+      // Filtro búsqueda
+      if (filtros.busqueda) {
+        lista = lista.filter(p =>
+          norm(p.nombre).includes(filtros.busqueda) ||
+          norm(p.categoria).includes(filtros.busqueda) ||
+          norm(p.marca).includes(filtros.busqueda) ||
+          norm(p.descripcion).includes(filtros.busqueda)
+        );
       }
 
       lista = ordenarLista(lista);
+      document.getElementById("total-count").textContent = lista.length;
       actualizarTagsFiltros();
       renderizarGrid(lista);
     };
 
     window.resetFiltros = function() {
-      filtros.tipo = "todos";
-      filtros.precioMax = 6000000;
-      filtros.marcas = [...MARCAS];
-      document.querySelectorAll(".chip-btn").forEach(b => b.classList.toggle("active", b.dataset.tipo === "todos"));
+      filtros.cat = "todos"; filtros.precioMax = 6000000; filtros.busqueda = "";
+      document.querySelectorAll("#cat-chips .chip-btn").forEach(b => b.classList.toggle("active", b.dataset.cat === "todos"));
       document.getElementById("precio-slider").value = 6000000;
       document.getElementById("precio-display").textContent = "Hasta $6.000.000";
-      document.querySelectorAll("#brand-list input").forEach(i => i.checked = i.value !== "otra");
+      document.getElementById("buscador").value = "";
       document.getElementById("ordenar").value = "destacados";
       pageStart = 0;
       aplicarFiltros();
@@ -525,56 +511,19 @@
       const bar = document.getElementById("active-filters-bar");
       const tags = [];
 
-      if (filtros.tipo !== "todos") {
-        tags.push({
-          label: filtros.tipo.charAt(0).toUpperCase() + filtros.tipo.slice(1) + "s",
-          fn: `filtros.tipo='todos';document.querySelectorAll('.chip-btn').forEach(b=>b.classList.toggle('active',b.dataset.tipo==='todos'));pageStart=0;aplicarFiltros()`
-        });
-      }
+      if (filtros.cat !== "todos") tags.push({ label: labelCat(filtros.cat), fn: `filtros.cat='todos';document.querySelectorAll('#cat-chips .chip-btn').forEach(b=>b.classList.toggle('active',b.dataset.cat==='todos'));pageStart=0;aplicarFiltros()` });
+      if (filtros.precioMax < 6000000) tags.push({ label: "Hasta $" + formatP(filtros.precioMax), fn: `filtros.precioMax=6000000;document.getElementById('precio-slider').value=6000000;document.getElementById('precio-display').textContent='Hasta $6.000.000';pageStart=0;aplicarFiltros()` });
+      if (filtros.busqueda) tags.push({ label: `"${filtros.busqueda}"`, fn: `filtros.busqueda='';document.getElementById('buscador').value='';pageStart=0;aplicarFiltros()` });
 
-      if (filtros.precioMax < 6000000) {
-        tags.push({
-          label: "Hasta $" + formatP(filtros.precioMax),
-          fn: `filtros.precioMax=6000000;document.getElementById('precio-slider').value=6000000;document.getElementById('precio-display').textContent='Hasta $6.000.000';pageStart=0;aplicarFiltros()`
-        });
-      }
-
-      const selected = [...document.querySelectorAll("#brand-list input:checked")].map(i => i.value);
-      if (selected.length !== MARCAS.length) {
-        tags.push({
-          label: "Marcas: " + selected.length,
-          fn: `document.querySelectorAll('#brand-list input').forEach(i=>i.checked=i.value!=='otra');filtros.marcas=[...document.querySelectorAll('#brand-list input:checked')].map(i=>i.value);pageStart=0;aplicarFiltros()`
-        });
-      }
-
-      if (tags.length === 0) {
-        bar.classList.remove("visible");
-        bar.innerHTML = "";
-        return;
-      }
-
+      if (tags.length === 0) { bar.classList.remove("visible"); bar.innerHTML = ""; return; }
       bar.classList.add("visible");
       bar.innerHTML = tags.map(t => `<div class="filter-tag">${t.label}<button onclick="${t.fn}">×</button></div>`).join("");
     }
 
-    function getBadgeClass(prod) {
-      const t = tipoTV(prod);
-      if (t === "video") return "video";
-      if (t === "accesorio") return "television";
-      return "television";
-    }
-
-    function getBadgeLabel(prod) {
-      const t = tipoTV(prod);
-      if (t === "video") return "VIDEO";
-      if (t === "accesorio") return "ACC";
-      return "TV";
-    }
-
     function renderizarGrid(lista) {
-      const grid = document.getElementById("grid-tv");
+      const grid = document.getElementById("grid-ofertas");
       if (!lista || lista.length === 0) {
-        grid.innerHTML = `<div style="padding:50px;grid-column:1/-1;text-align:center;color:var(--muted)"><h3 style="font-size:1.15rem;color:var(--text);margin-bottom:8px;">Sin resultados</h3><p>Prueba ajustando filtros o el rango de precio.</p></div>`;
+        grid.innerHTML = `<div class="empty-state"><h3>Sin resultados 😕</h3><p>Prueba cambiando la categoría, el precio o el texto de búsqueda.</p></div>`;
         return;
       }
 
@@ -587,29 +536,41 @@
         <div class="pagination-bar">
           <div class="page-info">Mostrando <strong>${slice.length}</strong> de <strong>${lista.length}</strong> productos</div>
           <div class="page-btns">
-            <button class="arrow-btn" onclick="moverPagina(-1)" ${start===0?'disabled':''}>‹</button>
+            <button class="arrow-btn" onclick="moverPagina(-1)" ${start === 0 ? "disabled" : ""}>‹</button>
             <span style="font-size:.84rem;color:var(--muted);font-weight:700;padding:0 4px;">${currentPage}/${totalPages}</span>
-            <button class="arrow-btn" onclick="moverPagina(1)" ${start+PAGE_SIZE>=lista.length?'disabled':''}>›</button>
+            <button class="arrow-btn" onclick="moverPagina(1)" ${start + PAGE_SIZE >= lista.length ? "disabled" : ""}>›</button>
           </div>
         </div>`;
 
       slice.forEach(prod => {
+        const cat = detectarCat(prod);
         const json = encodeURIComponent(JSON.stringify(prod));
+        const precioOld = prod.precioOriginal ? `<span class="price-old">$${formatP(prod.precioOriginal)}</span>` : "";
+        const descuento = prod.precioOriginal && prod.precio < prod.precioOriginal
+          ? `<span class="price-pct">-${Math.round((1 - prod.precio / prod.precioOriginal) * 100)}%</span>` : "";
+
         html += `
-          <div class="sony-card" onclick="abrirModalDetalle('${json}')">
+          <div class="prod-card" onclick="abrirModalDetalle('${json}')">
             <div class="card-badges">
-              <div class="badge-alpha ${getBadgeClass(prod)}">${getBadgeLabel(prod)}</div>
+              <div class="badge oferta">🔥 OFERTA</div>
+              <div class="badge cat">${labelCat(cat)}</div>
             </div>
-            <div class="sony-img-box">
-              <img src="${prod.imagen || ''}" onerror="this.src='https://via.placeholder.com/300'" alt="${prod.nombre || ''}">
+            <div class="prod-img-box">
+              <img src="${prod.imagen || ""}" onerror="this.src='https://via.placeholder.com/300x300/f3f4f6/9ca3af?text=SVR'" alt="${prod.nombre || ""}">
             </div>
-            <div class="sony-info">
-              <div class="sony-type">${String(prod.categoria || 'TV').toUpperCase()}</div>
-              <h3 class="sony-title">${prod.nombre || 'Producto'}</h3>
-              <div class="sony-sku">SKU: ${prod.id || prod.firestoreId || 'SVR'}</div>
+            <div class="prod-info">
+              <div class="prod-cat">${String(prod.categoria || cat).toUpperCase()}</div>
+              <h3 class="prod-title">${prod.nombre || "Producto"}</h3>
+              <div class="prod-sku">SKU: ${prod.id || prod.firestoreId || "SVR"}</div>
             </div>
-            <div class="sony-price-box"><div class="price-now">$${formatP(prod.precio || 0)}</div></div>
-            <button class="sony-btn-add" onclick="event.stopPropagation();agregarAlCarritoLocal('${prod.id || prod.firestoreId}','${String(prod.nombre || '').replace(/'/g,"\\'")}',${Number(prod.precio || 0)},'${prod.imagen || ''}')">AGREGAR RÁPIDO</button>
+            <div class="prod-price-box">
+              <div class="price-now">$${formatP(prod.precio || 0)}</div>
+              ${precioOld}
+              ${descuento}
+            </div>
+            <button class="prod-btn-add" onclick="event.stopPropagation();agregarAlCarritoLocal('${prod.id || prod.firestoreId}','${String(prod.nombre || "").replace(/'/g, "\\'")}',${Number(prod.precio || 0)},'${prod.imagen || ""}')">
+              AGREGAR RÁPIDO
+            </button>
           </div>`;
       });
 
@@ -636,20 +597,16 @@
       let carrito = JSON.parse(localStorage.getItem("carritoSVR")) || [];
       document.getElementById("cart-count").textContent = carrito.length;
       const cont = document.getElementById("drawer-items");
-
       if (!carrito.length) {
         cont.innerHTML = '<p style="text-align:center;color:#888;margin-top:50px;">Tu carrito está vacío.</p>';
         document.getElementById("drawer-total").textContent = "$0";
         return;
       }
-
-      let html = "";
-      let subtotal = 0;
+      let html = ""; let subtotal = 0;
       carrito.forEach((item, i) => {
         subtotal += parseInt(item.precio || 0);
         html += `<div style="display:flex;gap:15px;margin-bottom:15px;border-bottom:1px solid #eee;padding-bottom:15px;"><img src="${item.imagen}" style="width:60px;height:60px;object-fit:contain;background:#f5f5f5;border-radius:8px;"><div style="flex:1;"><div style="font-size:.9rem;margin-bottom:5px;font-weight:600;color:#000;">${item.nombre}</div><div style="font-weight:800;color:var(--blue);">$${formatP(item.precio)}</div><span style="color:red;font-size:.8rem;cursor:pointer;" onclick="eliminarDelCarrito(${i})">Quitar</span></div></div>`;
       });
-
       cont.innerHTML = html;
       document.getElementById("drawer-total").textContent = "$" + formatP(subtotal);
     }
@@ -661,45 +618,31 @@
       actualizarSideCart();
     };
 
-    window.abrirMenu = function() {
-      document.getElementById("global-overlay").classList.add("active");
-      document.getElementById("side-menu").classList.add("open");
-    };
-
-    window.abrirCarrito = function() {
-      actualizarSideCart();
-      document.getElementById("global-overlay").classList.add("active");
-      document.getElementById("side-cart").classList.add("open");
-    };
-
-    window.cerrarPaneles = function() {
-      document.getElementById("global-overlay").classList.remove("active");
-      document.getElementById("side-cart").classList.remove("open");
-      document.getElementById("side-menu").classList.remove("open");
-    };
+    window.abrirMenu = function() { document.getElementById("global-overlay").classList.add("active"); document.getElementById("side-menu").classList.add("open"); };
+    window.abrirCarrito = function() { actualizarSideCart(); document.getElementById("global-overlay").classList.add("active"); document.getElementById("side-cart").classList.add("open"); };
+    window.cerrarPaneles = function() { document.getElementById("global-overlay").classList.remove("active"); document.getElementById("side-cart").classList.remove("open"); document.getElementById("side-menu").classList.remove("open"); };
 
     window.abrirModalDetalle = function(prodString) {
       const prod = JSON.parse(decodeURIComponent(prodString));
       document.getElementById("modal-img").src = prod.imagen || "";
       document.getElementById("modal-title").innerText = prod.nombre || "Producto";
       document.getElementById("modal-sku").innerText = "SKU: " + (prod.id || prod.firestoreId || "SVR");
-      document.getElementById("modal-cat").innerText = String(prod.categoria || "TV").toUpperCase();
+      document.getElementById("modal-cat").innerText = String(prod.categoria || "PRODUCTO").toUpperCase();
       document.getElementById("modal-price").innerText = "$" + formatP(prod.precio || 0);
-      document.getElementById("modal-desc").innerText = prod.descripcion || "Resolución y contraste sin igual para una experiencia de cine en casa con SVR Store.";
-      document.getElementById("modal-btn-add").onclick = () => { agregarAlCarritoLocal(prod.id || prod.firestoreId, prod.nombre || "Producto", prod.precio || 0, prod.imagen || ""); cerrarModal(); };
+      document.getElementById("modal-desc").innerText = prod.descripcion || "Producto SVR Store con garantía oficial.";
+      document.getElementById("modal-btn-add").onclick = () => {
+        agregarAlCarritoLocal(prod.id || prod.firestoreId, prod.nombre || "Producto", prod.precio || 0, prod.imagen || "");
+        cerrarModal();
+      };
       document.getElementById("quick-view-modal").classList.add("active");
     };
 
     window.cerrarModal = () => document.getElementById("quick-view-modal").classList.remove("active");
-
     document.getElementById("quick-view-modal").addEventListener("click", e => {
       if (e.target === document.getElementById("quick-view-modal")) cerrarModal();
     });
 
-    document.addEventListener("DOMContentLoaded", () => {
-      renderBrandFilters();
-      cargarProductos();
-    });
+    document.addEventListener("DOMContentLoaded", () => cargarProductos());
   </script>
 </body>
 </html>

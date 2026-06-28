@@ -1,0 +1,713 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Producto | SVR Chile</title>
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800;900&display=swap" rel="stylesheet">
+  <style>
+    :root {
+      --black: #000000;
+      --dark: #111111;
+      --white: #ffffff;
+      --gray-bg: #f5f5f7;
+      --gray-light: #fafafa;
+      --blue: #0071e3;
+      --blue-hover: #0077ed;
+      --red: #e30613;
+      --orange: #ff6b00;
+      --purple: #7c3aed;
+      --green: #10b981;
+      --text: #1d1d1f;
+      --text-muted: #6e6e73;
+      --border: #d2d2d7;
+      --radius: 12px;
+    }
+    *, *::before, *::after { margin:0; padding:0; box-sizing:border-box; }
+    body { font-family: 'Inter', -apple-system, sans-serif; background: var(--white); color: var(--text); overflow-x: hidden; }
+    a { text-decoration: none; color: inherit; }
+    button { cursor: pointer; border: none; background: none; font-family: inherit; }
+    img { display: block; max-width: 100%; }
+
+    /* HEADER */
+    .header {
+      background: rgba(0,0,0,0.92);
+      backdrop-filter: saturate(180%) blur(20px);
+      border-bottom: 1px solid rgba(255,255,255,0.06);
+      padding: 0 5%;
+      height: 56px;
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      position: sticky;
+      top: 0;
+      z-index: 1000;
+      gap: 16px;
+    }
+    .logo { font-size: 1.6rem; font-weight: 900; color: var(--white); letter-spacing: 2px; }
+    .logo span { color: var(--red); }
+    .header-right { display: flex; align-items: center; gap: 18px; }
+    .header-icon { color: rgba(255,255,255,0.8); display: flex; align-items: center; transition: color 0.2s; }
+    .header-icon:hover { color: var(--white); }
+    .cart-wrap { position: relative; }
+    .cart-badge { position: absolute; top: -7px; right: -8px; background: var(--red); color: white; width: 17px; height: 17px; border-radius: 50%; font-size: 0.65rem; font-weight: 700; display: flex; align-items: center; justify-content: center; }
+
+    /* BREADCRUMB */
+    .breadcrumb {
+      max-width: 1100px;
+      margin: 0 auto;
+      padding: 16px 3% 0;
+      display: flex;
+      align-items: center;
+      gap: 8px;
+      font-size: 0.8rem;
+      color: var(--text-muted);
+    }
+    .breadcrumb a { color: var(--blue); }
+    .breadcrumb a:hover { text-decoration: underline; }
+    .breadcrumb span { color: #ccc; }
+
+    /* LOADING / ERROR STATE */
+    .state-container {
+      max-width: 500px;
+      margin: 80px auto;
+      text-align: center;
+      padding: 0 20px;
+    }
+    .spinner {
+      width: 40px; height: 40px;
+      border: 3px solid var(--gray-bg);
+      border-top-color: var(--blue);
+      border-radius: 50%;
+      animation: spin 0.8s linear infinite;
+      margin: 0 auto 20px;
+    }
+    @keyframes spin { to { transform: rotate(360deg); } }
+    .state-container h2 { font-size: 1.4rem; margin-bottom: 10px; }
+    .state-container p { color: var(--text-muted); font-size: 0.9rem; margin-bottom: 20px; }
+    .btn-back { display: inline-flex; align-items: center; gap: 6px; padding: 10px 20px; background: var(--text); color: white; border-radius: 8px; font-weight: 600; font-size: 0.875rem; transition: 0.2s; }
+    .btn-back:hover { opacity: 0.85; }
+
+    /* PRODUCT PAGE */
+    .product-page {
+      max-width: 1100px;
+      margin: 0 auto;
+      padding: 32px 3% 64px;
+      display: none;
+    }
+    .product-layout {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 56px;
+      align-items: start;
+    }
+
+    /* GALLERY */
+    .gallery { position: sticky; top: 72px; }
+    .gallery-main {
+      background: var(--gray-light);
+      border: 1px solid var(--border);
+      border-radius: 16px;
+      aspect-ratio: 1;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      padding: 40px;
+      overflow: hidden;
+      margin-bottom: 12px;
+    }
+    .gallery-main img {
+      max-width: 100%;
+      max-height: 100%;
+      object-fit: contain;
+      mix-blend-mode: multiply;
+      transition: transform 0.4s ease;
+    }
+    .gallery-main:hover img { transform: scale(1.06); }
+    .gallery-thumbs { display: flex; gap: 8px; }
+    .thumb {
+      width: 70px; height: 70px;
+      border: 2px solid var(--border);
+      border-radius: 8px;
+      background: var(--gray-light);
+      display: flex; align-items: center; justify-content: center;
+      padding: 8px;
+      cursor: pointer;
+      transition: border-color 0.2s;
+      flex-shrink: 0;
+      overflow: hidden;
+    }
+    .thumb.active { border-color: var(--blue); }
+    .thumb img { max-width: 100%; max-height: 100%; object-fit: contain; mix-blend-mode: multiply; }
+
+    /* INFO */
+    .prod-info { display: flex; flex-direction: column; gap: 20px; }
+    .prod-badges { display: flex; flex-wrap: wrap; gap: 6px; }
+    .badge-chip { display: inline-flex; align-items: center; gap: 4px; padding: 4px 11px; border-radius: 20px; font-size: 0.72rem; font-weight: 700; text-transform: uppercase; letter-spacing: 0.4px; }
+    .chip-flash { background: var(--red); color: white; }
+    .chip-cuotas { background: var(--purple); color: white; }
+    .chip-stock { background: #d1fae5; color: #065f46; }
+    .chip-nostock { background: #fee2e2; color: #991b1b; }
+
+    .prod-brand { font-size: 0.8rem; font-weight: 600; color: var(--text-muted); text-transform: uppercase; letter-spacing: 1px; }
+    .prod-name { font-size: 1.9rem; font-weight: 800; line-height: 1.15; letter-spacing: -0.5px; }
+    .prod-sku { font-size: 0.75rem; color: #bbb; font-family: monospace; }
+
+    /* RATING */
+    .prod-rating { display: flex; align-items: center; gap: 8px; }
+    .stars { display: flex; gap: 2px; }
+    .star { color: #f59e0b; font-size: 1rem; }
+    .star.empty { color: #ddd; }
+    .rating-count { font-size: 0.8rem; color: var(--text-muted); }
+
+    /* PRICE */
+    .price-block { background: var(--gray-bg); border-radius: 12px; padding: 20px; }
+    .price-now { font-size: 2.4rem; font-weight: 900; color: var(--text); letter-spacing: -1px; line-height: 1; }
+    .price-row { display: flex; align-items: center; gap: 12px; margin-top: 6px; }
+    .price-old { font-size: 1rem; color: #bbb; text-decoration: line-through; }
+    .price-save-badge { background: var(--red); color: white; font-size: 0.72rem; font-weight: 700; padding: 3px 8px; border-radius: 20px; }
+    .price-cuotas { margin-top: 10px; font-size: 0.82rem; color: var(--text-muted); }
+    .price-cuotas strong { color: var(--purple); }
+
+    /* DESCRIPTION */
+    .prod-desc-title { font-size: 0.9rem; font-weight: 700; margin-bottom: 8px; }
+    .prod-desc { font-size: 0.875rem; color: var(--text-muted); line-height: 1.7; }
+
+    /* SPECS */
+    .specs-table { width: 100%; border-collapse: collapse; font-size: 0.82rem; }
+    .specs-table tr:nth-child(even) { background: var(--gray-bg); }
+    .specs-table td { padding: 9px 12px; border-bottom: 1px solid var(--border); }
+    .specs-table td:first-child { font-weight: 600; width: 40%; color: var(--text-muted); }
+
+    /* ACTIONS */
+    .btn-carrito {
+      width: 100%;
+      padding: 15px;
+      background: var(--blue);
+      color: white;
+      border-radius: 10px;
+      font-weight: 800;
+      font-size: 1rem;
+      display: flex; align-items: center; justify-content: center; gap: 8px;
+      transition: all 0.2s;
+    }
+    .btn-carrito:hover { background: var(--blue-hover); transform: translateY(-1px); }
+    .btn-carrito.added { background: var(--green); }
+    .btn-comprar {
+      width: 100%;
+      padding: 15px;
+      background: var(--red);
+      color: white;
+      border-radius: 10px;
+      font-weight: 800;
+      font-size: 1rem;
+      transition: all 0.2s;
+    }
+    .btn-comprar:hover { background: #c0000f; }
+
+    /* GARANTIAS */
+    .garantias { display: grid; grid-template-columns: 1fr 1fr; gap: 10px; }
+    .garantia-item { display: flex; align-items: center; gap: 8px; font-size: 0.78rem; color: var(--text-muted); }
+    .garantia-icon { flex-shrink: 0; color: var(--green); }
+
+    /* DIVIDER */
+    .divider { border: none; border-top: 1px solid var(--border); }
+
+    /* RELATED */
+    .related-section { max-width: 1100px; margin: 0 auto; padding: 0 3% 64px; display: none; }
+    .related-title { font-size: 1.4rem; font-weight: 800; margin-bottom: 24px; letter-spacing: -0.5px; }
+    .related-grid { display: grid; grid-template-columns: repeat(auto-fill, minmax(220px, 1fr)); gap: 16px; }
+    .related-card {
+      border: 1px solid var(--border);
+      border-radius: var(--radius);
+      overflow: hidden;
+      cursor: pointer;
+      transition: box-shadow 0.2s, transform 0.2s;
+    }
+    .related-card:hover { box-shadow: 0 8px 24px rgba(0,0,0,0.08); transform: translateY(-2px); }
+    .related-img { height: 160px; background: var(--gray-light); display: flex; align-items: center; justify-content: center; padding: 20px; }
+    .related-img img { max-width: 100%; max-height: 100%; object-fit: contain; mix-blend-mode: multiply; }
+    .related-body { padding: 12px; }
+    .related-name { font-size: 0.82rem; font-weight: 600; line-height: 1.4; margin-bottom: 4px; }
+    .related-price { font-size: 0.9rem; font-weight: 800; color: var(--blue); }
+
+    /* CART DRAWER */
+    .cart-drawer { position: fixed; top: 0; right: -420px; width: 400px; height: 100vh; background: var(--white); z-index: 3000; transition: right 0.38s cubic-bezier(0.16,1,0.3,1); display: flex; flex-direction: column; box-shadow: -10px 0 40px rgba(0,0,0,0.15); }
+    .cart-drawer.open { right: 0; }
+    .cart-head { background: var(--dark); color: white; padding: 18px 20px; display: flex; justify-content: space-between; align-items: center; }
+    .cart-head h3 { font-size: 1rem; font-weight: 700; }
+    .cart-close { color: #888; font-size: 1.4rem; line-height: 1; transition: color 0.2s; }
+    .cart-close:hover { color: white; }
+    .cart-body { flex: 1; padding: 20px; overflow-y: auto; }
+    .cart-empty { text-align: center; padding: 60px 20px; color: var(--text-muted); }
+    .cart-item { display: flex; gap: 14px; padding: 14px 0; border-bottom: 1px solid var(--gray-bg); }
+    .cart-item:last-child { border-bottom: none; }
+    .cart-item-img { width: 60px; height: 60px; object-fit: contain; background: var(--gray-light); border-radius: 8px; flex-shrink: 0; }
+    .cart-item-info { flex: 1; min-width: 0; }
+    .cart-item-name { font-size: 0.82rem; font-weight: 600; line-height: 1.3; margin-bottom: 4px; white-space: nowrap; overflow: hidden; text-overflow: ellipsis; }
+    .cart-item-price { font-size: 0.9rem; font-weight: 800; color: var(--blue); }
+    .cart-item-remove { font-size: 0.72rem; color: var(--red); cursor: pointer; margin-top: 4px; display: inline-block; }
+    .cart-foot { padding: 20px; border-top: 1px solid var(--border); background: var(--gray-light); }
+    .cart-total { display: flex; justify-content: space-between; align-items: center; font-size: 1.1rem; font-weight: 800; margin-bottom: 14px; }
+    .btn-checkout { display: block; width: 100%; background: var(--red); color: white; padding: 14px; border-radius: 9px; font-weight: 800; font-size: 0.9rem; text-align: center; transition: 0.2s; }
+    .btn-checkout:hover { background: #c0000f; }
+    .btn-keep { display: block; width: 100%; text-align: center; margin-top: 10px; font-size: 0.8rem; color: var(--text-muted); }
+    .btn-keep:hover { color: var(--text); }
+    .overlay { position: fixed; inset: 0; background: rgba(0,0,0,0.6); z-index: 2500; display: none; }
+    .overlay.show { display: block; }
+
+    /* TOAST */
+    .toast-wrap { position: fixed; bottom: 24px; left: 50%; transform: translateX(-50%); z-index: 9999; display: flex; flex-direction: column; align-items: center; gap: 8px; pointer-events: none; }
+    .toast { background: var(--dark); color: white; padding: 11px 20px; border-radius: 20px; font-size: 0.82rem; font-weight: 600; box-shadow: 0 8px 24px rgba(0,0,0,0.25); display: flex; align-items: center; gap: 8px; animation: toastIn 0.3s ease, toastOut 0.3s ease 2.2s forwards; }
+    @keyframes toastIn { from{opacity:0;transform:translateY(10px);} to{opacity:1;transform:translateY(0);} }
+    @keyframes toastOut { from{opacity:1;} to{opacity:0;} }
+
+    @media (max-width: 768px) {
+      .product-layout { grid-template-columns: 1fr; gap: 28px; }
+      .gallery { position: static; }
+      .prod-name { font-size: 1.4rem; }
+      .price-now { font-size: 1.9rem; }
+      .cart-drawer { width: 100%; right: -100%; }
+      .garantias { grid-template-columns: 1fr; }
+    }
+  </style>
+</head>
+<body>
+
+<!-- HEADER -->
+<header class="header">
+  <a href="tiendaSVR.html" class="logo">S<span>V</span>R</a>
+  <div class="header-right">
+    <a href="tiendaSVR.html" class="header-icon" title="Volver al catálogo">
+      <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><line x1="19" y1="12" x2="5" y2="12"/><polyline points="12 19 5 12 12 5"/></svg>
+    </a>
+    <a href="perfil.html" class="header-icon">
+      <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M20 21v-2a4 4 0 00-4-4H8a4 4 0 00-4 4v2"/><circle cx="12" cy="7" r="4"/></svg>
+    </a>
+    <button class="header-icon cart-wrap" onclick="toggleCart()">
+      <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="9" cy="21" r="1"/><circle cx="20" cy="21" r="1"/><path d="M1 1h4l2.68 13.39a2 2 0 002 1.61h9.72a2 2 0 002-1.61L23 6H6"/></svg>
+      <div class="cart-badge" id="cart-count">0</div>
+    </button>
+  </div>
+</header>
+
+<!-- BREADCRUMB -->
+<div class="breadcrumb" id="breadcrumb">
+  <a href="index.html">Inicio</a>
+  <span>›</span>
+  <span id="bc-categoria">Catálogo</span>
+  <span>›</span>
+  <span id="bc-nombre" style="color:var(--text);font-weight:500;">Cargando...</span>
+</div>
+
+<!-- LOADING STATE -->
+<div class="state-container" id="loading-state">
+  <div class="spinner"></div>
+  <p>Cargando producto...</p>
+</div>
+
+<!-- ERROR STATE -->
+<div class="state-container" id="error-state" style="display:none;">
+  <svg width="48" height="48" viewBox="0 0 24 24" fill="none" stroke="#ccc" stroke-width="1.5" style="margin:0 auto 16px"><circle cx="12" cy="12" r="10"/><line x1="12" y1="8" x2="12" y2="12"/><line x1="12" y1="16" x2="12.01" y2="16"/></svg>
+  <h2>Producto no encontrado</h2>
+  <p>No pudimos encontrar este producto. Puede que haya sido eliminado o el enlace sea incorrecto.</p>
+  <a href="index.html" class="btn-back">
+    <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><line x1="19" y1="12" x2="5" y2="12"/><polyline points="12 19 5 12 12 5"/></svg>
+    Volver al catálogo
+  </a>
+</div>
+
+<!-- PRODUCT PAGE -->
+<div class="product-page" id="product-page">
+  <div class="product-layout">
+
+    <!-- GALERÍA -->
+    <div class="gallery">
+      <div class="gallery-main" id="gallery-main">
+        <img id="main-img" src="" alt="Producto">
+      </div>
+      <div class="gallery-thumbs" id="gallery-thumbs"></div>
+    </div>
+
+    <!-- INFO -->
+    <div class="prod-info">
+      <div class="prod-badges" id="prod-badges"></div>
+      <div>
+        <div class="prod-brand" id="prod-brand"></div>
+        <h1 class="prod-name" id="prod-name"></h1>
+        <div class="prod-sku" id="prod-sku"></div>
+      </div>
+
+      <!-- RATING -->
+      <div class="prod-rating">
+        <div class="stars" id="prod-stars"></div>
+        <span class="rating-count" id="prod-rating-count"></span>
+      </div>
+
+      <!-- PRECIO -->
+      <div class="price-block">
+        <div class="price-now" id="price-now"></div>
+        <div class="price-row">
+          <div class="price-old" id="price-old"></div>
+          <div class="price-save-badge" id="price-save"></div>
+        </div>
+        <div class="price-cuotas" id="price-cuotas"></div>
+      </div>
+
+      <!-- DESCRIPCION -->
+      <div>
+        <div class="prod-desc-title">Descripción</div>
+        <div class="prod-desc" id="prod-desc"></div>
+      </div>
+
+      <hr class="divider">
+
+      <!-- ESPECIFICACIONES -->
+      <div id="specs-block" style="display:none;">
+        <div class="prod-desc-title">Especificaciones</div>
+        <table class="specs-table" id="specs-table"></table>
+      </div>
+
+      <!-- ACCIONES -->
+      <div style="display:flex;flex-direction:column;gap:10px;">
+        <button class="btn-carrito" id="btn-carrito" onclick="agregarDesdeProducto()">
+          <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><circle cx="9" cy="21" r="1"/><circle cx="20" cy="21" r="1"/><path d="M1 1h4l2.68 13.39a2 2 0 002 1.61h9.72a2 2 0 002-1.61L23 6H6"/></svg>
+          Agregar al carrito
+        </button>
+        <a href="checkout.html" class="btn-comprar" onclick="agregarDesdeProducto()">Comprar ahora →</a>
+      </div>
+
+      <!-- GARANTIAS -->
+      <div class="garantias">
+        <div class="garantia-item">
+          <svg class="garantia-icon" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M12 22s8-4 8-10V5l-8-3-8 3v7c0 6 8 10 8 10z"/></svg>
+          Garantía oficial
+        </div>
+        <div class="garantia-item">
+          <svg class="garantia-icon" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><rect x="1" y="3" width="15" height="13"/><polygon points="16 8 20 8 23 11 23 16 16 16 16 8"/><circle cx="5.5" cy="18.5" r="2.5"/><circle cx="18.5" cy="18.5" r="2.5"/></svg>
+          Despacho a todo Chile
+        </div>
+        <div class="garantia-item">
+          <svg class="garantia-icon" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><polyline points="20 12 20 22 4 22 4 12"/><rect x="2" y="7" width="20" height="5"/><line x1="12" y1="22" x2="12" y2="7"/><path d="M12 7H7.5a2.5 2.5 0 010-5C11 2 12 7 12 7z"/><path d="M12 7h4.5a2.5 2.5 0 000-5C13 2 12 7 12 7z"/></svg>
+          Devolución 30 días
+        </div>
+        <div class="garantia-item">
+          <svg class="garantia-icon" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><rect x="1" y="4" width="22" height="16" rx="2"/><line x1="1" y1="10" x2="23" y2="10"/></svg>
+          Pago en cuotas
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+
+<!-- PRODUCTOS RELACIONADOS -->
+<div class="related-section" id="related-section">
+  <h2 class="related-title">También te puede interesar</h2>
+  <div class="related-grid" id="related-grid"></div>
+</div>
+
+<!-- CART DRAWER -->
+<div class="overlay" id="overlay" onclick="cerrarCart()"></div>
+<div class="cart-drawer" id="cart-drawer">
+  <div class="cart-head">
+    <h3>Mi Carrito</h3>
+    <button class="cart-close" onclick="cerrarCart()">×</button>
+  </div>
+  <div class="cart-body" id="cart-body"></div>
+  <div class="cart-foot">
+    <div class="cart-total"><span>Total</span><span id="cart-total">$0</span></div>
+    <a href="checkout.html" class="btn-checkout">Ir a pagar →</a>
+    <button class="btn-keep" onclick="cerrarCart()">Seguir comprando</button>
+  </div>
+</div>
+
+<div class="toast-wrap" id="toast-wrap"></div>
+
+<script type="module">
+  import { initializeApp } from "https://www.gstatic.com/firebasejs/12.15.0/firebase-app.js";
+  import { getFirestore, collection, getDocs, doc, getDoc } from "https://www.gstatic.com/firebasejs/12.15.0/firebase-firestore.js";
+
+  const firebaseConfig = {
+    apiKey: "AIzaSyB7IODeAnczMkBq8UoeqZkJWpw9wZbxYZk",
+    authDomain: "servicios-ramirez.firebaseapp.com",
+    projectId: "servicios-ramirez",
+    storageBucket: "servicios-ramirez.firebasestorage.app",
+    messagingSenderId: "540818066798",
+    appId: "1:540818066798:web:47bf4d3f68d6959f6fc57f"
+  };
+
+  const app = initializeApp(firebaseConfig);
+  const db = getFirestore(app);
+
+  // ── FALLBACK ──
+  const FALLBACK = [
+    { id: "SVR-PS4-PRO", nombre: "Mando PlayStation 4 Original", precio: 45000, cuotas: "6 CUOTAS", flash: true, imagen: "https://m.media-amazon.com/images/I/61Mv1qA3s5L._AC_SX679_.jpg", categoria: "tecnologia", descripcion: "Control DualShock 4 oficial de Sony con vibración háptica, touchpad y speaker integrado.", marca: "Sony", stock: 12, rating: 4.8, reviews: 234 },
+    { id: "WH1000XM5", nombre: "Audífonos Inalámbricos WH-1000XM5", precio: 259990, cuotas: "12 CUOTAS", flash: true, imagen: "https://images.unsplash.com/photo-1618366712010-f4ae9c647dcb?w=400&q=80", categoria: "audio", descripcion: "Cancelación de ruido líder de la industria con hasta 30 horas de batería y audio de alta resolución.", marca: "Sony", stock: 5, rating: 4.9, reviews: 1204 },
+    { id: "SVR-BAG-URB", nombre: "Mochila Urbana Impermeable", precio: 34990, cuotas: "3 CUOTAS", flash: false, imagen: "https://images.unsplash.com/photo-1590874103328-eac38a683ce7?w=400&q=80", categoria: "ropa", descripcion: "Mochila resistente al agua con compartimento acolchado para laptop de hasta 15 pulgadas.", marca: "SVR", stock: 30, rating: 4.5, reviews: 89 },
+    { id: "WF-C710N", nombre: "Audífonos In-Ear Noise Cancelling", precio: 62990, cuotas: "6 CUOTAS", flash: true, imagen: "https://images.unsplash.com/photo-1606220838315-056192d5e927?w=400&q=80", categoria: "audio", descripcion: "Diseño compacto con cancelación activa de ruido y hasta 10 horas de uso en una sola carga.", marca: "Sony", stock: 8, rating: 4.6, reviews: 567 }
+  ];
+
+  // ── OBTENER ID DE LA URL ──
+  const urlParams = new URLSearchParams(window.location.search);
+  const productId = urlParams.get("id");
+
+  let productoActual = null;
+  let todosLosProductos = [];
+
+  function formatP(n) { return Number(n).toLocaleString("es-CL"); }
+
+  // ── BUSCAR PRODUCTO ──
+  async function buscarProducto() {
+    if (!productId) { mostrarError(); return; }
+
+    try {
+      // 1. Intentar por documento ID en Firestore
+      const docRef = doc(db, "productos", productId);
+      const docSnap = await getDoc(docRef);
+
+      if (docSnap.exists()) {
+        productoActual = { firestoreId: docSnap.id, ...docSnap.data() };
+      } else {
+        // 2. Buscar en la colección completa por campo 'id'
+        const snap = await getDocs(collection(db, "productos"));
+        todosLosProductos = snap.docs.map(d => ({ firestoreId: d.id, ...d.data() }));
+        productoActual = todosLosProductos.find(p =>
+          p.id === productId || p.firestoreId === productId
+        );
+      }
+
+      // 3. Fallback local
+      if (!productoActual) {
+        productoActual = FALLBACK.find(p => p.id === productId);
+        todosLosProductos = FALLBACK;
+      }
+
+      if (!productoActual) { mostrarError(); return; }
+
+      // Cargar todos para relacionados
+      if (!todosLosProductos.length) {
+        const snap = await getDocs(collection(db, "productos"));
+        todosLosProductos = snap.empty ? FALLBACK : snap.docs.map(d => ({ firestoreId: d.id, ...d.data() }));
+      }
+
+      mostrarProducto(productoActual);
+      mostrarRelacionados(productoActual);
+
+    } catch (e) {
+      // Fallback offline
+      todosLosProductos = FALLBACK;
+      productoActual = FALLBACK.find(p => p.id === productId);
+      if (productoActual) {
+        mostrarProducto(productoActual);
+        mostrarRelacionados(productoActual);
+      } else {
+        mostrarError();
+      }
+    }
+  }
+
+  // ── MOSTRAR PRODUCTO ──
+  function mostrarProducto(prod) {
+    document.getElementById("loading-state").style.display = "none";
+    document.getElementById("product-page").style.display = "block";
+
+    // SEO dinámico
+    document.title = `${prod.nombre} | SVR Chile`;
+
+    // Breadcrumb
+    const catLabel = { audio: "Audio", tecnologia: "Tecnología", camaras: "Cámaras", television: "TV", ropa: "Ropa" };
+    const catPage = { audio: "audio.html", tecnologia: "tecnologia.html", camaras: "camaras.html", television: "television.html", ropa: "ropa.html" };
+    const cat = prod.categoria || "catalogo";
+    document.getElementById("bc-categoria").innerHTML = `<a href="${catPage[cat] || 'index.html'}" style="color:var(--blue)">${catLabel[cat] || "Catálogo"}</a>`;
+    document.getElementById("bc-nombre").textContent = prod.nombre;
+
+    // Imagen principal
+    const mainImg = document.getElementById("main-img");
+    mainImg.src = prod.imagen || "";
+    mainImg.alt = prod.nombre;
+    mainImg.onerror = () => { mainImg.src = "https://via.placeholder.com/400x400?text=SVR"; };
+
+    // Thumbnails (imagen principal + extras si existen)
+    const thumbsContainer = document.getElementById("gallery-thumbs");
+    const images = prod.imagenes?.length ? prod.imagenes : [prod.imagen].filter(Boolean);
+    thumbsContainer.innerHTML = images.map((img, i) => `
+      <div class="thumb ${i === 0 ? 'active' : ''}" onclick="cambiarImagen('${img}', this)">
+        <img src="${img}" onerror="this.src='https://via.placeholder.com/60'" alt="Vista ${i+1}">
+      </div>`).join("");
+
+    // Badges
+    let badges = "";
+    if (prod.flash) badges += `<div class="badge-chip chip-flash">⚡ Flash Sale</div>`;
+    if (prod.cuotas) badges += `<div class="badge-chip chip-cuotas">${prod.cuotas}</div>`;
+    const stock = Number(prod.stock) || 0;
+    if (stock > 0) badges += `<div class="badge-chip chip-stock">✓ En stock (${stock} disponibles)</div>`;
+    else badges += `<div class="badge-chip chip-nostock">✗ Sin stock</div>`;
+    document.getElementById("prod-badges").innerHTML = badges;
+
+    // Nombre, marca, SKU
+    if (prod.marca) document.getElementById("prod-brand").textContent = prod.marca;
+    document.getElementById("prod-name").textContent = prod.nombre;
+    const pid = prod.firestoreId || prod.id || "";
+    document.getElementById("prod-sku").textContent = `SKU: ${pid}`;
+
+    // Rating
+    const rating = Number(prod.rating) || 4.5;
+    const reviews = Number(prod.reviews) || 0;
+    let starsHtml = "";
+    for (let i = 1; i <= 5; i++) {
+      starsHtml += `<span class="star${i > Math.round(rating) ? ' empty' : ''}">★</span>`;
+    }
+    document.getElementById("prod-stars").innerHTML = starsHtml;
+    document.getElementById("prod-rating-count").textContent = reviews ? `${rating} (${reviews.toLocaleString()} reseñas)` : `${rating} / 5`;
+
+    // Precio
+    const precio = Number(prod.precio) || 0;
+    const old = Math.floor(precio * 1.32);
+    const save = old - precio;
+    const pct = Math.round((save / old) * 100);
+    document.getElementById("price-now").textContent = `$${formatP(precio)}`;
+    document.getElementById("price-old").textContent = `Antes: $${formatP(old)}`;
+    document.getElementById("price-save").textContent = `-${pct}%`;
+    if (prod.cuotas) {
+      const match = prod.cuotas.match(/\d+/);
+      if (match) {
+        const cuotaVal = Math.round(precio / parseInt(match[0]));
+        document.getElementById("price-cuotas").innerHTML = `<strong>${prod.cuotas} sin interés</strong> de $${formatP(cuotaVal)} c/u`;
+      }
+    }
+
+    // Descripción
+    document.getElementById("prod-desc").textContent = prod.descripcion || "Producto oficial SVR Chile con garantía y respaldo técnico.";
+
+    // Especificaciones (si el producto tiene campo 'specs' como objeto)
+    if (prod.specs && typeof prod.specs === "object") {
+      const specsBlock = document.getElementById("specs-block");
+      const specsTable = document.getElementById("specs-table");
+      specsBlock.style.display = "block";
+      specsTable.innerHTML = Object.entries(prod.specs).map(([k, v]) =>
+        `<tr><td>${k}</td><td>${v}</td></tr>`
+      ).join("");
+    }
+  }
+
+  // ── CAMBIAR IMAGEN ──
+  window.cambiarImagen = function(src, el) {
+    document.getElementById("main-img").src = src;
+    document.querySelectorAll(".thumb").forEach(t => t.classList.remove("active"));
+    el.classList.add("active");
+  };
+
+  // ── MOSTRAR RELACIONADOS ──
+  function mostrarRelacionados(prod) {
+    const relacionados = todosLosProductos.filter(p => {
+      const pid = p.firestoreId || p.id;
+      const prodId = prod.firestoreId || prod.id;
+      return pid !== prodId && p.categoria === prod.categoria;
+    }).slice(0, 4);
+
+    if (!relacionados.length) return;
+
+    const section = document.getElementById("related-section");
+    const grid = document.getElementById("related-grid");
+    section.style.display = "block";
+
+    grid.innerHTML = relacionados.map(p => {
+      const pid = p.firestoreId || p.id;
+      return `
+        <div class="related-card" onclick="window.location.href='producto.html?id=${encodeURIComponent(pid)}'">
+          <div class="related-img">
+            <img src="${p.imagen || ""}" onerror="this.src='https://via.placeholder.com/200'" alt="${p.nombre}">
+          </div>
+          <div class="related-body">
+            <div class="related-name">${p.nombre}</div>
+            <div class="related-price">$${formatP(p.precio)}</div>
+          </div>
+        </div>`;
+    }).join("");
+  }
+
+  // ── ERROR ──
+  function mostrarError() {
+    document.getElementById("loading-state").style.display = "none";
+    document.getElementById("error-state").style.display = "block";
+  }
+
+  // ── AGREGAR AL CARRITO DESDE PRODUCTO ──
+  window.agregarDesdeProducto = function() {
+    if (!productoActual) return;
+    const pid = productoActual.firestoreId || productoActual.id;
+    let c = JSON.parse(localStorage.getItem("carritoSVR") || "[]");
+    c.push({ id: pid, nombre: productoActual.nombre, precio: productoActual.precio, imagen: productoActual.imagen });
+    localStorage.setItem("carritoSVR", JSON.stringify(c));
+    renderCarrito();
+    showToast(`✅ ${productoActual.nombre.slice(0, 30)}... agregado`);
+    const btn = document.getElementById("btn-carrito");
+    btn.classList.add("added");
+    btn.innerHTML = `<svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><polyline points="20 6 9 17 4 12"/></svg> ¡Agregado!`;
+    setTimeout(() => {
+      btn.classList.remove("added");
+      btn.innerHTML = `<svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><circle cx="9" cy="21" r="1"/><circle cx="20" cy="21" r="1"/><path d="M1 1h4l2.68 13.39a2 2 0 002 1.61h9.72a2 2 0 002-1.61L23 6H6"/></svg> Agregar al carrito`;
+    }, 2000);
+    setTimeout(() => {
+      document.getElementById("cart-drawer").classList.add("open");
+      document.getElementById("overlay").classList.add("show");
+    }, 400);
+  };
+
+  // ── CARRITO ──
+  function renderCarrito() {
+    const c = JSON.parse(localStorage.getItem("carritoSVR") || "[]");
+    document.getElementById("cart-count").textContent = c.length;
+    const body = document.getElementById("cart-body");
+    if (!c.length) {
+      body.innerHTML = `<div class="cart-empty"><svg width="40" height="40" viewBox="0 0 24 24" fill="none" stroke="#ccc" stroke-width="1.5" style="margin:0 auto 12px"><circle cx="9" cy="21" r="1"/><circle cx="20" cy="21" r="1"/><path d="M1 1h4l2.68 13.39a2 2 0 002 1.61h9.72a2 2 0 002-1.61L23 6H6"/></svg><p>Tu carrito está vacío</p></div>`;
+      document.getElementById("cart-total").textContent = "$0";
+      return;
+    }
+    let total = 0;
+    body.innerHTML = c.map((item, i) => {
+      total += parseInt(item.precio) || 0;
+      return `<div class="cart-item">
+        <img class="cart-item-img" src="${item.imagen}" onerror="this.src='https://via.placeholder.com/60'" alt="${item.nombre}">
+        <div class="cart-item-info">
+          <div class="cart-item-name">${item.nombre}</div>
+          <div class="cart-item-price">$${Number(item.precio).toLocaleString("es-CL")}</div>
+          <span class="cart-item-remove" onclick="quitarItem(${i})">Quitar</span>
+        </div>
+      </div>`;
+    }).join("");
+    document.getElementById("cart-total").textContent = "$" + total.toLocaleString("es-CL");
+  }
+
+  window.quitarItem = function(i) {
+    let c = JSON.parse(localStorage.getItem("carritoSVR") || "[]");
+    c.splice(i, 1);
+    localStorage.setItem("carritoSVR", JSON.stringify(c));
+    renderCarrito();
+  };
+
+  window.toggleCart = function() {
+    renderCarrito();
+    document.getElementById("cart-drawer").classList.toggle("open");
+    document.getElementById("overlay").classList.toggle("show");
+  };
+  window.cerrarCart = function() {
+    document.getElementById("cart-drawer").classList.remove("open");
+    document.getElementById("overlay").classList.remove("show");
+  };
+
+  function showToast(msg) {
+    const wrap = document.getElementById("toast-wrap");
+    const t = document.createElement("div");
+    t.className = "toast";
+    t.textContent = msg;
+    wrap.appendChild(t);
+    setTimeout(() => t.remove(), 2600);
+  }
+
+  // INIT
+  renderCarrito();
+  buscarProducto();
+</script>
+</body>
+</html>

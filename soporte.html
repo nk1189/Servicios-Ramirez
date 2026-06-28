@@ -1,3 +1,4 @@
+
 <!DOCTYPE html>
 <html lang="es">
 <head>
@@ -6,326 +7,88 @@
   <title>Centro de Soporte | Servicios Ramírez</title>
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-  <link href="https://fonts.googleapis.com/css2?family=Roboto:wght@300;400;500;700&display=swap" rel="stylesheet">
-
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800&display=swap" rel="stylesheet">
   <style>
-    /* =========================================
-       VARIABLES Y RESET
-       ========================================= */
-    :root {
-      --primary-color: #000000;
-      --accent-color: #e30613; 
-      --bg-light: #f5f5f7;
-      --bg-white: #ffffff;
-      --text-main: #1d1d1f;
-      --text-muted: #86868b;
-      --border-color: #e5e5e5;
-    }
-
-    * { margin: 0; padding: 0; box-sizing: border-box; font-family: 'Roboto', sans-serif; }
-    body { background-color: var(--bg-light); color: var(--text-main); line-height: 1.6; }
-    a { text-decoration: none; color: inherit; }
-
-    /* =========================================
-       HEADER 
-       ========================================= */
-    .header { background: var(--bg-white); position: sticky; top: 0; z-index: 100; box-shadow: 0 2px 10px rgba(0,0,0,0.05); }
-    .header-container { display: flex; justify-content: space-between; align-items: center; padding: 1rem 5%; max-width: 1200px; margin: 0 auto; }
-    .logo img { height: 35px; cursor: pointer; }
-    .btn-volver { display: flex; align-items: center; gap: 8px; font-weight: 500; color: var(--text-muted); font-size: 0.95rem; transition: color 0.3s; }
-    .btn-volver:hover { color: var(--accent-color); }
-
-    /* =========================================
-       HERO DE SOPORTE (Buscador)
-       ========================================= */
-    .support-hero {
-      background: var(--primary-color);
-      color: var(--bg-white);
-      padding: 4rem 5%;
-      text-align: center;
-    }
-    .support-hero h1 { font-size: 2.5rem; font-weight: 700; margin-bottom: 15px; }
-    .support-hero p { font-size: 1.1rem; color: #ccc; margin-bottom: 30px; }
-    
-    .search-box {
-      max-width: 600px;
-      margin: 0 auto;
-      position: relative;
-    }
-    .search-box input {
-      width: 100%;
-      padding: 15px 20px 15px 50px;
-      border-radius: 30px;
-      border: none;
-      font-size: 1rem;
-      outline: none;
-      box-shadow: 0 4px 15px rgba(0,0,0,0.2);
-    }
-    .search-box svg {
-      position: absolute;
-      left: 20px;
-      top: 50%;
-      transform: translateY(-50%);
-      color: var(--text-muted);
-    }
-
-    /* =========================================
-       CONTENEDOR PRINCIPAL
-       ========================================= */
-    .main-container { max-width: 1200px; margin: 3rem auto; padding: 0 5%; display: grid; grid-template-columns: 1fr 1.5fr; gap: 40px; }
-
-    /* =========================================
-       PANEL IZQUIERDO: CONTACTO RÁPIDO
-       ========================================= */
-    .contact-panel { display: flex; flex-direction: column; gap: 20px; }
-    
-    .contact-card {
-      background: var(--bg-white);
-      padding: 25px;
-      border-radius: 12px;
-      box-shadow: 0 4px 15px rgba(0,0,0,0.03);
-      border: 1px solid var(--border-color);
-      transition: transform 0.3s;
-    }
-    .contact-card:hover { transform: translateY(-3px); }
-    
-    .contact-card h3 { font-size: 1.2rem; margin-bottom: 8px; display: flex; align-items: center; gap: 10px; }
-    .contact-card p { color: var(--text-muted); font-size: 0.95rem; margin-bottom: 15px; }
-
-    .btn-wsp {
-      display: inline-flex; justify-content: center; align-items: center; gap: 8px;
-      width: 100%; padding: 12px; background: #25D366; color: white;
-      border-radius: 8px; font-weight: bold; transition: background 0.3s;
-    }
-    .btn-wsp:hover { background: #128C7E; }
-
-    .social-icons { display: flex; gap: 10px; }
-    .social-icons a {
-      width: 40px; height: 40px; border-radius: 50%; background: var(--bg-light);
-      display: flex; align-items: center; justify-content: center; font-size: 1.2rem; transition: all 0.3s;
-    }
-    .social-icons a:hover { background: var(--accent-color); color: white; transform: scale(1.1); }
-
-    /* =========================================
-       PANEL DERECHO: FORMULARIO Y FAQ
-       ========================================= */
-    .form-panel {
-      background: var(--bg-white);
-      padding: 35px;
-      border-radius: 12px;
-      box-shadow: 0 4px 15px rgba(0,0,0,0.05);
-      border-top: 4px solid var(--accent-color);
-    }
-    .form-panel h2 { font-size: 1.5rem; margin-bottom: 5px; }
-    .form-panel > p { color: var(--text-muted); margin-bottom: 25px; font-size: 0.95rem; }
-
-    form { display: grid; grid-template-columns: 1fr 1fr; gap: 15px; }
-    .full-width { grid-column: 1 / -1; }
-    
-    .input-group label { display: block; font-size: 0.85rem; font-weight: 500; margin-bottom: 5px; color: var(--text-main); }
-    input, textarea {
-      width: 100%; padding: 12px; border: 1px solid var(--border-color); border-radius: 8px;
-      font-size: 0.95rem; outline: none; transition: border-color 0.3s; font-family: inherit; background: #fafafa;
-    }
-    input:focus, textarea:focus { border-color: var(--accent-color); background: #fff; }
-    
-    button[type="submit"] {
-      grid-column: 1 / -1; padding: 14px; background: var(--primary-color); color: white;
-      border: none; border-radius: 8px; font-weight: bold; font-size: 1rem; cursor: pointer; transition: background 0.3s; margin-top: 10px;
-    }
-    button[type="submit"]:hover { background: var(--accent-color); }
-
-    /* =========================================
-       PREGUNTAS FRECUENTES (FAQ)
-       ========================================= */
-    .faq-section { max-width: 1200px; margin: 0 auto 4rem; padding: 0 5%; }
-    .faq-section h2 { font-size: 1.8rem; text-align: center; margin-bottom: 30px; }
-    
-    .faq-item {
-      background: var(--bg-white); margin-bottom: 10px; border-radius: 8px; border: 1px solid var(--border-color);
-      overflow: hidden;
-    }
-    .faq-question {
-      padding: 18px 20px; font-weight: 500; cursor: pointer; display: flex; justify-content: space-between;
-      align-items: center; transition: background 0.3s;
-    }
-    .faq-question:hover { background: #fafafa; }
-    .faq-answer {
-      padding: 0 20px; max-height: 0; overflow: hidden; transition: max-height 0.4s ease, padding 0.4s ease;
-      color: var(--text-muted); font-size: 0.95rem;
-    }
-    
-    .faq-item.active .faq-answer { padding: 15px 20px 20px; max-height: 200px; border-top: 1px solid #eee; }
-    .faq-item.active .faq-icon { transform: rotate(45deg); color: var(--accent-color); }
-    .faq-icon { transition: transform 0.3s; font-size: 1.2rem; }
-
-    /* =========================================
-       RESPONSIVE
-       ========================================= */
-    @media (max-width: 850px) {
-      .main-container { grid-template-columns: 1fr; }
-      form { grid-template-columns: 1fr; }
-    }
+    :root{--bg:#f5f5f7;--surface:#fff;--surface2:#fafafa;--text:#111827;--muted:#6b7280;--border:rgba(0,0,0,.08);--accent:#e30613;--accent2:#b5040f;--dark:#09090b;--green:#16a34a;--radius:18px;--shadow:0 12px 35px rgba(0,0,0,.08);--shadow2:0 6px 18px rgba(0,0,0,.06)}
+    *{margin:0;padding:0;box-sizing:border-box;font-family:'Inter',sans-serif} body{background:linear-gradient(180deg,#f8f8fa 0%,#f2f4f7 100%);color:var(--text);line-height:1.6} a{text-decoration:none;color:inherit} button,input,textarea{font-family:inherit}
+    .header{position:sticky;top:0;z-index:100;background:rgba(255,255,255,.82);backdrop-filter:blur(16px);border-bottom:1px solid var(--border)}
+    .header-container{max-width:1240px;margin:0 auto;padding:16px 24px;display:flex;justify-content:space-between;align-items:center;gap:16px}
+    .logo img{height:36px;display:block}.btn-volver{display:inline-flex;align-items:center;gap:8px;padding:10px 14px;border-radius:999px;background:#fff;border:1px solid var(--border);font-weight:600;color:var(--muted);transition:.2s}.btn-volver:hover{color:var(--accent);box-shadow:var(--shadow2)}
+    .support-hero{background:linear-gradient(135deg,#0b0b0c 0%,#1a1a1e 100%);color:#fff;padding:72px 24px 68px;position:relative;overflow:hidden}.support-hero:before{content:'';position:absolute;inset:-30% -10% auto auto;width:420px;height:420px;background:radial-gradient(circle,rgba(227,6,19,.24) 0%,transparent 70%);pointer-events:none}.support-hero-inner{max-width:1240px;margin:0 auto;position:relative;z-index:1;text-align:center}
+    .support-badge{display:inline-flex;align-items:center;gap:8px;background:rgba(227,6,19,.14);border:1px solid rgba(227,6,19,.2);color:#ff9aa1;padding:6px 12px;border-radius:999px;font-size:.8rem;font-weight:700;letter-spacing:.5px;margin-bottom:16px;text-transform:uppercase}.support-badge:before{content:'';width:7px;height:7px;border-radius:50%;background:var(--accent);display:block}
+    .support-hero h1{font-size:clamp(2rem,4vw,3.2rem);line-height:1.08;letter-spacing:-.04em;margin-bottom:14px}.support-hero p{color:rgba(255,255,255,.72);max-width:60ch;margin:0 auto 26px;font-size:1.02rem}
+    .search-box{max-width:760px;margin:0 auto;position:relative}.search-box input{width:100%;padding:16px 22px 16px 56px;border-radius:999px;border:none;outline:none;background:rgba(255,255,255,.96);box-shadow:0 18px 50px rgba(0,0,0,.25);font-size:1rem}.search-box svg{position:absolute;left:20px;top:50%;transform:translateY(-50%);color:#6b7280}
+    .quick-links{max-width:1240px;margin:18px auto 0;padding:0 24px;display:flex;gap:10px;justify-content:center;flex-wrap:wrap;position:relative;z-index:1}.chip{padding:9px 14px;border-radius:999px;background:rgba(255,255,255,.08);border:1px solid rgba(255,255,255,.12);color:rgba(255,255,255,.86);font-size:.85rem}.chip:hover{background:rgba(255,255,255,.14)}
+    .main-container{max-width:1240px;margin:28px auto;padding:0 24px;display:grid;grid-template-columns:360px 1fr;gap:24px;align-items:start}
+    .contact-panel{display:flex;flex-direction:column;gap:16px}.contact-card{background:var(--surface);padding:22px;border-radius:var(--radius);box-shadow:var(--shadow2);border:1px solid var(--border);transition:.2s}.contact-card:hover{transform:translateY(-2px);box-shadow:var(--shadow)}.contact-card h3{font-size:1.08rem;margin-bottom:8px;display:flex;align-items:center;gap:10px}.contact-card p{color:var(--muted);font-size:.95rem;margin-bottom:14px}.btn-wsp{display:inline-flex;justify-content:center;align-items:center;gap:8px;width:100%;padding:12px 14px;background:linear-gradient(135deg,#25d366,#128c7e);color:#fff;border-radius:12px;font-weight:800;transition:.2s}.btn-wsp:hover{transform:translateY(-1px);box-shadow:0 10px 22px rgba(18,140,126,.22)}
+    .social-icons{display:flex;gap:10px}.social-icons a{width:42px;height:42px;border-radius:12px;background:#f3f4f6;display:flex;align-items:center;justify-content:center;font-size:1.15rem;transition:.2s;border:1px solid var(--border)}.social-icons a:hover{background:var(--accent);color:#fff;transform:translateY(-1px)}
+    .hours{background:linear-gradient(135deg,#111827,#0b0b0c);color:#fff}.hours p{color:rgba(255,255,255,.68);margin:0}
+    .form-panel{background:var(--surface);padding:28px;border-radius:var(--radius);box-shadow:var(--shadow2);border:1px solid var(--border);border-top:4px solid var(--accent)}.form-panel h2{font-size:1.55rem;margin-bottom:6px}.form-panel>p{color:var(--muted);margin-bottom:22px;font-size:.95rem}
+    form{display:grid;grid-template-columns:1fr 1fr;gap:16px}.full-width{grid-column:1/-1}.input-group label{display:block;font-size:.82rem;font-weight:700;margin-bottom:6px;color:var(--text)}
+    input,textarea{width:100%;padding:13px 14px;border:1.5px solid var(--border);border-radius:12px;font-size:.96rem;outline:none;transition:.2s;background:#fbfbfc;color:var(--text)} input:focus,textarea:focus{border-color:var(--accent);background:#fff;box-shadow:0 0 0 4px rgba(227,6,19,.08)}
+    button[type="submit"]{grid-column:1/-1;padding:14px 16px;background:linear-gradient(135deg,#111827,#000);color:#fff;border:none;border-radius:12px;font-weight:800;font-size:1rem;cursor:pointer;transition:.2s;box-shadow:0 12px 26px rgba(0,0,0,.16)} button[type="submit"]:hover{background:linear-gradient(135deg,var(--accent),var(--accent2));transform:translateY(-1px)}
+    .faq-section{max-width:1240px;margin:28px auto 54px;padding:0 24px}.faq-head{display:flex;align-items:end;justify-content:space-between;gap:14px;flex-wrap:wrap;margin-bottom:18px}.faq-section h2{font-size:1.9rem;letter-spacing:-.03em}.faq-section p{color:var(--muted);max-width:58ch}
+    .faq-list{display:grid;gap:12px}.faq-item{background:var(--surface);border-radius:14px;border:1px solid var(--border);overflow:hidden;box-shadow:var(--shadow2)}.faq-question{padding:18px 20px;font-weight:700;cursor:pointer;display:flex;justify-content:space-between;align-items:center;transition:.2s}.faq-question:hover{background:var(--surface2)}.faq-answer{padding:0 20px;max-height:0;overflow:hidden;transition:max-height .35s ease,padding .35s ease;color:var(--muted);font-size:.95rem}.faq-item.active .faq-answer{padding:0 20px 18px;max-height:220px;border-top:1px solid #eee}.faq-item.active .faq-icon{transform:rotate(45deg);color:var(--accent)}.faq-icon{transition:transform .2s;font-size:1.2rem}
+    .footer{background:#fff;border-top:1px solid var(--border);text-align:center;padding:22px 24px;color:var(--muted);font-size:.9rem}
+    @media (max-width: 960px){.main-container{grid-template-columns:1fr}.form-panel{order:1}.contact-panel{order:2}form{grid-template-columns:1fr}.support-hero{padding:56px 20px 50px}}
+    @media (max-width: 560px){.header-container{padding:14px 16px}.btn-volver span{display:none}.support-hero h1{font-size:1.9rem}.support-hero p{font-size:.95rem}.form-panel,.contact-card{padding:18px}.faq-section{padding:0 16px}.main-container{padding:0 16px;margin-top:20px}.search-box input{padding:14px 18px 14px 50px}}
   </style>
 </head>
 <body>
-
-  <!-- HEADER -->
   <header class="header">
     <div class="header-container">
-      <div class="logo">
-        <a href="index.html">
-          <img src="logo-opcion4.svg" alt="Servicios Ramírez" onerror="this.src='https://upload.wikimedia.org/wikipedia/commons/thumb/c/c4/Sony_logo.svg/1200px-Sony_logo.svg.png'" />
-        </a>
-      </div>
-      <a href="index.html" class="btn-volver">
-        <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
-          <line x1="19" y1="12" x2="5" y2="12"></line>
-          <polyline points="12 19 5 12 12 5"></polyline>
-        </svg>
-        Volver a la tienda
-      </a>
+      <div class="logo"><a href="index.html"><img src="logo-opcion4.svg" alt="Servicios Ramírez" onerror="this.src='https://upload.wikimedia.org/wikipedia/commons/thumb/c/c4/Sony_logo.svg/1200px-Sony_logo.svg.png'" /></a></div>
+      <a href="index.html" class="btn-volver"><svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><line x1="19" y1="12" x2="5" y2="12"></line><polyline points="12 19 5 12 12 5"></polyline></svg><span>Volver a la tienda</span></a>
     </div>
   </header>
-
-  <!-- HERO BUSCADOR -->
   <section class="support-hero">
-    <h1>¿En qué te podemos ayudar hoy?</h1>
-    <p>Busca soluciones rápidas o envíanos un mensaje directo.</p>
-    <div class="search-box">
-      <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
-        <circle cx="11" cy="11" r="8"></circle><line x1="21" y1="21" x2="16.65" y2="16.65"></line>
-      </svg>
-      <!-- El buscador es solo visual para el diseño profesional -->
-      <input type="text" placeholder="Ej. Tiempos de envío, garantías, devoluciones...">
+    <div class="support-hero-inner">
+      <div class="support-badge">Centro de ayuda</div>
+      <h1>¿En qué te podemos ayudar hoy?</h1>
+      <p>Encuentra soluciones rápidas, revisa preguntas frecuentes o escríbenos directamente para soporte, stock, compras y envíos.</p>
+      <div class="search-box"><svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="11" cy="11" r="8"></circle><line x1="21" y1="21" x2="16.65" y2="16.65"></line></svg><input type="text" placeholder="Ej. tiempos de envío, garantía, devoluciones..."></div>
+      <div class="quick-links"><a class="chip" href="#faq">Envíos</a><a class="chip" href="#faq">Garantía</a><a class="chip" href="#faq">Pagos</a><a class="chip" href="#contacto">WhatsApp</a><a class="chip" href="#contacto">Correo</a></div>
     </div>
   </section>
-
-  <div class="main-container">
-
-    <!-- IZQUIERDA: TARJETAS DE CONTACTO -->
+  <div class="main-container" id="contacto">
     <aside class="contact-panel">
-      
       <div class="contact-card">
-        <h3>
-          <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M22 16.92v3a2 2 0 0 1-2.18 2 19.79 19.79 0 0 1-8.63-3.07 19.5 19.5 0 0 1-6-6 19.79 19.79 0 0 1-3.07-8.67A2 2 0 0 1 4.11 2h3a2 2 0 0 1 2 1.72 12.84 12.84 0 0 0 .7 2.81 2 2 0 0 1-.45 2.11L8.09 9.91a16 16 0 0 0 6 6l1.27-1.27a2 2 0 0 1 2.11-.45 12.84 12.84 0 0 0 2.81.7A2 2 0 0 1 22 16.92z"></path></svg>
-          Soporte WhatsApp
-        </h3>
-        <p>Respuesta rápida. Ideal para coordinar envíos o consultar stock en tiempo real.</p>
-        <a href="https://wa.me/56932991546" target="_blank" class="btn-wsp">
-          Abrir Chat (+56 9 3299 1546)
-        </a>
+        <h3><svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M22 16.92v3a2 2 0 0 1-2.18 2 19.79 19.79 0 0 1-8.63-3.07 19.5 19.5 0 0 1-6-6 19.79 19.79 0 0 1-3.07-8.67A2 2 0 0 1 4.11 2h3a2 2 0 0 1 2 1.72 12.84 12.84 0 0 0 .7 2.81 2 2 0 0 1-.45 2.11L8.09 9.91a16 16 0 0 0 6 6l1.27-1.27a2 2 0 0 1 2.11-.45 12.84 12.84 0 0 0 2.81.7A2 2 0 0 1 22 16.92z"></path></svg>Soporte WhatsApp</h3><p>Respuesta rápida para coordinar envíos, stock o dudas de compra.</p><a href="https://wa.me/56932991546" target="_blank" rel="noopener noreferrer" class="btn-wsp">Abrir chat +56 9 3299 1546</a>
       </div>
-
       <div class="contact-card">
-        <h3>
-          <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><rect x="2" y="2" width="20" height="20" rx="5" ry="5"></rect><path d="M16 11.37A4 4 0 1 1 12.63 8 4 4 0 0 1 16 11.37z"></path><line x1="17.5" y1="6.5" x2="17.51" y2="6.5"></line></svg>
-          Comunidad
-        </h3>
-        <p>Síguenos en nuestras redes para ver unboxing de productos y ofertas flash.</p>
-        <div class="social-icons">
-          <a href="https://www.instagram.com/servicio_ramirez_expres" target="_blank" title="Instagram">📷</a>
-          <a href="https://www.facebook.com/ramirez.nicolas.pedro.585048" target="_blank" title="Facebook">f</a>
-          <a href="https://www.tiktok.com/@nikito189q" target="_blank" title="TikTok">🎵</a>
-        </div>
+        <h3><svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><rect x="2" y="2" width="20" height="20" rx="5" ry="5"></rect><path d="M16 11.37A4 4 0 1 1 12.63 8 4 4 0 0 1 16 11.37z"></path><line x1="17.5" y1="6.5" x2="17.51" y2="6.5"></line></svg>Redes sociales</h3><p>Síguenos para ver lanzamientos, ofertas y contenido de productos.</p><div class="social-icons"><a href="https://www.instagram.com/servicio_ramirez_expres" target="_blank" rel="noopener noreferrer" title="Instagram">📷</a><a href="https://www.facebook.com/ramirez.nicolas.pedro.585048" target="_blank" rel="noopener noreferrer" title="Facebook">f</a><a href="https://www.tiktok.com/@nikito189q" target="_blank" rel="noopener noreferrer" title="TikTok">🎵</a></div>
       </div>
-
-      <div class="contact-card" style="background: #111; color: white;">
-        <h3 style="color: white;">🕒 Horario de Atención</h3>
-        <p style="color: #aaa; margin-bottom: 0;">Lunes a Viernes: 09:00 - 19:00 hrs.<br>Sábados: 10:00 - 14:00 hrs.</p>
+      <div class="contact-card hours">
+        <h3 style="margin-bottom:10px">🕒 Horario de atención</h3><p>Lunes a Viernes: 09:00 - 19:00 hrs.<br>Sábados: 10:00 - 14:00 hrs.</p>
       </div>
-
+      <div class="contact-card" style="border-left:4px solid var(--accent);background:linear-gradient(180deg,#fff,#fff7f8)">
+        <h3>📧 Correo directo</h3><p>También puedes escribirnos con tu número de pedido o captura del problema.</p><a class="btn-wsp" href="mailto:serviciosramirezexpres@gmail.com" style="background:linear-gradient(135deg,#111827,#000);">Enviar correo</a>
+      </div>
     </aside>
-
-    <!-- DERECHA: FORMULARIO -->
     <main class="form-panel">
-      <h2>Envíanos un correo</h2>
-      <p>Completa el formulario y un especialista de Servicios Ramírez te responderá en menos de 24 horas.</p>
-
+      <h2>Envíanos un correo</h2><p>Completa el formulario y te responderemos lo antes posible.</p>
       <form action="https://formspree.io/f/xgvrwwrg" method="POST">
-        
-        <div class="input-group">
-          <label>Nombre Completo</label>
-          <input type="text" name="nombre" placeholder="Ej. Juan Pérez" required>
-        </div>
-        
-        <div class="input-group">
-          <label>Correo Electrónico</label>
-          <input type="email" name="email" placeholder="ejemplo@correo.com" required>
-        </div>
-
-        <div class="input-group full-width">
-          <label>Asunto</label>
-          <input type="text" name="asunto" placeholder="¿Sobre qué nos escribes?" required>
-        </div>
-
-        <div class="input-group full-width">
-          <label>Mensaje</label>
-          <textarea name="mensaje" rows="5" placeholder="Detalla tu consulta aquí..." required></textarea>
-        </div>
-
-        <!-- Campo oculto para que Formspree sepa a dónde volver tras enviar -->
+        <div class="input-group"><label>Nombre completo</label><input type="text" name="nombre" placeholder="Ej. Juan Pérez" required></div>
+        <div class="input-group"><label>Correo electrónico</label><input type="email" name="email" placeholder="ejemplo@correo.com" required></div>
+        <div class="input-group full-width"><label>Asunto</label><input type="text" name="asunto" placeholder="¿Sobre qué nos escribes?" required></div>
+        <div class="input-group full-width"><label>Mensaje</label><textarea name="mensaje" rows="6" placeholder="Detalla tu consulta aquí..." required></textarea></div>
         <input type="hidden" name="_next" value="index.html">
-
         <button type="submit">Enviar Mensaje</button>
       </form>
     </main>
-
   </div>
-
-  <!-- SECCIÓN FAQ -->
-  <section class="faq-section">
-    <h2>Preguntas Frecuentes</h2>
-    
-    <div class="faq-item">
-      <div class="faq-question" onclick="toggleFaq(this)">
-        ¿Hacen envíos a todo Chile?
-        <span class="faq-icon">+</span>
-      </div>
-      <div class="faq-answer">
-        Sí, enviamos a todo el territorio nacional a través de Starken o Chilexpress por pagar. Los tiempos de envío varían entre 2 a 5 días hábiles dependiendo de la región.
-      </div>
-    </div>
-
-    <div class="faq-item">
-      <div class="faq-question" onclick="toggleFaq(this)">
-        ¿Tienen tienda física?
-        <span class="faq-icon">+</span>
-      </div>
-      <div class="faq-answer">
-        Actualmente operamos de manera 100% online, pero realizamos entregas presenciales coordinadas previamente en Quillota, Región de Valparaíso.
-      </div>
-    </div>
-
-    <div class="faq-item">
-      <div class="faq-question" onclick="toggleFaq(this)">
-        ¿Qué garantía tienen los productos?
-        <span class="faq-icon">+</span>
-      </div>
-      <div class="faq-answer">
-        Todos nuestros productos nuevos cuentan con 3 meses de garantía legal por fallas de fábrica. Los productos de segunda mano son rigurosamente probados y cuentan con 1 mes de garantía.
-      </div>
+  <section class="faq-section" id="faq">
+    <div class="faq-head"><div><h2>Preguntas frecuentes</h2><p>Respuestas rápidas a las dudas más comunes sobre compras, envíos y garantías.</p></div></div>
+    <div class="faq-list">
+      <div class="faq-item"><div class="faq-question" onclick="toggleFaq(this)">¿Hacen envíos a todo Chile?<span class="faq-icon">+</span></div><div class="faq-answer">Sí, enviamos a todo Chile por Starken o Chilexpress. El tiempo estimado es de 2 a 5 días hábiles según la región.</div></div>
+      <div class="faq-item"><div class="faq-question" onclick="toggleFaq(this)">¿Tienen tienda física?<span class="faq-icon">+</span></div><div class="faq-answer">Operamos 100% online, pero podemos coordinar entregas presenciales previamente en Quillota, Región de Valparaíso.</div></div>
+      <div class="faq-item"><div class="faq-question" onclick="toggleFaq(this)">¿Qué garantía tienen los productos?<span class="faq-icon">+</span></div><div class="faq-answer">Los productos nuevos cuentan con garantía legal por fallas de fábrica. En productos usados, la garantía se informa en cada publicación.</div></div>
+      <div class="faq-item"><div class="faq-question" onclick="toggleFaq(this)">¿Cómo reviso el estado de mi compra?<span class="faq-icon">+</span></div><div class="faq-answer">Ingresa a tu cuenta y revisa la sección Mis Pedidos. Ahí verás tus compras, estado y total.</div></div>
     </div>
   </section>
-
-  <!-- FOOTER MINIMALISTA -->
-  <footer style="background: #fff; border-top: 1px solid var(--border-color); text-align: center; padding: 2rem 5%; color: var(--text-muted); font-size: 0.9rem;">
-    <p>© 2026 SERVICIOS RAMÍREZ. TODOS LOS DERECHOS RESERVADOS.</p>
-  </footer>
-
+  <footer class="footer">© 2026 Servicios Ramírez. Todos los derechos reservados.</footer>
   <script>
-    // Lógica para abrir/cerrar las Preguntas Frecuentes
-    function toggleFaq(element) {
-      const parent = element.parentElement;
-      
-      // Si quieres que solo haya una abierta a la vez, descomenta esto:
-      // document.querySelectorAll('.faq-item').forEach(item => {
-      //   if(item !== parent) item.classList.remove('active');
-      // });
-
-      parent.classList.toggle('active');
-    }
+    function toggleFaq(el){ const item = el.parentElement; document.querySelectorAll('.faq-item').forEach(i => { if(i !== item) i.classList.remove('active'); }); item.classList.toggle('active'); }
   </script>
-
 </body>
 </html>

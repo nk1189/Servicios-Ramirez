@@ -4,364 +4,407 @@
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <title>Pago Seguro | Servicios Ramírez</title>
-  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&display=swap" rel="stylesheet">
-  
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800&display=swap" rel="stylesheet">
   <style>
-    /* =========================================================
-       VARIABLES Y RESET
-       ========================================================= */
-    :root {
-      --bg-color: #f5f5f7;
-      --surface: #ffffff;
-      --text-main: #1d1d1f;
-      --text-muted: #86868b;
-      --accent: #0066cc;
-      --border: #d2d2d7;
-      --black: #000000;
-    }
-    * { margin: 0; padding: 0; box-sizing: border-box; font-family: 'Inter', sans-serif; }
-    body { background: var(--bg-color); color: var(--text-main); line-height: 1.5; }
-    
-    .header { background: rgba(255, 255, 255, 0.8); backdrop-filter: blur(10px); padding: 20px 5%; display: flex; justify-content: space-between; align-items: center; border-bottom: 1px solid var(--border); position: sticky; top: 0; z-index: 100;}
-    .header a { color: var(--accent); text-decoration: none; font-weight: 500; font-size: 0.95rem; }
-    .secure-badge { display: flex; align-items: center; gap: 8px; font-size: 0.9rem; color: #107c10; font-weight: 600; }
-
-    .checkout-wrapper { max-width: 1100px; margin: 40px auto; padding: 0 5%; display: grid; grid-template-columns: 1.5fr 1fr; gap: 40px; }
-    @media (max-width: 800px) { .checkout-wrapper { grid-template-columns: 1fr; } }
-
-    /* FORMULARIO */
-    .form-section { background: var(--surface); padding: 40px; border-radius: 20px; box-shadow: 0 10px 30px rgba(0,0,0,0.03); }
-    .section-title { font-size: 1.4rem; font-weight: 600; margin-bottom: 25px; border-bottom: 1px solid #eee; padding-bottom: 10px;}
-    .form-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 20px; margin-bottom: 30px; }
-    .full-width { grid-column: 1 / -1; }
-    .input-group label { display: block; font-size: 0.85rem; color: var(--text-muted); margin-bottom: 8px; font-weight: 500; }
-    .input-group input { width: 100%; padding: 12px; border: 1px solid var(--border); border-radius: 10px; font-size: 1rem; background: #fafafa; }
-    .input-group input:focus { background: var(--surface); border-color: var(--accent); outline: none; }
-
-    /* SELECTOR DE PAGO (Radio Cards) */
-    .payment-methods-grid { display: grid; grid-template-columns: 1fr; gap: 15px; margin-bottom: 30px; }
-    .pay-card-label { cursor: pointer; display: block; }
-    .pay-card-label input[type="radio"] { display: none; }
-    .pay-card { border: 2px solid var(--border); border-radius: 12px; padding: 15px 20px; display: flex; align-items: center; gap: 15px; transition: all 0.3s; background: #fff; }
-    .pay-card-label input[type="radio"]:checked + .pay-card { border-color: var(--accent); background: rgba(0, 102, 204, 0.05); box-shadow: 0 4px 10px rgba(0, 102, 204, 0.1); }
-    .radio-circle { width: 20px; height: 20px; border-radius: 50%; border: 2px solid var(--border); display: flex; align-items: center; justify-content: center; }
-    .pay-card-label input[type="radio"]:checked + .pay-card .radio-circle { border-color: var(--accent); }
-    .pay-card-label input[type="radio"]:checked + .pay-card .radio-circle::after { content: ''; width: 10px; height: 10px; background: var(--accent); border-radius: 50%; }
-    .pay-card-info { flex: 1; }
-    .pay-title { font-weight: 600; font-size: 1rem; color: var(--text-main); display: block;}
-    .pay-desc { font-size: 0.85rem; color: var(--text-muted); }
-    
-    /* DATOS BANCARIOS (Ocultos por defecto) */
-    .bank-details {
-      display: none;
-      background: #f8fafc; border: 1px solid #c7d2fe;
-      padding: 15px; border-radius: 10px; margin-top: 10px;
-      font-size: 0.9rem; color: #3730a3; line-height: 1.6;
-    }
-    .pay-card-label input[value="Transferencia Bancaria"]:checked ~ .bank-details { display: block; }
-    
-    .btn-submit { background: var(--black); color: white; width: 100%; padding: 18px; border: none; border-radius: 12px; font-size: 1.1rem; font-weight: 600; cursor: pointer; margin-top: 10px; transition: 0.3s; }
-    .btn-submit:hover { background: var(--accent); }
-
-    /* RESUMEN OSCURO */
-    .summary-section { background: var(--black); color: white; padding: 40px; border-radius: 20px; height: fit-content; position: sticky; top: 100px;}
-    .summary-title { font-size: 1.2rem; font-weight: 500; border-bottom: 1px solid #333; padding-bottom: 20px; margin-bottom: 20px; }
-    .item-list { max-height: 350px; overflow-y: auto; }
-    .checkout-item { display: flex; align-items: center; margin-bottom: 20px; gap: 15px; }
-    .item-img { width: 60px; height: 60px; background: white; border-radius: 10px; padding: 5px; object-fit: contain; }
-    .item-details { flex: 1; }
-    .item-name { font-size: 0.95rem; font-weight: 500; margin-bottom: 5px; }
-    .summary-totals { border-top: 1px dashed #333; margin-top: 20px; padding-top: 20px; }
-    .total-row { display: flex; justify-content: space-between; margin-bottom: 10px; color: #aaa; }
-    .total-final { display: flex; justify-content: space-between; align-items: center; margin-top: 15px; padding-top: 15px; border-top: 1px solid #444; font-size: 1.5rem; font-weight: 700; color: #fff; }
-
-    /* =========================================================
-       OVERLAY DE CARGA (SPINNER Y CHECK)
-       ========================================================= */
-    .loading-overlay {
-      position: fixed; top: 0; left: 0; width: 100%; height: 100%;
-      background: rgba(0,0,0,0.85); backdrop-filter: blur(5px);
-      display: flex; flex-direction: column; align-items: center; justify-content: center;
-      z-index: 9999; visibility: hidden; opacity: 0; transition: 0.3s;
-    }
-    .loading-overlay.active { visibility: visible; opacity: 1; }
-    
-    .spinner {
-      width: 60px; height: 60px;
-      border: 5px solid rgba(255,255,255,0.3);
-      border-top: 5px solid var(--accent);
-      border-radius: 50%;
-      animation: spin 1s linear infinite;
-      margin-bottom: 20px;
-    }
-    @keyframes spin { 0% { transform: rotate(0deg); } 100% { transform: rotate(360deg); } }
-
-    .loading-text { color: white; font-size: 1.2rem; font-weight: 500; text-align: center; }
-
-    .success-mark {
-      width: 80px; height: 80px;
-      background: #107c10; border-radius: 50%;
-      display: none; align-items: center; justify-content: center;
-      margin-bottom: 20px; animation: popIn 0.5s cubic-bezier(0.175, 0.885, 0.32, 1.275);
-    }
-    .success-mark svg { color: white; width: 40px; height: 40px; }
-    @keyframes popIn { 0% { transform: scale(0); } 100% { transform: scale(1); } }
+    :root{--bg:#f5f5f7;--surface:#ffffff;--surface2:#f8fafc;--text:#1d1d1f;--muted:#6b7280;--accent:#0066cc;--accent2:#e30613;--border:#d2d2d7;--dark:#000;--green:#16a34a;--orange:#f59e0b}
+    *{margin:0;padding:0;box-sizing:border-box;font-family:'Inter',sans-serif}body{background:var(--bg);color:var(--text);line-height:1.5}a{text-decoration:none;color:inherit}button,input,select{font-family:inherit}
+    .header{background:rgba(255,255,255,.82);backdrop-filter:blur(14px);padding:18px 5%;display:flex;justify-content:space-between;align-items:center;border-bottom:1px solid var(--border);position:sticky;top:0;z-index:50}.header a{color:var(--accent);font-weight:600;font-size:.95rem}.secure{display:flex;align-items:center;gap:8px;font-size:.9rem;color:var(--green);font-weight:700}
+    .wrap{max-width:1120px;margin:36px auto;padding:0 5%;display:grid;grid-template-columns:1.35fr .95fr;gap:32px}.card{background:var(--surface);border:1px solid rgba(0,0,0,.06);border-radius:20px;box-shadow:0 14px 35px rgba(0,0,0,.05)}.form{padding:34px}.title{font-size:1.25rem;font-weight:800;margin-bottom:22px;padding-bottom:10px;border-bottom:1px solid #eee}.grid{display:grid;grid-template-columns:1fr 1fr;gap:16px;margin-bottom:24px}.full{grid-column:1/-1}.field label{display:block;font-size:.8rem;color:var(--muted);margin-bottom:7px;font-weight:600;text-transform:uppercase;letter-spacing:.4px}.field input{width:100%;padding:12px 14px;border:1.5px solid var(--border);border-radius:10px;background:#fafafa;font-size:.95rem;outline:none;transition:.2s}.field input:focus{background:#fff;border-color:var(--accent);box-shadow:0 0 0 3px rgba(0,102,204,.08)}
+    .pm-list{display:grid;gap:12px;margin-bottom:22px}.pm{cursor:pointer;display:block}.pm input{display:none}.pm-box{border:2px solid var(--border);background:#fff;border-radius:14px;padding:14px 16px;display:flex;gap:12px;align-items:flex-start;transition:.2s}.pm-box:hover{border-color:#aaa}.pm input:checked + .pm-box{border-color:var(--accent);background:rgba(0,102,204,.04)}.dot{width:20px;height:20px;border-radius:50%;border:2px solid var(--border);display:flex;align-items:center;justify-content:center;flex-shrink:0;margin-top:2px}.pm input:checked + .pm-box .dot{border-color:var(--accent)}.pm input:checked + .pm-box .dot::after{content:'';width:10px;height:10px;border-radius:50%;background:var(--accent)}.pm-info{flex:1}.pm-title{font-weight:800;font-size:.98rem}.pm-desc{font-size:.82rem;color:var(--muted);margin-top:2px}
+    .bank-info{display:none;background:#eef2ff;border:1px solid #c7d2fe;padding:14px;border-radius:12px;margin-top:10px;color:#3730a3;font-size:.88rem;line-height:1.7}
+    .coupon{display:flex;gap:10px;align-items:center;margin-bottom:22px}.coupon input{flex:1;padding:12px 14px;border:1.5px solid var(--border);border-radius:10px;background:#fafafa;font-size:.95rem;outline:none}.coupon button{padding:12px 16px;border-radius:10px;background:var(--accent);color:#fff;font-weight:800;border:none;cursor:pointer}.coupon-msg{font-size:.88rem;margin-top:8px;color:var(--muted)}.coupon-msg.ok{color:var(--green)}.coupon-msg.bad{color:#dc2626}
+    .btn{width:100%;padding:15px;border:none;border-radius:12px;font-size:1rem;font-weight:800;cursor:pointer;transition:.2s}.btn-primary{background:var(--dark);color:#fff}.btn-primary:hover{background:#e30613}.btn-primary:disabled{background:#222;opacity:.55;cursor:not-allowed}
+    .summary{padding:28px;background:var(--dark);color:#fff;position:sticky;top:92px;height:fit-content;border-radius:20px}.summary h3{font-size:1.05rem;font-weight:800;padding-bottom:14px;margin-bottom:16px;border-bottom:1px solid #222}.list{max-height:350px;overflow:auto;padding-right:4px}.item{display:flex;gap:12px;align-items:center;padding:14px 0;border-bottom:1px solid #1e1e1e}.thumb{width:58px;height:58px;background:#fff;border-radius:12px;padding:6px;object-fit:contain;flex-shrink:0}.name{font-size:.9rem;font-weight:700;margin-bottom:4px}.price{font-size:.88rem;color:#c7d2fe;font-weight:800}.totals{border-top:1px dashed #333;margin-top:18px;padding-top:18px}.row{display:flex;justify-content:space-between;margin-bottom:10px;color:#b3b3b3;font-size:.92rem}.final{display:flex;justify-content:space-between;align-items:center;padding-top:14px;border-top:1px solid #222;font-size:1.2rem;font-weight:900}
+    .loading{position:fixed;inset:0;background:rgba(0,0,0,.88);backdrop-filter:blur(5px);display:none;align-items:center;justify-content:center;flex-direction:column;z-index:9999}.loading.active{display:flex}.spin{width:58px;height:58px;border:5px solid rgba(255,255,255,.25);border-top-color:#e30613;border-radius:50%;animation:spin 1s linear infinite;margin-bottom:16px}@keyframes spin{to{transform:rotate(360deg)}}.ok-icon{display:none;width:78px;height:78px;border-radius:50%;background:var(--green);align-items:center;justify-content:center;margin-bottom:16px;animation:pop .45s cubic-bezier(.175,.885,.32,1.275)}.ok-icon svg{width:38px;height:38px;color:#fff}@keyframes pop{from{transform:scale(0)}to{transform:scale(1)}}.loading h2{color:#fff;font-size:1.2rem;margin-bottom:6px}.loading p{color:#aaa;font-size:.9rem}
+    .notice{margin-top:14px;padding:12px 14px;border-radius:12px;background:#eff6ff;border:1px solid #bfdbfe;color:#1d4ed8;font-size:.88rem;line-height:1.5}
+    .wa-notice{display:none;margin-top:10px;padding:12px 14px;border-radius:12px;background:#f0fdf4;border:1px solid #bbf7d0;color:#15803d;font-size:.85rem;line-height:1.5}
+    @media(max-width:900px){.wrap{grid-template-columns:1fr}.summary{position:relative;top:0}}@media(max-width:640px){.grid{grid-template-columns:1fr}.form{padding:22px}.coupon{flex-direction:column;align-items:stretch}}
   </style>
 </head>
 <body>
 
-  <!-- PANTALLA DE CARGA Y ÉXITO -->
-  <div class="loading-overlay" id="loading-screen">
-    <div class="spinner" id="spinner-anim"></div>
-    <div class="success-mark" id="success-anim">
-      <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3"><polyline points="20 6 9 17 4 12"></polyline></svg>
-    </div>
-    <h2 class="loading-text" id="loading-msg">Procesando pedido...</h2>
-    <p style="color:#aaa; font-size:0.9rem; margin-top:10px;" id="loading-submsg">Por favor no cierres esta ventana.</p>
+<div class="loading" id="loading-screen">
+  <div class="spin" id="spinner-anim"></div>
+  <div class="ok-icon" id="success-anim">
+    <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3"><polyline points="20 6 9 17 4 12"/></svg>
   </div>
+  <h2 id="loading-msg">Procesando pedido...</h2>
+  <p id="loading-submsg">Por favor no cierres esta ventana.</p>
+</div>
 
-  <header class="header">
-    <a href="tiendaSVR.html">← Volver a la Tienda</a>
-    <div class="secure-badge">Checkout Seguro 🔒</div>
-  </header>
+<header class="header">
+  <a href="tiendaSVR.html">← Volver a la Tienda</a>
+  <div class="secure">Checkout Seguro 🔒</div>
+</header>
 
-  <main class="checkout-wrapper">
-    
-    <section class="form-section">
-      <!-- REEMPLAZA TU_ID_FORMSPREE AQUI -->
-      <form action="https://formspree.io/f/xgvrwwrg" method="POST" id="form-compra">
-        
-        <h2 class="section-title">1. Detalles de Envío</h2>
-        <div class="form-grid">
-          <div class="input-group full-width"><label>Nombre Completo</label><input type="text" name="Nombre" id="input-nombre" required placeholder="Ej: Pedro Ramírez"></div>
-          <div class="input-group full-width"><label>Correo Electrónico</label><input type="email" name="Email" id="input-correo" required placeholder="correo@ejemplo.com"></div>
-          <div class="input-group full-width"><label>Teléfono / WhatsApp</label><input type="tel" name="Telefono" id="input-telefono" required placeholder="+56 9..."></div>
-          <div class="input-group full-width"><label>Dirección</label><input type="text" name="Direccion" id="input-direccion" required placeholder="Calle, Número, Depto"></div>
-        </div>
-
-        <h2 class="section-title">2. Método de Pago</h2>
-        <div class="payment-methods-grid" id="lista-metodos-pago">
-          <!-- Opciones inyectadas por JS -->
-        </div>
-
-        <input type="hidden" name="Productos_Comprados" id="datos-ocultos-productos" value="">
-        <input type="hidden" name="Metodo_de_Pago_Seleccionado" id="metodo-pago-oculto" value="Transferencia Bancaria">
-
-        <button type="submit" class="btn-submit" id="btn-finalizar">Confirmar Pedido</button>
-      </form>
-    </section>
-
-    <aside class="summary-section">
-      <h3 class="summary-title">Resumen de tu Pedido</h3>
-      <div class="item-list" id="checkout-items"></div>
-      <div class="summary-totals">
-        <div class="total-row"><span>Subtotal</span><span id="checkout-subtotal">$0</span></div>
-        <div class="total-row"><span>Envío</span><span style="color:#4ade80;">Gratis</span></div>
-        <div class="total-final"><span>Total</span><span id="checkout-total" style="color:#407ce8;">$0</span></div>
+<main class="wrap">
+  <section class="card form">
+    <form id="form-compra">
+      <h2 class="title">1. Detalles de Envío</h2>
+      <div class="grid">
+        <div class="field full"><label>Nombre Completo</label><input type="text" id="input-nombre" required placeholder="Ej: Pedro Ramírez"></div>
+        <div class="field full"><label>Correo Electrónico</label><input type="email" id="input-correo" required placeholder="correo@ejemplo.com"></div>
+        <div class="field full"><label>Teléfono / WhatsApp</label><input type="tel" id="input-telefono" required placeholder="+56 9..."></div>
+        <div class="field full"><label>Dirección</label><input type="text" id="input-direccion" required placeholder="Calle, Número, Depto"></div>
       </div>
-      <button onclick="limpiarCarritoRoto()" style="width:100%; margin-top:20px; background:none; border:none; color:#ef4444; cursor:pointer; text-decoration:underline;">Vaciar carrito y salir</button>
-    </aside>
 
-  </main>
+      <h2 class="title">2. Método de Pago</h2>
+      <div class="pm-list" id="lista-metodos-pago">
+        <!-- Se genera dinámicamente -->
+      </div>
+      <div class="wa-notice" id="wa-notice">
+        📲 Al confirmar, se abrirá WhatsApp para que puedas enviar tu comprobante de transferencia al vendedor.
+      </div>
 
-  <script>
-    function formatP(num) { return num.toString().replace(/\B(?=(\d{3})+(?!\d))/g, "."); }
-    function limpiarCarritoRoto() { localStorage.removeItem('carritoSVR'); window.location.href = 'tiendaSVR.html'; }
+      <h2 class="title" style="margin-top:8px;">3. Código de descuento</h2>
+      <div class="coupon">
+        <input type="text" id="input-cupon" placeholder="Ingresa tu código">
+        <button type="button" id="btn-validar-cupon">Aplicar</button>
+      </div>
+      <div id="coupon-msg" class="coupon-msg"></div>
 
-    let totalGlobal = 0; 
-    let carritoGlobal = [];
+      <input type="hidden" id="metodo-pago-oculto" value="Transferencia Bancaria">
+      <button type="submit" class="btn btn-primary" id="btn-finalizar" style="margin-top:20px;">Confirmar Pedido</button>
+      <div class="notice">Tu pedido se guardará y el stock se descontará al confirmar.</div>
+    </form>
+  </section>
 
-    document.addEventListener("DOMContentLoaded", () => {
-      const checkoutItemsDiv = document.getElementById('checkout-items');
-      const checkoutSubDiv = document.getElementById('checkout-subtotal');
-      const checkoutTotalDiv = document.getElementById('checkout-total');
-      const inputOculto = document.getElementById('datos-ocultos-productos');
-      
-      carritoGlobal = JSON.parse(localStorage.getItem('carritoSVR')) || [];
-      if(carritoGlobal.length === 0) {
-        checkoutItemsDiv.innerHTML = '<p style="text-align:center; color:#888;">Tu carrito está vacío.</p>';
-        document.getElementById('btn-finalizar').disabled = true;
-        document.getElementById('btn-finalizar').style.background = '#333';
-        return;
-      }
+  <aside class="summary">
+    <h3>Resumen de tu Pedido</h3>
+    <div class="list" id="checkout-items"></div>
+    <div class="totals">
+      <div class="row"><span>Subtotal</span><span id="checkout-subtotal">$0</span></div>
+      <div class="row"><span>Envío</span><span id="checkout-shipping">$0</span></div>
+      <div class="row"><span>Descuento</span><span id="checkout-discount">$0</span></div>
+      <div class="final"><span>Total</span><span id="checkout-total" style="color:#60a5fa">$0</span></div>
+    </div>
+    <button onclick="limpiarCarritoRoto()" style="width:100%;margin-top:16px;background:none;border:none;color:#ef4444;cursor:pointer;text-decoration:underline;font-size:.85rem;">Vaciar carrito y salir</button>
+  </aside>
+</main>
 
-      let resumenParaCorreo = "=== NUEVO PEDIDO ===\n\nPRODUCTOS:\n";
+<script type="module">
+  import { initializeApp } from "https://www.gstatic.com/firebasejs/12.15.0/firebase-app.js";
+  import { getFirestore, collection, addDoc, serverTimestamp, doc, getDoc, updateDoc, setDoc } from "https://www.gstatic.com/firebasejs/12.15.0/firebase-firestore.js";
+  import { getAuth, onAuthStateChanged } from "https://www.gstatic.com/firebasejs/12.15.0/firebase-auth.js";
 
-      carritoGlobal.forEach((item) => {
-        let precioSinPuntos = String(item.precio).replace(/\./g, '').replace(/,/g, '');
-        let precioLimpio = parseInt(precioSinPuntos, 10);
-        if(isNaN(precioLimpio)) { precioLimpio = 0; }
-        totalGlobal += precioLimpio; 
-        
-        checkoutItemsDiv.innerHTML += `
-          <div class="checkout-item">
-            <img src="${item.imagen || ''}" class="item-img">
-            <div class="item-details">
-              <div class="item-name">${item.nombre}</div>
-              <div style="color:#fff; font-weight:bold;">$${formatP(precioLimpio)}</div>
+  const firebaseConfig = { apiKey:"AIzaSyB7IODeAnczMkBq8UoeqZkJWpw9wZbxYZk", authDomain:"servicios-ramirez.firebaseapp.com", projectId:"servicios-ramirez", storageBucket:"servicios-ramirez.firebasestorage.app", messagingSenderId:"540818066798", appId:"1:540818066798:web:47bf4d3f68d6959f6fc57f" };
+  const app = initializeApp(firebaseConfig), db = getFirestore(app), auth = getAuth(app);
+
+  let carritoGlobal = [], totalGlobal = 0, usuarioActual = null;
+  let couponApplied = null, discountAmount = 0, shippingAmount = 0;
+  let claveStorage = null; // svr_datos_{uid}
+
+  // ─── STORAGE UNIFICADO (misma clave que perfil.html) ─────────────────────
+  function getDatos() {
+    if (!claveStorage) return {};
+    const raw = localStorage.getItem(claveStorage);
+    return raw ? JSON.parse(raw) : {};
+  }
+
+  // Guarda el pedido en el array acumulativo svr_pedidos_{uid}
+  function guardarPedidoLocal(pedido) {
+    if (!claveStorage) return;
+    const clavePedidos = claveStorage.replace('svr_datos_', 'svr_pedidos_');
+    const lista = JSON.parse(localStorage.getItem(clavePedidos) || '[]');
+    lista.push(pedido);
+    localStorage.setItem(clavePedidos, JSON.stringify(lista));
+  }
+
+  function formatP(n) { return Number(n).toLocaleString('es-CL'); }
+  window.limpiarCarritoRoto = function() { localStorage.removeItem('carritoSVR'); window.location.href='tiendaSVR.html'; };
+
+  function calcShipping(subtotal) { return subtotal >= 19990 ? 0 : 4990; }
+
+  function updateTotals() {
+    shippingAmount = calcShipping(totalGlobal);
+    const total = Math.max(0, totalGlobal + shippingAmount - discountAmount);
+    document.getElementById('checkout-subtotal').textContent = '$' + formatP(totalGlobal);
+    document.getElementById('checkout-shipping').textContent = shippingAmount === 0 ? 'Gratis' : '$' + formatP(shippingAmount);
+    document.getElementById('checkout-discount').textContent = discountAmount > 0 ? '-$' + formatP(discountAmount) : '$0';
+    document.getElementById('checkout-total').textContent = '$' + formatP(total);
+    return total;
+  }
+
+  // ─── MÉTODO DE PAGO ───────────────────────────────────────────────────────
+  function seleccionarMetodo(valor) {
+    document.getElementById('metodo-pago-oculto').value = valor;
+    // Mostrar aviso WhatsApp solo si es transferencia
+    const esTransferencia = valor === 'Transferencia Bancaria';
+    document.getElementById('wa-notice').style.display = esTransferencia ? 'block' : 'none';
+    // Mostrar datos bancarios solo si es transferencia
+    document.querySelectorAll('.bank-info').forEach(b => b.style.display = 'none');
+    if (esTransferencia) {
+      const bancoEl = document.getElementById('banco-datos');
+      if (bancoEl) bancoEl.style.display = 'block';
+    }
+  }
+
+  function renderMethods() {
+    const cont = document.getElementById('lista-metodos-pago');
+    const datos = getDatos();
+    const tarjetas = datos.tarjetas || [];
+
+    // Opción transferencia (siempre primera)
+    let html = `
+      <label class="pm">
+        <input type="radio" name="pago-radio" value="Transferencia Bancaria" checked onchange="seleccionarMetodo('Transferencia Bancaria')">
+        <div class="pm-box">
+          <div class="dot"></div>
+          <div class="pm-info">
+            <div class="pm-title">🏦 Transferencia Bancaria</div>
+            <div class="pm-desc">Banco Estado · Cuenta RUT · Confirmación manual vía WhatsApp</div>
+            <div class="bank-info" id="banco-datos" style="display:block;">
+              <strong>Datos para transferencia:</strong><br>
+              Banco: Banco Estado<br>
+              Tipo: Cuenta RUT<br>
+              RUT: 12.345.678-9<br>
+              Nombre: Pedro Ramírez<br>
+              Correo: contacto@ejemplo.com
             </div>
           </div>
-        `;
-        resumenParaCorreo += `- ${item.nombre} ($${formatP(precioLimpio)})\n`;
-      });
-      checkoutSubDiv.textContent = checkoutTotalDiv.textContent = '$' + formatP(totalGlobal);
-      
-      resumenParaCorreo += `\nTOTAL A PAGAR: $${formatP(totalGlobal)}`;
-      inputOculto.value = resumenParaCorreo;
+        </div>
+      </label>`;
 
-
-      // ==========================================
-      // AUTORELLENAR Y MOSTRAR MÉTODOS DE PAGO
-      // ==========================================
-      const listaPagosDiv = document.getElementById('lista-metodos-pago');
-      const correoActivo = localStorage.getItem('usuarioActivo');
-      let metodosDePagoUsuario = [];
-
-      if (correoActivo) {
-        const cuentaUsuario = JSON.parse(localStorage.getItem('cuenta_' + correoActivo));
-        if (cuentaUsuario) {
-          document.getElementById('input-nombre').value = cuentaUsuario.nombre || "";
-          document.getElementById('input-correo').value = cuentaUsuario.correo || "";
-          document.getElementById('input-telefono').value = cuentaUsuario.telefono || "";
-          document.getElementById('input-direccion').value = cuentaUsuario.direccion || "";
-
-          if (cuentaUsuario.tarjetas) { metodosDePagoUsuario = cuentaUsuario.tarjetas; }
-        }
-      }
-
-      // SIEMPRE mostramos la opción de Transferencia Bancaria
-      let htmlPagos = `
-        <label class="pay-card-label" onclick="actualizarMetodoSeleccionado('Transferencia Bancaria')">
-          <!-- Marcada por defecto -->
-          <input type="radio" name="pago-radio" value="Transferencia Bancaria" checked>
-          <div class="pay-card">
-            <div class="radio-circle"></div>
-            <div class="pay-card-info">
-              <span class="pay-title">Transferencia Bancaria</span>
-              <span class="pay-desc">Transfiere directo a nuestra cuenta</span>
+    // Tarjetas guardadas del perfil
+    tarjetas.forEach((t, i) => {
+      const numOculto = t.numero && t.numero.length > 4 ? '**** ' + t.numero.slice(-4) : '**** ' + (t.numero || '????');
+      const valorMetodo = `${t.tipo}: ${numOculto} (exp. ${t.vencimiento})`;
+      html += `
+        <label class="pm">
+          <input type="radio" name="pago-radio" value="${valorMetodo}" onchange="seleccionarMetodo('${valorMetodo}')">
+          <div class="pm-box">
+            <div class="dot"></div>
+            <div class="pm-info">
+              <div class="pm-title">💳 ${t.tipo} ${numOculto}</div>
+              <div class="pm-desc">Expira: ${t.vencimiento}</div>
             </div>
           </div>
-          <!-- Datos que aparecen al seleccionar transferencia -->
-          <div class="bank-details">
-            <strong>Datos para transferencia:</strong><br>
-            Banco: Banco Estado<br>
-            Tipo: Cuenta RUT<br>
-            RUT: 12.345.678-9<br>
-            Nombre: Pedro Ramírez<br>
-            Correo: contacto@ejemplo.com<br>
-            <em>*Te recordaremos estos datos por WhatsApp al confirmar.</em>
-          </div>
-        </label>
-      `;
-
-      // Si el usuario tiene tarjetas guardadas, las agregamos a la lista
-      if (metodosDePagoUsuario.length > 0) {
-        metodosDePagoUsuario.forEach((metodo) => {
-          const numOculto = metodo.numero.length > 4 ? "**** " + metodo.numero.slice(-4) : "**** " + metodo.numero;
-          
-          htmlPagos += `
-            <label class="pay-card-label" onclick="actualizarMetodoSeleccionado('${metodo.tipo}: ${numOculto}')">
-              <input type="radio" name="pago-radio" value="${metodo.numero}">
-              <div class="pay-card">
-                <div class="radio-circle"></div>
-                <div class="pay-card-info">
-                  <span class="pay-title">${metodo.tipo} (${numOculto})</span>
-                  <span class="pay-desc">Titular: ${metodo.titular}</span>
-                </div>
-              </div>
-            </label>
-          `;
-        });
-      }
-
-      listaPagosDiv.innerHTML = htmlPagos;
-      // Definimos por defecto que el input oculto diga Transferencia
-      document.getElementById('metodo-pago-oculto').value = 'Transferencia Bancaria';
+        </label>`;
     });
 
-    function actualizarMetodoSeleccionado(metodo) { document.getElementById('metodo-pago-oculto').value = metodo; }
+    cont.innerHTML = html;
+    // Mostrar aviso WhatsApp por defecto (transferencia está seleccionada)
+    document.getElementById('wa-notice').style.display = 'block';
+  }
 
+  // ─── CARRITO ──────────────────────────────────────────────────────────────
+  function renderCart() {
+    const items = document.getElementById('checkout-items');
+    items.innerHTML = ''; totalGlobal = 0;
+    if (!carritoGlobal.length) {
+      items.innerHTML = '<p style="text-align:center;color:#9ca3af;padding:24px 0">Tu carrito está vacío.</p>';
+      document.getElementById('btn-finalizar').disabled = true;
+      updateTotals(); return;
+    }
+    carritoGlobal.forEach(i => {
+      const p = parseInt(String(i.precio || 0).replace(/\./g,'').replace(/,/g,'')) || 0;
+      totalGlobal += p;
+      items.innerHTML += `<div class="item">
+        <img class="thumb" src="${i.imagen||''}" onerror="this.src=''" alt="${i.nombre}">
+        <div style="min-width:0"><div class="name">${i.nombre}</div><div class="price">$${formatP(p)}</div></div>
+      </div>`;
+    });
+    document.getElementById('btn-finalizar').disabled = false;
+    updateTotals();
+  }
 
-    // ====================================================================
-    // LA MAGIA: ANIMACIÓN DE PAGO Y ENVÍO A WSP/CORREO
-    // ====================================================================
-    document.getElementById('form-compra').addEventListener('submit', function(e) {
-      e.preventDefault(); 
-      
-      const formulario = this;
-      const numeroVendedor = "56932991546"; // <-- ¡REEMPLAZA ESTO POR TU NÚMERO DE WHATSAPP!
-      
-      document.getElementById('loading-screen').classList.add('active');
-      guardarPedidoEnHistorial();
+  // ─── CUPÓN ────────────────────────────────────────────────────────────────
+  async function validarCupon() {
+    const code = document.getElementById('input-cupon').value.trim().toUpperCase();
+    const msg = document.getElementById('coupon-msg');
+    msg.className = 'coupon-msg'; msg.textContent = '';
+    if (!code) return;
+    const uid = usuarioActual?.uid || localStorage.getItem('usuarioUid') || null;
+    if (!uid) { msg.classList.add('bad'); msg.textContent = 'Inicia sesión para usar un cupón.'; return; }
+    try {
+      const usedRef = doc(db, 'usuarios', uid, 'cuponesUsados', code);
+      const usedSnap = await getDoc(usedRef);
+      if (usedSnap.exists()) { msg.classList.add('bad'); msg.textContent = 'Este cupón ya fue usado.'; couponApplied = null; discountAmount = 0; updateTotals(); return; }
+      const allowed = code === 'SVR2026' || code === 'SVR20';
+      if (!allowed) { msg.classList.add('bad'); msg.textContent = 'Cupón inválido.'; couponApplied = null; discountAmount = 0; updateTotals(); return; }
+      couponApplied = code;
+      discountAmount = Math.round(totalGlobal * 0.2);
+      msg.classList.add('ok'); msg.textContent = '✅ Cupón aplicado: 20% de descuento.';
+      updateTotals();
+    } catch(e) { msg.classList.add('bad'); msg.textContent = 'No se pudo validar el cupón.'; }
+  }
 
+  // ─── STOCK ────────────────────────────────────────────────────────────────
+  async function validarYDescontarStock(items) {
+    for (const i of items) {
+      const ref = doc(db, 'productos', i.id);
+      const snap = await getDoc(ref);
+      if (!snap.exists()) throw new Error('Producto no existe: ' + i.nombre);
+      const stock = Number(snap.data().stock || 0);
+      const qty = Number(i.cantidad || 1);
+      if (stock < qty) throw new Error(`Sin stock suficiente para: ${i.nombre}`);
+    }
+    for (const i of items) {
+      const ref = doc(db, 'productos', i.id);
+      const snap = await getDoc(ref);
+      const stock = Number(snap.data().stock || 0);
+      const qty = Number(i.cantidad || 1);
+      await updateDoc(ref, { stock: Math.max(0, stock - qty) });
+    }
+  }
+
+  // ─── GUARDAR PEDIDO FIRESTORE ─────────────────────────────────────────────
+  async function guardarPedidoFirestore(finalTotal) {
+    const nombre = document.getElementById('input-nombre').value.trim();
+    const correo = document.getElementById('input-correo').value.trim();
+    const telefono = document.getElementById('input-telefono').value.trim();
+    const direccion = document.getElementById('input-direccion').value.trim();
+    const metodo = document.getElementById('metodo-pago-oculto').value;
+    const uid = usuarioActual?.uid || localStorage.getItem('usuarioUid') || null;
+    const fecha = new Date().toLocaleDateString('es-CL');
+
+    const itemsNormalizados = carritoGlobal.map(i => ({
+      id: i.id || '',
+      nombre: i.nombre,
+      precio: parseInt(String(i.precio||0).replace(/\./g,'').replace(/,/g,'')) || 0,
+      img: i.imagen || '',
+      cantidad: i.cantidad || 1
+    }));
+
+    const pedido = {
+      uid, usuario: nombre, correo, telefono, direccion, metodo,
+      subtotal: totalGlobal, envio: shippingAmount,
+      descuento: discountAmount, total: finalTotal,
+      estado: 'Pendiente',
+      items: itemsNormalizados,
+      fecha,
+      creadoEn: serverTimestamp(),
+      origen: 'checkout-web',
+      cupon: couponApplied || null
+    };
+
+    const ref = await addDoc(collection(db, 'pedidos'), pedido);
+    const pedidoConId = { ...pedido, id: ref.id, creadoEn: undefined };
+
+    // Guardar en array local acumulativo (para el perfil)
+    guardarPedidoLocal(pedidoConId);
+
+    // Marcar cupón como usado
+    if (uid && couponApplied) {
+      await setDoc(doc(db, 'usuarios', uid, 'cuponesUsados', couponApplied),
+        { codigo: couponApplied, pedidoId: ref.id, usadoEn: serverTimestamp() },
+        { merge: true });
+    }
+
+    return { id: ref.id, pedido: pedidoConId, fecha };
+  }
+
+  // ─── SUBMIT ───────────────────────────────────────────────────────────────
+  document.getElementById('form-compra').addEventListener('submit', async function(e) {
+    e.preventDefault();
+    if (!carritoGlobal.length) return;
+
+    const btn = document.getElementById('btn-finalizar');
+    btn.disabled = true;
+    document.getElementById('loading-screen').classList.add('active');
+
+    try {
+      const finalTotal = updateTotals();
+      const uid = usuarioActual?.uid || localStorage.getItem('usuarioUid') || null;
+      const metodo = document.getElementById('metodo-pago-oculto').value;
+      const esTransferencia = metodo === 'Transferencia Bancaria';
+
+      // Re-validar cupón si hay uno aplicado
+      if (couponApplied && uid) {
+        const usedRef = doc(db, 'usuarios', uid, 'cuponesUsados', couponApplied);
+        const usedSnap = await getDoc(usedRef);
+        if (usedSnap.exists()) throw new Error('Cupón ya utilizado por este usuario.');
+      }
+
+      await validarYDescontarStock(carritoGlobal);
+      const { id: pedidoId, pedido, fecha } = await guardarPedidoFirestore(finalTotal);
+
+      // Limpiar carrito
+      localStorage.removeItem('carritoSVR');
+
+      // Armar mensaje WhatsApp como texto plano y encodear todo de una vez
+      const nombreCliente = document.getElementById('input-nombre').value.trim();
+      const direccionCli = document.getElementById('input-direccion').value.trim();
+      const telefonoCli = document.getElementById('input-telefono').value.trim();
+
+      let txtMsj = `🛍️ *NUEVO PEDIDO - Servicios Ramírez*\n\n`;
+      txtMsj += `📦 *Pedido #${pedidoId}*\n`;
+      txtMsj += `📅 Fecha: ${fecha}\n\n`;
+      txtMsj += `👤 *Datos del Cliente:*\n`;
+      txtMsj += `• Nombre: ${nombreCliente}\n`;
+      txtMsj += `• Dirección: ${direccionCli}\n`;
+      txtMsj += `• Teléfono: ${telefonoCli}\n`;
+      txtMsj += `• Método de pago: ${metodo}\n\n`;
+      txtMsj += `🛒 *Productos:*\n`;
+      carritoGlobal.forEach(p => { txtMsj += `• ${p.nombre}\n`; });
+      txtMsj += `\n💰 Subtotal: $${formatP(totalGlobal)}\n`;
+      txtMsj += `🚚 Envío: ${shippingAmount === 0 ? 'Gratis' : '$' + formatP(shippingAmount)}\n`;
+      if (discountAmount > 0) txtMsj += `🎟️ Descuento: -$${formatP(discountAmount)}\n`;
+      txtMsj += `\n*💵 TOTAL A PAGAR: $${formatP(finalTotal)}*`;
+      if (esTransferencia) {
+        txtMsj += `\n\n💸 _Adjunto comprobante de transferencia._`;
+      }
+      const msj = encodeURIComponent(txtMsj);
+
+      // Abrir WhatsApp INMEDIATAMENTE (antes de cualquier await/setTimeout)
+      // El navegador solo permite window.open directo desde la acción del usuario.
+      // Abrimos en la misma pestaña con un truco: creamos el link y lo clickeamos.
+      const waUrl = `https://wa.me/56932991546?text=${msj}`;
+      const waLink = document.createElement('a');
+      waLink.href = waUrl;
+      waLink.target = '_blank';
+      waLink.rel = 'noopener';
+      document.body.appendChild(waLink);
+      waLink.click();
+      document.body.removeChild(waLink);
+
+      // Mostrar éxito y redirigir al perfil
       setTimeout(() => {
         document.getElementById('spinner-anim').style.display = 'none';
         document.getElementById('success-anim').style.display = 'flex';
-        document.getElementById('loading-msg').textContent = '¡Pedido Confirmado con Éxito!';
-        document.getElementById('loading-submsg').textContent = 'Abriendo WhatsApp para coordinar...';
-        
-        let nombreCliente = document.querySelector('input[name="Nombre"]').value;
-        let direccionCli = document.querySelector('input[name="Direccion"]').value;
-        let metodoPago = document.getElementById('metodo-pago-oculto').value;
-        
-        let msjWsp = `Hola Servicios Ramírez! Acabo de confirmar mi pedido en la web. %0A%0A`;
-        msjWsp += `*Datos del Cliente:* %0A`;
-        msjWsp += `- Nombre: ${nombreCliente} %0A`;
-        msjWsp += `- Dirección: ${direccionCli} %0A`;
-        msjWsp += `- Método Seleccionado: ${metodoPago} %0A%0A`;
-        msjWsp += `*Mi Pedido:* %0A`;
-        
-        carritoGlobal.forEach(p => { msjWsp += `- ${p.nombre} %0A`; });
-        msjWsp += `%0A*TOTAL A PAGAR: $${formatP(totalGlobal)}*`;
+        document.getElementById('loading-msg').textContent = '¡Pedido confirmado con éxito!';
+        document.getElementById('loading-submsg').textContent = 'Redirigiendo a tu perfil...';
+      }, 1500);
 
-        if(metodoPago === 'Transferencia Bancaria') {
-          msjWsp += `%0A%0A_Por favor, envíame los datos para hacerte la transferencia._`;
-        }
+      setTimeout(() => {
+        window.location.href = 'perfil.html';
+      }, 3000);
 
-        localStorage.removeItem('carritoSVR');
-
-        const formData = new FormData(formulario);
-        fetch(formulario.action, {
-          method: 'POST',
-          body: formData,
-          headers: { 'Accept': 'application/json' }
-        }).then(response => {
-          setTimeout(() => {
-            window.open(`https://wa.me/${numeroVendedor}?text=${msjWsp}`, '_blank');
-            window.location.href = 'perfil.html';
-          }, 1500);
-        }).catch(error => {
-          setTimeout(() => {
-            window.open(`https://wa.me/${numeroVendedor}?text=${msjWsp}`, '_blank');
-            window.location.href = 'perfil.html';
-          }, 1500);
-        });
-
-      }, 3000); 
-    });
-
-    function guardarPedidoEnHistorial() {
-      const historial = JSON.parse(localStorage.getItem('historialPedidos')) || [];
-      const fechaHoy = new Date().toLocaleDateString('es-CL');
-      const idUnico = Math.floor(Math.random() * 90000) + 10000; 
-      const metodo = document.getElementById('metodo-pago-oculto').value;
-
-      const itemsParaHistorial = carritoGlobal.map(prod => {
-        return { nombre: prod.nombre, img: prod.imagen, cantidad: 1 };
-      });
-
-      const nuevoPedido = {
-        id: idUnico,
-        fecha: fechaHoy,
-        estado: 'Pendiente',
-        metodo: metodo,
-        total: totalGlobal,
-        items: itemsParaHistorial
-      };
-
-      historial.push(nuevoPedido);
-      localStorage.setItem('historialPedidos', JSON.stringify(historial));
+    } catch(err) {
+      console.error(err);
+      btn.disabled = false;
+      document.getElementById('loading-screen').classList.remove('active');
+      alert('No se pudo completar la compra: ' + (err.message || 'revisa tu conexión e inténtalo de nuevo.'));
     }
-  </script>
+  });
+
+  // ─── INIT ─────────────────────────────────────────────────────────────────
+  document.getElementById('btn-validar-cupon').addEventListener('click', validarCupon);
+  window.seleccionarMetodo = seleccionarMetodo;
+
+  onAuthStateChanged(auth, (user) => {
+    usuarioActual = user || null;
+    if (user) {
+      localStorage.setItem('usuarioUid', user.uid);
+      claveStorage = 'svr_datos_' + user.uid;
+    } else {
+      // Usuario no logueado: intentar con uid guardado
+      const uid = localStorage.getItem('usuarioUid');
+      claveStorage = uid ? 'svr_datos_' + uid : null;
+    }
+    // Pre-rellenar datos de envío desde perfil
+    const datos = getDatos();
+    if (datos.nombre) document.getElementById('input-nombre').value = datos.nombre;
+    if (datos.correo) document.getElementById('input-correo').value = datos.correo;
+    if (datos.telefono) document.getElementById('input-telefono').value = datos.telefono;
+    if (datos.direccion) document.getElementById('input-direccion').value = datos.direccion;
+    // Rellenar métodos de pago con tarjetas del perfil
+    renderMethods();
+  });
+
+  // Cargar carrito al iniciar
+  carritoGlobal = JSON.parse(localStorage.getItem('carritoSVR') || '[]');
+  renderCart();
+</script>
 </body>
 </html>
