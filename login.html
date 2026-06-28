@@ -26,7 +26,6 @@
       background: #0a0a0a;
     }
 
-    /* ---- LEFT PANEL ---- */
     .panel-left {
       display: none;
       flex: 1;
@@ -36,7 +35,6 @@
       flex-direction: column; justify-content: space-between;
     }
     @media (min-width: 900px) { .panel-left { display: flex; } }
-
     .panel-left::before {
       content: "";
       position: absolute; inset: 0;
@@ -51,10 +49,7 @@
       width: 36px; height: 36px; background: var(--accent);
       border-radius: 9px; display: flex; align-items: center; justify-content: center;
     }
-    .panel-headline {
-      position: relative; z-index: 1;
-      color: white;
-    }
+    .panel-headline { position: relative; z-index: 1; color: white; }
     .panel-headline h1 {
       font-size: clamp(1.6rem, 2.5vw, 2.2rem);
       font-weight: 700; line-height: 1.2; margin-bottom: 14px; letter-spacing: -0.3px;
@@ -66,17 +61,13 @@
       display: flex; align-items: center; gap: 12px;
       color: rgba(255,255,255,0.65); font-size: 0.875rem;
     }
-    .feature-dot {
-      width: 8px; height: 8px; border-radius: 50%;
-      background: var(--accent); flex-shrink: 0;
-    }
+    .feature-dot { width: 8px; height: 8px; border-radius: 50%; background: var(--accent); flex-shrink: 0; }
 
-    /* ---- RIGHT PANEL ---- */
     .panel-right {
       width: 100%; max-width: 480px;
       background: #fff;
       display: flex; flex-direction: column; align-items: center; justify-content: center;
-      padding: 40px 40px;
+      padding: 40px;
     }
     @media (max-width: 899px) { .panel-right { max-width: 100%; } }
 
@@ -92,7 +83,6 @@
     @media (min-width: 900px) { .mobile-logo { display: none; } }
 
     .form-wrap { width: 100%; max-width: 360px; }
-
     .form-box { display: none; }
     .form-box.active { display: block; animation: fadeUp 0.35s ease; }
     @keyframes fadeUp {
@@ -135,6 +125,21 @@
     .btn-submit:active { transform: scale(0.98); }
     .btn-submit:disabled { opacity: 0.6; cursor: not-allowed; }
 
+    .btn-google {
+      width: 100%; padding: 12px;
+      background: #fff; color: #3c4043;
+      border: 1.5px solid var(--border); border-radius: 10px;
+      font-size: 0.9375rem; font-weight: 600; font-family: inherit;
+      cursor: pointer;
+      display: flex; align-items: center; justify-content: center; gap: 10px;
+      transition: background var(--transition), border-color var(--transition), box-shadow var(--transition);
+      box-shadow: 0 1px 3px rgba(0,0,0,0.08);
+    }
+    .btn-google:hover { background: #f7f8f8; border-color: #bbb; box-shadow: 0 2px 8px rgba(0,0,0,0.1); }
+    .btn-google:active { transform: scale(0.98); }
+    .btn-google:disabled { opacity: 0.6; cursor: not-allowed; }
+    .btn-google svg { flex-shrink: 0; }
+
     .btn-loader {
       display: inline-block; width: 16px; height: 16px;
       border: 2px solid rgba(255,255,255,0.4);
@@ -142,11 +147,17 @@
       animation: spin 0.7s linear infinite;
       vertical-align: middle; margin-right: 8px;
     }
+    .btn-loader-dark {
+      display: inline-block; width: 16px; height: 16px;
+      border: 2px solid rgba(0,0,0,0.15);
+      border-top-color: #555; border-radius: 50%;
+      animation: spin 0.7s linear infinite;
+    }
     @keyframes spin { to { transform: rotate(360deg); } }
 
     .divider { display: flex; align-items: center; gap: 12px; margin: 20px 0; }
     .divider::before, .divider::after { content: ""; flex: 1; height: 1px; background: var(--border); }
-    .divider span { font-size: 0.75rem; color: #bbb; }
+    .divider span { font-size: 0.75rem; color: #bbb; white-space: nowrap; }
 
     .switch-form { text-align: center; font-size: 0.875rem; color: var(--text-muted); }
     .switch-form a { color: var(--accent); font-weight: 600; cursor: pointer; text-decoration: none; }
@@ -160,7 +171,6 @@
     }
     .btn-back:hover { color: var(--text); }
 
-    /* Alert messages */
     .alert {
       display: none; padding: 10px 14px;
       border-radius: 8px; font-size: 0.84rem; font-weight: 500;
@@ -172,7 +182,6 @@
 </head>
 <body>
 
-  <!-- PANEL IZQUIERDO (solo desktop) -->
   <div class="panel-left">
     <div class="panel-brand">
       <div class="brand-logo">
@@ -193,11 +202,9 @@
     </div>
   </div>
 
-  <!-- PANEL DERECHO (formulario) -->
   <div class="panel-right">
     <div class="form-wrap">
 
-      <!-- Logo mobile -->
       <div class="mobile-logo">
         <div class="mobile-logo-icon">
           <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="white" stroke-width="2.5"><circle cx="12" cy="12" r="3"/><path d="M20 12a8 8 0 1 0-8 8"/></svg>
@@ -208,7 +215,7 @@
       <!-- INICIAR SESIÓN -->
       <div id="login-form" class="form-box active">
         <h2 class="form-title">Bienvenido de vuelta</h2>
-        <p class="form-subtitle">Ingresa con tu correo y contraseña</p>
+        <p class="form-subtitle">Ingresa con tu cuenta</p>
 
         <div class="input-group">
           <label>Correo electrónico</label>
@@ -221,6 +228,19 @@
 
         <button class="btn-submit" id="btn-login" onclick="iniciarSesion()">Entrar a mi cuenta</button>
         <div class="alert alert-error" id="login-error"></div>
+
+        <div class="divider"><span>o continúa con</span></div>
+
+        <button class="btn-google" id="btn-google-login" onclick="loginGoogle()">
+          <svg width="20" height="20" viewBox="0 0 48 48">
+            <path fill="#EA4335" d="M24 9.5c3.54 0 6.71 1.22 9.21 3.6l6.85-6.85C35.9 2.38 30.47 0 24 0 14.62 0 6.51 5.38 2.56 13.22l7.98 6.19C12.43 13.72 17.74 9.5 24 9.5z"/>
+            <path fill="#4285F4" d="M46.98 24.55c0-1.57-.15-3.09-.38-4.55H24v9.02h12.94c-.58 2.96-2.26 5.48-4.78 7.18l7.73 6c4.51-4.18 7.09-10.36 7.09-17.65z"/>
+            <path fill="#FBBC05" d="M10.53 28.59c-.48-1.45-.76-2.99-.76-4.59s.27-3.14.76-4.59l-7.98-6.19C.92 16.46 0 20.12 0 24c0 3.88.92 7.54 2.56 10.78l7.97-6.19z"/>
+            <path fill="#34A853" d="M24 48c6.48 0 11.93-2.13 15.89-5.81l-7.73-6c-2.18 1.48-4.97 2.31-8.16 2.31-6.26 0-11.57-4.22-13.47-9.91l-7.98 6.19C6.51 42.62 14.62 48 24 48z"/>
+            <path fill="none" d="M0 0h48v48H0z"/>
+          </svg>
+          Continuar con Google
+        </button>
 
         <div class="divider"><span>¿no tienes cuenta?</span></div>
         <div class="switch-form">
@@ -250,6 +270,19 @@
         <div class="alert alert-error" id="register-error"></div>
         <div class="alert alert-success" id="register-success"></div>
 
+        <div class="divider"><span>o continúa con</span></div>
+
+        <button class="btn-google" id="btn-google-register" onclick="loginGoogle()">
+          <svg width="20" height="20" viewBox="0 0 48 48">
+            <path fill="#EA4335" d="M24 9.5c3.54 0 6.71 1.22 9.21 3.6l6.85-6.85C35.9 2.38 30.47 0 24 0 14.62 0 6.51 5.38 2.56 13.22l7.98 6.19C12.43 13.72 17.74 9.5 24 9.5z"/>
+            <path fill="#4285F4" d="M46.98 24.55c0-1.57-.15-3.09-.38-4.55H24v9.02h12.94c-.58 2.96-2.26 5.48-4.78 7.18l7.73 6c4.51-4.18 7.09-10.36 7.09-17.65z"/>
+            <path fill="#FBBC05" d="M10.53 28.59c-.48-1.45-.76-2.99-.76-4.59s.27-3.14.76-4.59l-7.98-6.19C.92 16.46 0 20.12 0 24c0 3.88.92 7.54 2.56 10.78l7.97-6.19z"/>
+            <path fill="#34A853" d="M24 48c6.48 0 11.93-2.13 15.89-5.81l-7.73-6c-2.18 1.48-4.97 2.31-8.16 2.31-6.26 0-11.57-4.22-13.47-9.91l-7.98 6.19C6.51 42.62 14.62 48 24 48z"/>
+            <path fill="none" d="M0 0h48v48H0z"/>
+          </svg>
+          Registrarse con Google
+        </button>
+
         <div class="divider"><span>¿ya tienes cuenta?</span></div>
         <div class="switch-form">
           <a id="btn-to-login">Iniciar sesión</a>
@@ -264,10 +297,16 @@
     </div>
   </div>
 
-  <!-- FIREBASE SDK (CDN modular) -->
   <script type="module">
     import { initializeApp } from "https://www.gstatic.com/firebasejs/12.15.0/firebase-app.js";
-    import { getAuth, signInWithEmailAndPassword, createUserWithEmailAndPassword, updateProfile } from "https://www.gstatic.com/firebasejs/12.15.0/firebase-auth.js";
+    import {
+      getAuth,
+      signInWithEmailAndPassword,
+      createUserWithEmailAndPassword,
+      updateProfile,
+      GoogleAuthProvider,
+      signInWithPopup
+    } from "https://www.gstatic.com/firebasejs/12.15.0/firebase-auth.js";
 
     const firebaseConfig = {
       apiKey: "AIzaSyB7IODeAnczMkBq8UoeqZkJWpw9wZbxYZk",
@@ -281,8 +320,8 @@
 
     const app = initializeApp(firebaseConfig);
     const auth = getAuth(app);
+    const providerGoogle = new GoogleAuthProvider();
 
-    // Cambiar entre formularios
     document.getElementById("btn-to-register").addEventListener("click", () => {
       document.getElementById("login-form").classList.remove("active");
       document.getElementById("register-form").classList.add("active");
@@ -312,6 +351,20 @@
         btn.innerHTML = btnId === "btn-login" ? "Entrar a mi cuenta" : "Crear mi cuenta";
       }
     }
+    function setLoadingGoogle(loading) {
+      ["btn-google-login","btn-google-register"].forEach(id => {
+        const btn = document.getElementById(id);
+        if (!btn) return;
+        if (loading) {
+          btn.disabled = true;
+          btn.innerHTML = '<span class="btn-loader-dark"></span>';
+        } else {
+          const label = id === "btn-google-login" ? "Continuar con Google" : "Registrarse con Google";
+          btn.disabled = false;
+          btn.innerHTML = `<svg width="20" height="20" viewBox="0 0 48 48"><path fill="#EA4335" d="M24 9.5c3.54 0 6.71 1.22 9.21 3.6l6.85-6.85C35.9 2.38 30.47 0 24 0 14.62 0 6.51 5.38 2.56 13.22l7.98 6.19C12.43 13.72 17.74 9.5 24 9.5z"/><path fill="#4285F4" d="M46.98 24.55c0-1.57-.15-3.09-.38-4.55H24v9.02h12.94c-.58 2.96-2.26 5.48-4.78 7.18l7.73 6c4.51-4.18 7.09-10.36 7.09-17.65z"/><path fill="#FBBC05" d="M10.53 28.59c-.48-1.45-.76-2.99-.76-4.59s.27-3.14.76-4.59l-7.98-6.19C.92 16.46 0 20.12 0 24c0 3.88.92 7.54 2.56 10.78l7.97-6.19z"/><path fill="#34A853" d="M24 48c6.48 0 11.93-2.13 15.89-5.81l-7.73-6c-2.18 1.48-4.97 2.31-8.16 2.31-6.26 0-11.57-4.22-13.47-9.91l-7.98 6.19C6.51 42.62 14.62 48 24 48z"/></svg>${label}`;
+        }
+      });
+    }
 
     function traducirError(codigo) {
       const errores = {
@@ -321,12 +374,31 @@
         "auth/email-already-in-use": "⚠️ Este correo ya está registrado. Inicia sesión.",
         "auth/weak-password": "⚠️ La contraseña debe tener al menos 6 caracteres.",
         "auth/too-many-requests": "⚠️ Demasiados intentos. Espera un momento.",
-        "auth/invalid-credential": "❌ Correo o contraseña incorrectos."
+        "auth/invalid-credential": "❌ Correo o contraseña incorrectos.",
+        "auth/popup-closed-by-user": "⚠️ Cerraste la ventana de Google. Inténtalo de nuevo.",
+        "auth/popup-blocked": "⚠️ El navegador bloqueó la ventana. Permite popups e intenta de nuevo.",
+        "auth/cancelled-popup-request": ""
       };
       return errores[codigo] || "❌ Ocurrió un error. Inténtalo de nuevo.";
     }
 
-    // LOGIN
+    window.loginGoogle = async function() {
+      ocultarAlertas();
+      setLoadingGoogle(true);
+      try {
+        const result = await signInWithPopup(auth, providerGoogle);
+        const user = result.user;
+        localStorage.setItem("usuarioActivo", user.email);
+        localStorage.setItem("usuarioUid", user.uid);
+        localStorage.setItem("usuario", user.displayName || user.email);
+        window.location.href = "perfil.html";
+      } catch (err) {
+        setLoadingGoogle(false);
+        const msg = traducirError(err.code);
+        if (msg) mostrarError("login-error", msg);
+      }
+    };
+
     window.iniciarSesion = async function() {
       ocultarAlertas();
       const correo = document.getElementById("log-correo").value.trim();
@@ -334,7 +406,6 @@
 
       if (!correo || !pass) { mostrarError("login-error", "⚠️ Completa todos los campos."); return; }
 
-      // Admin local (sin firebase)
       if (correo === "admin" && pass === "admin123") {
         window.location.href = "admin.html"; return;
       }
@@ -344,6 +415,7 @@
         const cred = await signInWithEmailAndPassword(auth, correo, pass);
         const user = cred.user;
         localStorage.setItem("usuarioActivo", user.email);
+        localStorage.setItem("usuarioUid", user.uid);
         localStorage.setItem("usuario", user.displayName || user.email);
         window.location.href = "perfil.html";
       } catch (err) {
@@ -352,12 +424,11 @@
       }
     };
 
-    // REGISTRO
     window.registrar = async function() {
       ocultarAlertas();
-      const nombre  = document.getElementById("reg-nombre").value.trim();
-      const correo  = document.getElementById("reg-correo").value.trim();
-      const pass    = document.getElementById("reg-pass").value;
+      const nombre = document.getElementById("reg-nombre").value.trim();
+      const correo = document.getElementById("reg-correo").value.trim();
+      const pass   = document.getElementById("reg-pass").value;
 
       if (!nombre || !correo || !pass) { mostrarError("register-error", "⚠️ Completa todos los campos."); return; }
 
@@ -366,6 +437,7 @@
         const cred = await createUserWithEmailAndPassword(auth, correo, pass);
         await updateProfile(cred.user, { displayName: nombre });
         localStorage.setItem("usuarioActivo", cred.user.email);
+        localStorage.setItem("usuarioUid", cred.user.uid);
         localStorage.setItem("usuario", nombre);
 
         const exito = document.getElementById("register-success");
@@ -378,7 +450,6 @@
       }
     };
 
-    // Enter para enviar formularios
     document.getElementById("log-pass").addEventListener("keydown", e => { if(e.key==="Enter") window.iniciarSesion(); });
     document.getElementById("reg-pass").addEventListener("keydown", e => { if(e.key==="Enter") window.registrar(); });
   </script>
