@@ -16,8 +16,7 @@
     .btn{width:100%;padding:15px;border:none;border-radius:12px;font-size:1rem;font-weight:800;cursor:pointer;transition:.2s}.btn-primary{background:var(--dark);color:#fff}.btn-primary:hover{background:#e30613}.btn-primary:disabled{background:#222;opacity:.55;cursor:not-allowed}
     .summary{padding:28px;background:var(--dark);color:#fff;position:sticky;top:92px;height:fit-content;border-radius:20px}.summary h3{font-size:1.05rem;font-weight:800;padding-bottom:14px;margin-bottom:16px;border-bottom:1px solid #222}.list{max-height:350px;overflow:auto;padding-right:4px}.item{display:flex;gap:12px;align-items:center;padding:14px 0;border-bottom:1px solid #1e1e1e}.thumb{width:58px;height:58px;background:#fff;border-radius:12px;padding:6px;object-fit:contain;flex-shrink:0}.name{font-size:.9rem;font-weight:700;margin-bottom:4px}.price{font-size:.88rem;color:#c7d2fe;font-weight:800}.totals{border-top:1px dashed #333;margin-top:18px;padding-top:18px}.row{display:flex;justify-content:space-between;margin-bottom:10px;color:#b3b3b3;font-size:.92rem}.final{display:flex;justify-content:space-between;align-items:center;padding-top:14px;border-top:1px solid #222;font-size:1.2rem;font-weight:900}
     .loading{position:fixed;inset:0;background:rgba(0,0,0,.88);backdrop-filter:blur(5px);display:none;align-items:center;justify-content:center;flex-direction:column;z-index:9999}.loading.active{display:flex}.spin{width:58px;height:58px;border:5px solid rgba(255,255,255,.25);border-top-color:#e30613;border-radius:50%;animation:spin 1s linear infinite;margin-bottom:16px}@keyframes spin{to{transform:rotate(360deg)}}.ok-icon{display:none;width:78px;height:78px;border-radius:50%;background:var(--green);align-items:center;justify-content:center;margin-bottom:16px;animation:pop .45s cubic-bezier(.175,.885,.32,1.275)}.ok-icon svg{width:38px;height:38px;color:#fff}@keyframes pop{from{transform:scale(0)}to{transform:scale(1)}}.loading h2{color:#fff;font-size:1.2rem;margin-bottom:6px}.loading p{color:#aaa;font-size:.9rem}
-    .notice{margin-top:14px;padding:12px 14px;border-radius:12px;background:#eff6ff;border:1px solid #bfdbfe;color:#1d4ed8;font-size:.88rem;line-height:1.5}
-    .wa-notice{display:none;margin-top:10px;padding:12px 14px;border-radius:12px;background:#f0fdf4;border:1px solid #bbf7d0;color:#15803d;font-size:.85rem;line-height:1.5}
+    .notice{margin-top:14px;padding:12px 14px;border-radius:12px;background:#eff6ff;border:1px solid #bfdbfe;color:#1d4ed8;font-size:.88rem;line-height:1.5}.wa-notice{display:none;margin-top:10px;padding:12px 14px;border-radius:12px;background:#f0fdf4;border:1px solid #bbf7d0;color:#15803d;font-size:.85rem;line-height:1.5}
     @media(max-width:900px){.wrap{grid-template-columns:1fr}.summary{position:relative;top:0}}@media(max-width:640px){.grid{grid-template-columns:1fr}.form{padding:22px}.coupon{flex-direction:column;align-items:stretch}}
   </style>
 </head>
@@ -39,22 +38,18 @@
 
 <main class="wrap">
   <section class="card form">
-    <form id="form-compra">
+    <form id="form-compra" novalidate>
       <h2 class="title">1. Detalles de Envío</h2>
       <div class="grid">
-        <div class="field full"><label>Nombre Completo</label><input type="text" id="input-nombre" required placeholder="Ej: Pedro Ramírez"></div>
-        <div class="field full"><label>Correo Electrónico</label><input type="email" id="input-correo" required placeholder="correo@ejemplo.com"></div>
-        <div class="field full"><label>Teléfono / WhatsApp</label><input type="tel" id="input-telefono" required placeholder="+56 9..."></div>
-        <div class="field full"><label>Dirección</label><input type="text" id="input-direccion" required placeholder="Calle, Número, Depto"></div>
+        <div class="field full"><label for="input-nombre">Nombre Completo</label><input type="text" id="input-nombre" required placeholder="Ej: Pedro Ramírez" autocomplete="name"></div>
+        <div class="field full"><label for="input-correo">Correo Electrónico</label><input type="email" id="input-correo" required placeholder="correo@ejemplo.com" autocomplete="email"></div>
+        <div class="field full"><label for="input-telefono">Teléfono / WhatsApp</label><input type="tel" id="input-telefono" required placeholder="+56 9..." autocomplete="tel"></div>
+        <div class="field full"><label for="input-direccion">Dirección</label><input type="text" id="input-direccion" required placeholder="Calle, Número, Depto" autocomplete="street-address"></div>
       </div>
 
       <h2 class="title">2. Método de Pago</h2>
-      <div class="pm-list" id="lista-metodos-pago">
-        <!-- Se genera dinámicamente -->
-      </div>
-      <div class="wa-notice" id="wa-notice">
-        📲 Al confirmar, se abrirá WhatsApp para que puedas enviar tu comprobante de transferencia al vendedor.
-      </div>
+      <div class="pm-list" id="lista-metodos-pago"></div>
+      <div class="wa-notice" id="wa-notice">📲 Al confirmar, se abrirá WhatsApp para que puedas enviar tu comprobante de transferencia al vendedor.</div>
 
       <h2 class="title" style="margin-top:8px;">3. Código de descuento</h2>
       <div class="coupon">
@@ -78,7 +73,7 @@
       <div class="row"><span>Descuento</span><span id="checkout-discount">$0</span></div>
       <div class="final"><span>Total</span><span id="checkout-total" style="color:#60a5fa">$0</span></div>
     </div>
-    <button onclick="limpiarCarritoRoto()" style="width:100%;margin-top:16px;background:none;border:none;color:#ef4444;cursor:pointer;text-decoration:underline;font-size:.85rem;">Vaciar carrito y salir</button>
+    <button type="button" onclick="limpiarCarritoRoto()" style="width:100%;margin-top:16px;background:none;border:none;color:#ef4444;cursor:pointer;text-decoration:underline;font-size:.85rem;">Vaciar carrito y salir</button>
   </aside>
 </main>
 
@@ -90,29 +85,31 @@
   const firebaseConfig = { apiKey:"AIzaSyB7IODeAnczMkBq8UoeqZkJWpw9wZbxYZk", authDomain:"servicios-ramirez.firebaseapp.com", projectId:"servicios-ramirez", storageBucket:"servicios-ramirez.firebasestorage.app", messagingSenderId:"540818066798", appId:"1:540818066798:web:47bf4d3f68d6959f6fc57f" };
   const app = initializeApp(firebaseConfig), db = getFirestore(app), auth = getAuth(app);
 
+  const DATOS_BANCO = { banco:'Banco Estado', tipo:'Cuenta RUT', rut:'12.345.678-9', nombre:'Pedro Ramírez', correo:'pagos@ejemplo.com' };
+  const WA_NUMERO = '56932991546';
+  const CUPONES_VALIDOS = { SVR2026: 20, SVR20: 20 };
+
   let carritoGlobal = [], totalGlobal = 0, usuarioActual = null;
   let couponApplied = null, discountAmount = 0, shippingAmount = 0;
-  let claveStorage = null; // svr_datos_{uid}
+  let claveStorage = null;
 
-  // ─── STORAGE UNIFICADO (misma clave que perfil.html) ─────────────────────
   function getDatos() {
     if (!claveStorage) return {};
-    const raw = localStorage.getItem(claveStorage);
-    return raw ? JSON.parse(raw) : {};
+    try { return JSON.parse(localStorage.getItem(claveStorage) || '{}'); } catch { return {}; }
   }
 
-  // Guarda el pedido en el array acumulativo svr_pedidos_{uid}
   function guardarPedidoLocal(pedido) {
     if (!claveStorage) return;
-    const clavePedidos = claveStorage.replace('svr_datos_', 'svr_pedidos_');
-    const lista = JSON.parse(localStorage.getItem(clavePedidos) || '[]');
-    lista.push(pedido);
-    localStorage.setItem(clavePedidos, JSON.stringify(lista));
+    try {
+      const clavePedidos = claveStorage.replace('svr_datos_', 'svr_pedidos_');
+      const lista = JSON.parse(localStorage.getItem(clavePedidos) || '[]');
+      lista.push(pedido);
+      localStorage.setItem(clavePedidos, JSON.stringify(lista));
+    } catch {}
   }
 
-  function formatP(n) { return Number(n).toLocaleString('es-CL'); }
+  function formatP(n) { return Number(n || 0).toLocaleString('es-CL'); }
   window.limpiarCarritoRoto = function() { localStorage.removeItem('carritoSVR'); window.location.href='tiendaSVR.html'; };
-
   function calcShipping(subtotal) { return subtotal >= 19990 ? 0 : 4990; }
 
   function updateTotals() {
@@ -125,26 +122,22 @@
     return total;
   }
 
-  // ─── MÉTODO DE PAGO ───────────────────────────────────────────────────────
   function seleccionarMetodo(valor) {
     document.getElementById('metodo-pago-oculto').value = valor;
-    // Mostrar aviso WhatsApp solo si es transferencia
     const esTransferencia = valor === 'Transferencia Bancaria';
     document.getElementById('wa-notice').style.display = esTransferencia ? 'block' : 'none';
-    // Mostrar datos bancarios solo si es transferencia
     document.querySelectorAll('.bank-info').forEach(b => b.style.display = 'none');
     if (esTransferencia) {
       const bancoEl = document.getElementById('banco-datos');
       if (bancoEl) bancoEl.style.display = 'block';
     }
   }
+  window.seleccionarMetodo = seleccionarMetodo;
 
   function renderMethods() {
     const cont = document.getElementById('lista-metodos-pago');
     const datos = getDatos();
     const tarjetas = datos.tarjetas || [];
-
-    // Opción transferencia (siempre primera)
     let html = `
       <label class="pm">
         <input type="radio" name="pago-radio" value="Transferencia Bancaria" checked onchange="seleccionarMetodo('Transferencia Bancaria')">
@@ -152,26 +145,25 @@
           <div class="dot"></div>
           <div class="pm-info">
             <div class="pm-title">🏦 Transferencia Bancaria</div>
-            <div class="pm-desc">Banco Estado · Cuenta RUT · Confirmación manual vía WhatsApp</div>
+            <div class="pm-desc">${DATOS_BANCO.banco} · ${DATOS_BANCO.tipo} · Confirmación manual vía WhatsApp</div>
             <div class="bank-info" id="banco-datos" style="display:block;">
               <strong>Datos para transferencia:</strong><br>
-              Banco: Banco Estado<br>
-              Tipo: Cuenta RUT<br>
-              RUT: 12.345.678-9<br>
-              Nombre: Pedro Ramírez<br>
-              Correo: contacto@ejemplo.com
+              Banco: ${DATOS_BANCO.banco}<br>
+              Tipo: ${DATOS_BANCO.tipo}<br>
+              RUT: ${DATOS_BANCO.rut}<br>
+              Nombre: ${DATOS_BANCO.nombre}<br>
+              Correo: ${DATOS_BANCO.correo}
             </div>
           </div>
         </div>
       </label>`;
 
-    // Tarjetas guardadas del perfil
-    tarjetas.forEach((t, i) => {
+    tarjetas.forEach(t => {
       const numOculto = t.numero && t.numero.length > 4 ? '**** ' + t.numero.slice(-4) : '**** ' + (t.numero || '????');
       const valorMetodo = `${t.tipo}: ${numOculto} (exp. ${t.vencimiento})`;
       html += `
         <label class="pm">
-          <input type="radio" name="pago-radio" value="${valorMetodo}" onchange="seleccionarMetodo('${valorMetodo}')">
+          <input type="radio" name="pago-radio" value="${valorMetodo}" onchange="seleccionarMetodo('${valorMetodo.replace(/'/g, "\\'")}')">
           <div class="pm-box">
             <div class="dot"></div>
             <div class="pm-info">
@@ -181,13 +173,10 @@
           </div>
         </label>`;
     });
-
     cont.innerHTML = html;
-    // Mostrar aviso WhatsApp por defecto (transferencia está seleccionada)
     document.getElementById('wa-notice').style.display = 'block';
   }
 
-  // ─── CARRITO ──────────────────────────────────────────────────────────────
   function renderCart() {
     const items = document.getElementById('checkout-items');
     items.innerHTML = ''; totalGlobal = 0;
@@ -199,42 +188,38 @@
     carritoGlobal.forEach(i => {
       const p = parseInt(String(i.precio || 0).replace(/\./g,'').replace(/,/g,'')) || 0;
       totalGlobal += p;
+      const nombreSeguro = String(i.nombre || '').replace(/</g,'&lt;').replace(/>/g,'&gt;');
       items.innerHTML += `<div class="item">
-        <img class="thumb" src="${i.imagen||''}" onerror="this.src=''" alt="${i.nombre}">
-        <div style="min-width:0"><div class="name">${i.nombre}</div><div class="price">$${formatP(p)}</div></div>
+        <img class="thumb" src="${i.imagen||''}" onerror="this.src=''" alt="${nombreSeguro}">
+        <div style="min-width:0"><div class="name">${nombreSeguro}</div><div class="price">$${formatP(p)}</div></div>
       </div>`;
     });
     document.getElementById('btn-finalizar').disabled = false;
     updateTotals();
   }
 
-  // ─── CUPÓN ────────────────────────────────────────────────────────────────
   async function validarCupon() {
-    const code = document.getElementById('input-cupon').value.trim().toUpperCase();
+    const code = document.getElementById('input-cupon').value.trim().toUpperCase().replace(/[^A-Z0-9]/g, '');
     const msg = document.getElementById('coupon-msg');
     msg.className = 'coupon-msg'; msg.textContent = '';
     if (!code) return;
     const uid = usuarioActual?.uid || localStorage.getItem('usuarioUid') || null;
     if (!uid) { msg.classList.add('bad'); msg.textContent = 'Inicia sesión para usar un cupón.'; return; }
     try {
-      const usedRef = doc(db, 'usuarios', uid, 'cuponesUsados', code);
-      const usedSnap = await getDoc(usedRef);
+      const usedSnap = await getDoc(doc(db, 'usuarios', uid, 'cuponesUsados', code));
       if (usedSnap.exists()) { msg.classList.add('bad'); msg.textContent = 'Este cupón ya fue usado.'; couponApplied = null; discountAmount = 0; updateTotals(); return; }
-      const allowed = code === 'SVR2026' || code === 'SVR20';
-      if (!allowed) { msg.classList.add('bad'); msg.textContent = 'Cupón inválido.'; couponApplied = null; discountAmount = 0; updateTotals(); return; }
+      if (!CUPONES_VALIDOS[code]) { msg.classList.add('bad'); msg.textContent = 'Cupón inválido.'; couponApplied = null; discountAmount = 0; updateTotals(); return; }
       couponApplied = code;
-      discountAmount = Math.round(totalGlobal * 0.2);
-      msg.classList.add('ok'); msg.textContent = '✅ Cupón aplicado: 20% de descuento.';
+      discountAmount = Math.round(totalGlobal * (CUPONES_VALIDOS[code] / 100));
+      msg.classList.add('ok'); msg.textContent = `✅ Cupón aplicado: ${CUPONES_VALIDOS[code]}% de descuento.`;
       updateTotals();
     } catch(e) { msg.classList.add('bad'); msg.textContent = 'No se pudo validar el cupón.'; }
   }
 
-  // ─── STOCK ────────────────────────────────────────────────────────────────
   async function validarYDescontarStock(items) {
     for (const i of items) {
-      const ref = doc(db, 'productos', i.id);
-      const snap = await getDoc(ref);
-      if (!snap.exists()) throw new Error('Producto no existe: ' + i.nombre);
+      const snap = await getDoc(doc(db, 'productos', i.id));
+      if (!snap.exists()) throw new Error('Producto no encontrado: ' + i.nombre);
       const stock = Number(snap.data().stock || 0);
       const qty = Number(i.cantidad || 1);
       if (stock < qty) throw new Error(`Sin stock suficiente para: ${i.nombre}`);
@@ -248,7 +233,6 @@
     }
   }
 
-  // ─── GUARDAR PEDIDO FIRESTORE ─────────────────────────────────────────────
   async function guardarPedidoFirestore(finalTotal) {
     const nombre = document.getElementById('input-nombre').value.trim();
     const correo = document.getElementById('input-correo').value.trim();
@@ -257,7 +241,7 @@
     const metodo = document.getElementById('metodo-pago-oculto').value;
     const uid = usuarioActual?.uid || localStorage.getItem('usuarioUid') || null;
     const fecha = new Date().toLocaleDateString('es-CL');
-
+    if (!nombre || !correo || !telefono || !direccion) throw new Error('Completa todos los campos de envío.');
     const itemsNormalizados = carritoGlobal.map(i => ({
       id: i.id || '',
       nombre: i.nombre,
@@ -265,68 +249,47 @@
       img: i.imagen || '',
       cantidad: i.cantidad || 1
     }));
-
     const pedido = {
       uid, usuario: nombre, correo, telefono, direccion, metodo,
       subtotal: totalGlobal, envio: shippingAmount,
       descuento: discountAmount, total: finalTotal,
-      estado: 'Pendiente',
-      items: itemsNormalizados,
-      fecha,
-      creadoEn: serverTimestamp(),
+      estado: 'Pendiente', items: itemsNormalizados,
+      fecha, creadoEn: serverTimestamp(),
       origen: 'checkout-web',
       cupon: couponApplied || null
     };
-
     const ref = await addDoc(collection(db, 'pedidos'), pedido);
     const pedidoConId = { ...pedido, id: ref.id, creadoEn: undefined };
-
-    // Guardar en array local acumulativo (para el perfil)
     guardarPedidoLocal(pedidoConId);
-
-    // Marcar cupón como usado
     if (uid && couponApplied) {
       await setDoc(doc(db, 'usuarios', uid, 'cuponesUsados', couponApplied),
         { codigo: couponApplied, pedidoId: ref.id, usadoEn: serverTimestamp() },
         { merge: true });
     }
-
     return { id: ref.id, pedido: pedidoConId, fecha };
   }
 
-  // ─── SUBMIT ───────────────────────────────────────────────────────────────
   document.getElementById('form-compra').addEventListener('submit', async function(e) {
     e.preventDefault();
     if (!carritoGlobal.length) return;
-
     const btn = document.getElementById('btn-finalizar');
     btn.disabled = true;
     document.getElementById('loading-screen').classList.add('active');
-
     try {
       const finalTotal = updateTotals();
       const uid = usuarioActual?.uid || localStorage.getItem('usuarioUid') || null;
       const metodo = document.getElementById('metodo-pago-oculto').value;
       const esTransferencia = metodo === 'Transferencia Bancaria';
-
-      // Re-validar cupón si hay uno aplicado
       if (couponApplied && uid) {
-        const usedRef = doc(db, 'usuarios', uid, 'cuponesUsados', couponApplied);
-        const usedSnap = await getDoc(usedRef);
+        const usedSnap = await getDoc(doc(db, 'usuarios', uid, 'cuponesUsados', couponApplied));
         if (usedSnap.exists()) throw new Error('Cupón ya utilizado por este usuario.');
       }
-
       await validarYDescontarStock(carritoGlobal);
-      const { id: pedidoId, pedido, fecha } = await guardarPedidoFirestore(finalTotal);
-
-      // Limpiar carrito
+      const { id: pedidoId, fecha } = await guardarPedidoFirestore(finalTotal);
       localStorage.removeItem('carritoSVR');
-
-      // Armar mensaje WhatsApp como texto plano y encodear todo de una vez
       const nombreCliente = document.getElementById('input-nombre').value.trim();
       const direccionCli = document.getElementById('input-direccion').value.trim();
       const telefonoCli = document.getElementById('input-telefono').value.trim();
-
       let txtMsj = `🛍️ *NUEVO PEDIDO - Servicios Ramírez*\n\n`;
       txtMsj += `📦 *Pedido #${pedidoId}*\n`;
       txtMsj += `📅 Fecha: ${fecha}\n\n`;
@@ -341,15 +304,9 @@
       txtMsj += `🚚 Envío: ${shippingAmount === 0 ? 'Gratis' : '$' + formatP(shippingAmount)}\n`;
       if (discountAmount > 0) txtMsj += `🎟️ Descuento: -$${formatP(discountAmount)}\n`;
       txtMsj += `\n*💵 TOTAL A PAGAR: $${formatP(finalTotal)}*`;
-      if (esTransferencia) {
-        txtMsj += `\n\n💸 _Adjunto comprobante de transferencia._`;
-      }
+      if (esTransferencia) txtMsj += `\n\n💸 _Adjunto comprobante de transferencia._`;
       const msj = encodeURIComponent(txtMsj);
-
-      // Abrir WhatsApp INMEDIATAMENTE (antes de cualquier await/setTimeout)
-      // El navegador solo permite window.open directo desde la acción del usuario.
-      // Abrimos en la misma pestaña con un truco: creamos el link y lo clickeamos.
-      const waUrl = `https://wa.me/56932991546?text=${msj}`;
+      const waUrl = `https://wa.me/${WA_NUMERO}?text=${msj}`;
       const waLink = document.createElement('a');
       waLink.href = waUrl;
       waLink.target = '_blank';
@@ -357,19 +314,13 @@
       document.body.appendChild(waLink);
       waLink.click();
       document.body.removeChild(waLink);
-
-      // Mostrar éxito y redirigir al perfil
       setTimeout(() => {
         document.getElementById('spinner-anim').style.display = 'none';
         document.getElementById('success-anim').style.display = 'flex';
         document.getElementById('loading-msg').textContent = '¡Pedido confirmado con éxito!';
         document.getElementById('loading-submsg').textContent = 'Redirigiendo a tu perfil...';
       }, 1500);
-
-      setTimeout(() => {
-        window.location.href = 'perfil.html';
-      }, 3000);
-
+      setTimeout(() => { window.location.href = 'perfil.html'; }, 3000);
     } catch(err) {
       console.error(err);
       btn.disabled = false;
@@ -378,9 +329,7 @@
     }
   });
 
-  // ─── INIT ─────────────────────────────────────────────────────────────────
   document.getElementById('btn-validar-cupon').addEventListener('click', validarCupon);
-  window.seleccionarMetodo = seleccionarMetodo;
 
   onAuthStateChanged(auth, (user) => {
     usuarioActual = user || null;
@@ -388,21 +337,17 @@
       localStorage.setItem('usuarioUid', user.uid);
       claveStorage = 'svr_datos_' + user.uid;
     } else {
-      // Usuario no logueado: intentar con uid guardado
       const uid = localStorage.getItem('usuarioUid');
       claveStorage = uid ? 'svr_datos_' + uid : null;
     }
-    // Pre-rellenar datos de envío desde perfil
     const datos = getDatos();
     if (datos.nombre) document.getElementById('input-nombre').value = datos.nombre;
     if (datos.correo) document.getElementById('input-correo').value = datos.correo;
     if (datos.telefono) document.getElementById('input-telefono').value = datos.telefono;
     if (datos.direccion) document.getElementById('input-direccion').value = datos.direccion;
-    // Rellenar métodos de pago con tarjetas del perfil
     renderMethods();
   });
 
-  // Cargar carrito al iniciar
   carritoGlobal = JSON.parse(localStorage.getItem('carritoSVR') || '[]');
   renderCart();
 </script>
